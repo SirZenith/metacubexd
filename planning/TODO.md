@@ -44,6 +44,14 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
       裁掉；与 config.vue 对同一 URL 的处理不一致，应统一。→ 长 URL 单行 truncate（带 title），消除 3 行换行致条高 106px；实测未横向溢出 (packages/ui) @99eebb1e
 - [x] (P2) rules 页规则卡片在窄屏把命中/未命中计数挤出 overflow-hidden 容器；应收敛 proxy
       宽度或允许换行，保证计数可见。→ proxy chip 改为可收缩（min-w-0 shrink），长 proxy 名时命中/未命中计数保持可见 (packages/ui) @01c9c976
+- [ ] (P1) 展开后的全局流量浮窗（GlobalTrafficIndicator，fixed bottom-16px）与移动端底部导航
+      （MobileBottomNav，fixed bottom-0，约 74px 高）重叠，遮挡导航右侧项与中央 FAB。实测
+      390×844：浮窗 bottom=828、导航 top=770，垂直重叠 58px。移动端应让开导航高度或调整
+      默认位置。→ components/GlobalTrafficIndicator.vue:54-66,562-568、components/MobileBottomNav.vue:145-161
+- [ ] (P2) MobileBottomNav 未处理底部安全区，home indicator 机型上导航落入系统手势区。
+      应加 `env(safe-area-inset-bottom)`（对照 pages/proxies.vue:1233 的回到顶部按钮已用
+      `max(...env(...))`），并同步 Sidebar 为该导航预留的 spacer 高度。
+      → components/MobileBottomNav.vue:145-161、components/Sidebar.vue:250-255
 
 # 视觉目标
 
@@ -52,6 +60,18 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
       error/warning/success，并补充形状/图标/数字等非颜色区分。→ 迁移 daisyUI 语义色（utils、ProxyPreviewBar/Dots），Latency pill 数值即非颜色区分；同步 DESIGN.md 与断言 (packages/ui) @dcd1a68b
 - [x] (P1) config.vue 有 29 处重复的设置行骨架，提取 SettingRow 组件对其进行替换 → 新增 ConfigSettingRow（label/默认 slot）替换 29 处骨架，保留 v-if 与 lg:hidden；构建与浏览器渲染验证 (packages/ui) @9e9cabe8
 - [x] (P2) config.vue 有 28 处手写内联 SVG，将它们迁移 @tabler/icons-vue → 28 处迁移为 21 个 tabler 图标，保留 size/opacity/shrink class；构建与渲染验证 (packages/ui) @fccbb11a
+- [ ] (P1) 圆角体系不统一，违反 TARGETS「整个项目的圆角要风格统一」。同类元素半径分裂：
+      卡片在 rounded-2xl / rounded-xl / 1rem 间混用（rounded-xl 约 88 处多为卡片面板）；
+      分段控件/工具条在 rounded-lg / rounded-xl / rounded-[0.625rem] 间；方形图标按钮在
+      rounded-lg / rounded-[0.625rem] / rounded-md 间；输入框在 rounded-lg / rounded-md 间。
+      应按 DESIGN §6 收敛（控件=field、卡片=box、pill=full）并清理无令牌值。
+      → pages/overview.vue、pages/profiles.vue、components/KernelControlPanel.vue、pages/proxies.vue、pages/rules.vue 等
+- [ ] (P2) 清理失效/硬编码颜色（不随主题切换）：assets/css/main.css:85 的 `hsl(var(--p))`
+      与 components/ThemeSwitcher.vue:55 的 `oklch(var(--p)/0.4)` 引用了 daisyUI v5 未定义的
+      `--p`（应已失效），components/TrafficDetailsTable.vue:234 的
+      `rgba(var(--color-base-content),0.08)` 为非法色值，components/IconMenuSelect.vue:84
+      硬编码纯黑阴影。应改用 `--color-*` 与 color-mix。
+      → assets/css/main.css、components/ThemeSwitcher.vue、components/TrafficDetailsTable.vue、components/IconMenuSelect.vue
 
 # 代码健康
 
@@ -61,3 +81,20 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
 - [x] (P2) ProxyNodeCard 与 ProxyNodeListItem 各自实现同一套 tooltip 生命周期（open/close
       定时器、触摸判断、测速处理）大段重复。应提取 useProxyTooltip composable。
       → 新增 useProxyTooltip（open/close 延迟、触摸守卫、单例 popover、外部点击关闭、长按），两组件复用；新增 5 项单测 (packages/ui) @f73f7d94
+- [ ] (P1) 控制/配置面板的重复外壳（`rounded-xl border border-base-content/10 bg-base-200 p-4`）
+      与重复头部（图标 + 标题 + 右侧操作）散落在 11 个组件与 3 处页面卡片中。应提取
+      PanelCard（外壳 + 可选 visible）与 PanelHeader（props icon/title、slot #actions）。
+      → components/KernelControlPanel.vue、NetworkConfigPanel.vue、RuntimeConfigPanel.vue、SystemProxyControlPanel.vue、WebdavBackupPanel.vue、KernelVersionPanel.vue、LatencyCard.vue、IPInfoCard.vue 等
+- [ ] (P2) 方形图标按钮 class（`h-9 w-9` / `h-7 w-7` / `h-8 w-8` + `rounded-*` + hover）
+      在 15+ 处逐字复制。应提取 IconButton（props icon/size/variant/label），并让
+      IconMenuSelect、ProxiesDisplayModeSwitcher 复用（注意 $attrs 与 aria 状态透传）。
+      → pages/proxies.vue、pages/rules.vue、components/connections/ConnectionsToolbar.vue、components/IconMenuSelect.vue 等
+- [ ] (P2) 按 key 追踪「进行中」状态存在三套不一致实现：useBusyKeys（重入保护、异常上抛）、
+      utils 的 useStringBooleanMap（无重入、静默吞异常）、stores/proxies.ts 的手写 map
+      （各自异常处理，两处含失败历史副作用）。应统一为一个 keyed-busy 抽象，显式区分
+      是否重入保护、是否吞异常。
+      → composables/useBusyKeys.ts、utils/index.ts:761-785、stores/proxies.ts:60-63,550-714
+- [ ] (P2) 空状态（约 9 处 `t('noData')`，内边距与透明度在 /40~/60、py-6/8/12 间漂移）
+      与页面级 loading（约 5 处 `loading loading-lg loading-ring text-primary`）重复。
+      应提取 EmptyState（icon/message/size）与 LoadingState（label/min-height）组件。
+      → components/IPInfoCard.vue、ProxyMasterDetail.vue、TrafficRankings.vue、ProxyConfigEditor.vue、pages/proxies.vue、pages/logs.vue、pages/rules.vue、pages/config.vue、pages/control.vue
