@@ -165,6 +165,10 @@ function chipClass(active: boolean) {
 // The selected row carries data-selected="true" (a fallthrough attr on
 // ProxyNodeListItem's root).
 const nodeListEl = ref<HTMLElement | null>(null)
+
+// Explicit "jump to current" action only. The list must never scroll itself to
+// the selected node on open or on group switch — the user browses from the
+// natural top position and reveals the selection on demand.
 function scrollSelectedIntoView(behavior: ScrollBehavior = 'smooth') {
   nodeListEl.value
     ?.querySelector('[data-selected="true"]')
@@ -177,17 +181,12 @@ function scrollToTop(behavior: ScrollBehavior = 'smooth') {
 
 defineExpose({ scrollToTop })
 
-// On group switch: reset local filters and reveal the selected node.
+// On group switch: reset local filters. The node list keeps its natural scroll
+// position (top) instead of auto-revealing the selected node.
 watch(activeName, () => {
   clearFilters()
   filterRailOpen.value = false
-  nextTick(() => scrollSelectedIntoView('auto'))
 })
-
-// First paint (master mode just opened): activeName resolves synchronously in
-// the watchEffect above, before the watch() is wired — so it never fires for the
-// initial group. Reveal the selected node once the list is mounted.
-onMounted(() => nextTick(() => scrollSelectedIntoView('auto')))
 
 function aliveCount(group: ProxyType) {
   return proxiesStore.aliveNodeNames(group.all ?? []).length

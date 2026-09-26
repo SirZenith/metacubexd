@@ -427,6 +427,55 @@ describe('e2E Page Tests', () => {
       }
     })
 
+    it('should not auto-scroll the master-detail list to the selected node', async () => {
+      const currentPage = await gotoAppPath(page, '/proxies')
+      await expect
+        .poll(
+          () =>
+            currentPage.getByTestId('display-mode-masterDetailMode').count(),
+          { timeout: ELEMENT_TIMEOUT },
+        )
+        .toBeGreaterThan(0)
+      await currentPage.getByTestId('display-mode-masterDetailMode').click()
+
+      try {
+        const nodeList = currentPage.getByTestId(
+          'master-detail-scroll-container',
+        )
+        await expect
+          .poll(
+            () => nodeList.locator('[role="button"][aria-pressed]').count(),
+            { timeout: ELEMENT_TIMEOUT },
+          )
+          .toBeGreaterThan(0)
+
+        // The list must open at its natural position (top), not scrolled to
+        // centre the selected row.
+        await expect
+          .poll(() => nodeList.evaluate((element) => element.scrollTop), {
+            timeout: ELEMENT_TIMEOUT,
+          })
+          .toBe(0)
+
+        // Switching groups must also leave the list at the top.
+        const secondGroup = currentPage
+          .locator('button')
+          .filter({ hasText: 'Streaming' })
+          .first()
+        await expect
+          .poll(() => secondGroup.count(), { timeout: ELEMENT_TIMEOUT })
+          .toBeGreaterThan(0)
+        await secondGroup.click()
+        await expect
+          .poll(() => nodeList.evaluate((element) => element.scrollTop), {
+            timeout: ELEMENT_TIMEOUT,
+          })
+          .toBe(0)
+      } finally {
+        await currentPage.getByTestId('display-mode-cardMode').click()
+      }
+    })
+
     it('should scroll the active proxy tab to top on mobile', async () => {
       const currentPage = getPage(page)
       await currentPage.setViewportSize({ width: 390, height: 844 })
