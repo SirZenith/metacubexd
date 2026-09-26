@@ -34,9 +34,9 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
 - [x] (P1) traffic 页在小屏下选择「自定义时间范围」时，header 容器缺少 flex-wrap，两个
       datetime-local 输入并排撑破 overflow-hidden 的页面容器，右侧输入与时间范围选择器
       被裁掉、无法完成自定义区间操作。窄屏应纵向堆叠该时间范围区。→ 窄屏纵向堆叠 custom range、header 换行，新增 e2e 覆盖 (packages/ui) @bb1db749
-- [ ] (P1) control 页 NetworkConfigPanel 的 Tunnels 行使用固定 `grid-cols-[7rem_1fr_1fr_auto]`，
+- [x] (P1) control 页 NetworkConfigPanel 的 Tunnels 行使用固定 `grid-cols-[7rem_1fr_1fr_auto]`，
       输入框无 min-w-0，窄屏横向溢出被 overflow-x-hidden 裁掉，删除按钮不可达。应改为
-      响应式列并允许收缩。→ components/NetworkConfigPanel.vue:160-202
+      响应式列并允许收缩。→ 窄屏改单列堆叠（输入框由 ~72px 增至整行）；实测旧布局未硬性溢出，属可用性改善 (packages/ui) @b0536171
 - [ ] (P2) logs 页工具栏不换行且搜索框缺 min-w-0；日志表格移动端无替代布局，长 payload
       把表格撑到只能横向拖拽。应对齐 ConnectionsTable 的移动端处理并截断 payload。
       → pages/logs.vue:279-290,334-426
