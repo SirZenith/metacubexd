@@ -1,5 +1,5 @@
 <!--
-TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
+TODO 循环用法（详细流程见 planning/workflow/next.md）：
 
 - 每个功能组块用一个一级标题，其下用 `- [ ]` 列出开发目标
 - 循环逐条处理；完成后条目自动变为 `- [x]`，同行追加摘要：→ <文件/要点> @<短hash>

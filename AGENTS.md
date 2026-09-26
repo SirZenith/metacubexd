@@ -27,7 +27,7 @@ instead of restating it.
 
 Development goals, requirements, and conventions live in
 [planning/](planning/). Read [planning/PRELUDE.md](planning/PRELUDE.md) for the
-map and [planning/WORKFLOW.md](planning/WORKFLOW.md) before starting work.
+map and `planning/workflow/*.md` before starting work.
 [planning/TARGETS.md](planning/TARGETS.md) is the decision rule for new
 requirements and outranks `PRODUCT.md` and `DESIGN.md` on conflict. Track work
 in [planning/TODO.md](planning/TODO.md).
