@@ -19,24 +19,19 @@ const onToggle = (event: Event) => {
 </script>
 
 <template>
-  <div
-    v-if="available"
-    class="rounded-xl border border-base-content/10 bg-base-200 p-4"
-  >
-    <div class="mb-3 flex items-center justify-between gap-2">
-      <span class="flex items-center gap-2 font-semibold text-base-content">
-        <IconDeviceDesktop :size="18" />
-        {{ t('systemProxy') }}
-      </span>
-      <input
-        type="checkbox"
-        class="toggle toggle-primary"
-        :checked="enabled"
-        :disabled="loading"
-        :aria-label="t('systemProxyEnable')"
-        @change="onToggle"
-      />
-    </div>
+  <PanelCard :visible="available">
+    <PanelHeader :title="t('systemProxy')" :icon="IconDeviceDesktop">
+      <template #actions>
+        <input
+          type="checkbox"
+          class="toggle toggle-primary"
+          :checked="enabled"
+          :disabled="loading"
+          :aria-label="t('systemProxyEnable')"
+          @change="onToggle"
+        />
+      </template>
+    </PanelHeader>
 
     <p class="mb-3 text-sm text-base-content/60">
       {{ t('systemProxyDescription', { port }) }}
@@ -55,12 +50,12 @@ const onToggle = (event: Event) => {
 
     <div class="mt-3 flex flex-wrap gap-2">
       <Button
-        class="btn-sm btn-primary"
+        class="btn-primary btn-sm"
         :loading="loading"
         @click="sysProxy.save()"
       >
         {{ t('systemProxyApply') }}
       </Button>
     </div>
-  </div>
+  </PanelCard>
 </template>

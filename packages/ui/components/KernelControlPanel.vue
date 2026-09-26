@@ -122,16 +122,12 @@ const onRecover = () => {
 </script>
 
 <template>
-  <div
-    v-if="hasFeature('kernel-control')"
-    class="rounded-xl border border-base-content/10 bg-base-200 p-4"
-  >
-    <div class="mb-3 flex items-center justify-between gap-2">
-      <span class="font-semibold text-base-content">
-        {{ t('kernelControl') }}
-      </span>
-      <span class="badge" :class="statusClass">{{ status }}</span>
-    </div>
+  <PanelCard :visible="hasFeature('kernel-control')">
+    <PanelHeader :title="t('kernelControl')">
+      <template #actions>
+        <span class="badge" :class="statusClass">{{ status }}</span>
+      </template>
+    </PanelHeader>
 
     <div class="grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
       <div class="flex flex-col">
@@ -211,5 +207,5 @@ const onRecover = () => {
         </Button>
       </template>
     </div>
-  </div>
+  </PanelCard>
 </template>

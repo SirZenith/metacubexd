@@ -28,10 +28,7 @@ watch(
 </script>
 
 <template>
-  <div
-    v-if="hasFeature('logs-sse')"
-    class="flex flex-col rounded-xl border border-base-content/10 bg-base-200 p-4"
-  >
+  <PanelCard v-if="hasFeature('logs-sse')" class="flex flex-col">
     <div class="mb-2 flex items-center justify-between gap-2">
       <span class="font-semibold text-base-content">{{ t('kernelLogs') }}</span>
       <div class="flex items-center gap-2">
@@ -65,5 +62,5 @@ watch(
         {{ l.line }}
       </div>
     </div>
-  </div>
+  </PanelCard>
 </template>

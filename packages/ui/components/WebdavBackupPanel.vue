@@ -8,16 +8,8 @@ const { available, config, busy } = webdav
 </script>
 
 <template>
-  <div
-    v-if="available"
-    class="rounded-xl border border-base-content/10 bg-base-200 p-4"
-  >
-    <div class="mb-3 flex items-center gap-2">
-      <span class="flex items-center gap-2 font-semibold text-base-content">
-        <IconServerCog :size="18" />
-        {{ t('webdavBackup') }}
-      </span>
-    </div>
+  <PanelCard :visible="available">
+    <PanelHeader :title="t('webdavBackup')" :icon="IconServerCog" />
 
     <p class="mb-3 text-sm text-base-content/60">
       {{ t('webdavBackupDescription') }}
@@ -30,7 +22,7 @@ const { available, config, busy } = webdav
           v-model="config.url"
           type="url"
           inputmode="url"
-          class="input-bordered input input-sm w-full font-mono"
+          class="input-bordered input w-full font-mono input-sm"
           :placeholder="t('webdavUrlPlaceholder')"
           :disabled="busy"
           spellcheck="false"
@@ -42,7 +34,7 @@ const { available, config, busy } = webdav
         <input
           v-model="config.username"
           type="text"
-          class="input-bordered input input-sm w-full"
+          class="input-bordered input w-full input-sm"
           :disabled="busy"
           autocomplete="username"
           spellcheck="false"
@@ -54,7 +46,7 @@ const { available, config, busy } = webdav
         <input
           v-model="config.password"
           type="password"
-          class="input-bordered input input-sm w-full"
+          class="input-bordered input w-full input-sm"
           :disabled="busy"
           autocomplete="current-password"
         />
@@ -65,7 +57,7 @@ const { available, config, busy } = webdav
         <input
           v-model="config.dir"
           type="text"
-          class="input-bordered input input-sm w-full font-mono"
+          class="input-bordered input w-full font-mono input-sm"
           :placeholder="t('webdavDirPlaceholder')"
           :disabled="busy"
           spellcheck="false"
@@ -75,7 +67,7 @@ const { available, config, busy } = webdav
 
     <div class="mt-3 flex flex-wrap gap-2">
       <Button
-        class="btn-sm btn-primary"
+        class="btn-primary btn-sm"
         :loading="busy"
         :disabled="!config.url"
         @click="webdav.backup()"
@@ -84,7 +76,7 @@ const { available, config, busy } = webdav
         {{ t('webdavBackupNow') }}
       </Button>
       <Button
-        class="btn-outline btn-sm btn-secondary"
+        class="btn-outline btn-secondary btn-sm"
         :loading="busy"
         :disabled="!config.url"
         @click="webdav.restore()"
@@ -93,5 +85,5 @@ const { available, config, busy } = webdav
         {{ t('webdavRestore') }}
       </Button>
     </div>
-  </div>
+  </PanelCard>
 </template>

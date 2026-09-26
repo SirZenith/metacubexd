@@ -72,24 +72,19 @@ function setTunnelNetwork(index: number, optionValue: string) {
 </script>
 
 <template>
-  <div
-    v-if="available"
-    class="rounded-xl border border-base-content/10 bg-base-200 p-4"
-  >
-    <div class="mb-3 flex items-center justify-between gap-2">
-      <span class="flex items-center gap-2 font-semibold text-base-content">
-        <IconNetwork :size="18" />
-        {{ t('networkConfig') }}
-      </span>
-      <Button
-        class="btn-outline btn-secondary btn-sm"
-        :loading="loading"
-        @click="load()"
-      >
-        <IconRefresh :size="16" />
-        {{ t('refresh') }}
-      </Button>
-    </div>
+  <PanelCard :visible="available">
+    <PanelHeader :title="t('networkConfig')" :icon="IconNetwork">
+      <template #actions>
+        <Button
+          class="btn-outline btn-secondary btn-sm"
+          :loading="loading"
+          @click="load()"
+        >
+          <IconRefresh :size="16" />
+          {{ t('refresh') }}
+        </Button>
+      </template>
+    </PanelHeader>
 
     <p class="mb-4 text-sm text-base-content/60">
       {{ t('networkConfigHint') }}
@@ -265,5 +260,5 @@ function setTunnelNetwork(index: number, optionValue: string) {
         </label>
       </div>
     </div>
-  </div>
+  </PanelCard>
 </template>

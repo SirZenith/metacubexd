@@ -605,7 +605,7 @@ watch(
     </div>
 
     <!-- Network Topology -->
-    <div class="rounded-xl border border-base-content/10 bg-base-200 p-4">
+    <PanelCard>
       <div
         class="flex cursor-pointer items-center justify-between"
         @click="
@@ -627,7 +627,7 @@ watch(
         </button>
       </div>
       <NetworkTopology v-if="configStore.showNetworkTopology" class="mt-4" />
-    </div>
+    </PanelCard>
   </div>
 </template>
 

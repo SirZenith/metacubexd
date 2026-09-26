@@ -26,7 +26,7 @@ function handleProviderChange(event: Event) {
 </script>
 
 <template>
-  <div class="rounded-xl border border-base-content/10 bg-base-200 p-4">
+  <PanelCard>
     <div class="mb-3.5 flex items-center justify-between gap-3">
       <div class="flex items-center gap-2">
         <div
@@ -227,5 +227,5 @@ function handleProviderChange(event: Event) {
     <div v-else class="py-6 text-center text-sm text-base-content/50">
       {{ t('noData') }}
     </div>
-  </div>
+  </PanelCard>
 </template>

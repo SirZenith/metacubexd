@@ -159,10 +159,7 @@ const resetHotkeys = async () => {
 <template>
   <div class="flex flex-col gap-4">
     <!-- Shell behavior toggles -->
-    <div
-      v-if="settings"
-      class="rounded-xl border border-base-content/10 bg-base-200 p-4"
-    >
+    <PanelCard v-if="settings">
       <div class="mb-3 flex items-center gap-2 font-semibold text-base-content">
         <IconSettings :size="18" />
         {{ t('desktopBehavior') }}
@@ -186,14 +183,10 @@ const resetHotkeys = async () => {
           />
         </label>
       </div>
-    </div>
+    </PanelCard>
 
     <!-- Global hotkeys -->
-    <div
-      v-if="hotkeys"
-      class="rounded-xl border border-base-content/10 bg-base-200 p-4"
-      @keydown="onRecordKeydown"
-    >
+    <PanelCard v-if="hotkeys" @keydown="onRecordKeydown">
       <div class="mb-1 flex items-center gap-2 font-semibold text-base-content">
         <IconKeyboard :size="18" />
         {{ t('desktopHotkeys') }}
@@ -256,6 +249,6 @@ const resetHotkeys = async () => {
           {{ t('desktopHotkeyReset') }}
         </Button>
       </div>
-    </div>
+    </PanelCard>
   </div>
 </template>

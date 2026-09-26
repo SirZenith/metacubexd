@@ -586,11 +586,7 @@ const onCopyShareUrl = async () => {
               v-if="mergeProfiles.length"
               class="grid grid-cols-1 gap-3 md:grid-cols-2"
             >
-              <div
-                v-for="m in mergeProfiles"
-                :key="m.id"
-                class="rounded-xl border border-base-content/10 bg-base-200 p-4"
-              >
+              <PanelCard v-for="m in mergeProfiles" :key="m.id">
                 <div class="flex items-center justify-between gap-2">
                   <span class="flex min-w-0 items-center gap-2 font-semibold">
                     <span class="truncate">{{ m.name }}</span>
@@ -638,7 +634,7 @@ const onCopyShareUrl = async () => {
                     {{ t('profilesDelete') }}
                   </Button>
                 </div>
-              </div>
+              </PanelCard>
             </div>
           </section>
 
@@ -682,11 +678,7 @@ const onCopyShareUrl = async () => {
               v-if="scriptProfiles.length"
               class="grid grid-cols-1 gap-3 md:grid-cols-2"
             >
-              <div
-                v-for="s in scriptProfiles"
-                :key="s.id"
-                class="rounded-xl border border-base-content/10 bg-base-200 p-4"
-              >
+              <PanelCard v-for="s in scriptProfiles" :key="s.id">
                 <div class="flex items-center justify-between gap-2">
                   <span class="font-semibold">{{ s.name }}</span>
                   <label class="flex items-center gap-2 text-sm">
@@ -722,17 +714,16 @@ const onCopyShareUrl = async () => {
                     {{ t('profilesDelete') }}
                   </Button>
                 </div>
-              </div>
+              </PanelCard>
             </div>
           </section>
         </div>
       </details>
 
       <!-- Editor -->
-      <div
+      <PanelCard
         v-if="editingId"
         ref="editorPanelRef"
-        class="rounded-xl border border-base-content/10 bg-base-200 p-4"
         role="region"
         :aria-labelledby="editorHeadingId"
         tabindex="-1"
@@ -797,7 +788,7 @@ const onCopyShareUrl = async () => {
             {{ validationMessage }}
           </span>
         </div>
-      </div>
+      </PanelCard>
     </template>
 
     <!-- Subscription QR share dialog (remote profiles only). -->

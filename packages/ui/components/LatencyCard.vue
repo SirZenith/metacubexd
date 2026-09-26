@@ -39,7 +39,7 @@ function getLatencyBarClass(latency: number | null | undefined) {
 </script>
 
 <template>
-  <div class="rounded-xl border border-base-content/10 bg-base-200 p-4">
+  <PanelCard>
     <div class="mb-3 flex items-center justify-between gap-2">
       <div class="flex items-center gap-2">
         <IconActivity class="h-5 w-5 text-primary" />
@@ -105,5 +105,5 @@ function getLatencyBarClass(latency: number | null | undefined) {
         </span>
       </div>
     </div>
-  </div>
+  </PanelCard>
 </template>

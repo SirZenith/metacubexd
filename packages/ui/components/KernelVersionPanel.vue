@@ -29,18 +29,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    v-if="cardVisible"
-    class="rounded-xl border border-base-content/10 bg-base-200 p-4"
-  >
+  <PanelCard :visible="cardVisible">
     <!-- Kernel version manager -->
     <template v-if="versionsAvailable">
-      <div class="mb-3 flex items-center justify-between gap-2">
-        <span class="flex items-center gap-2 font-semibold text-base-content">
-          <IconCpu :size="18" />
-          {{ t('kernelVersionManager') }}
-        </span>
-      </div>
+      <PanelHeader :title="t('kernelVersionManager')" :icon="IconCpu" />
 
       <div class="mb-3 grid grid-cols-2 gap-2 text-sm">
         <div class="flex flex-col">
@@ -72,7 +64,7 @@ onMounted(() => {
 
       <div class="mt-3 flex flex-wrap gap-2">
         <Button
-          class="btn-sm btn-primary"
+          class="btn-primary btn-sm"
           :icon="IconDownload"
           :loading="switching"
           :disabled="loading || switching || !selected || selected === current"
@@ -96,7 +88,7 @@ onMounted(() => {
           {{ t('geoAssets') }}
         </span>
         <Button
-          class="btn-sm btn-secondary"
+          class="btn-secondary btn-sm"
           :icon="IconDownload"
           :loading="updating"
           :disabled="updating"
@@ -109,5 +101,5 @@ onMounted(() => {
         {{ t('geoAssetsDescription') }}
       </p>
     </template>
-  </div>
+  </PanelCard>
 </template>
