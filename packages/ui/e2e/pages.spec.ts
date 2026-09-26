@@ -184,6 +184,11 @@ describe('e2E Page Tests', () => {
     context = await browser.newContext({
       viewport: { width: 1920, height: 1080 },
       deviceScaleFactor: 1,
+      // Pin the browser locale so i18n's detectBrowserLanguage always resolves
+      // to English. Without this the context inherits the host locale (e.g.
+      // zh-CN on a Chinese machine), the UI renders in that language, and every
+      // English-text assertion below fails.
+      locale: 'en-US',
     })
     page = await context.newPage()
 
