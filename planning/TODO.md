@@ -272,3 +272,14 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
       tag: refactor
       doc: -
       desc: 空状态（约 9 处 t('noData')，内边距与透明度漂移）与页面级 loading（约 5 处）重复；新增 EmptyState（icon/message/size/italic）与 LoadingState（label/min-height/ring），替换 9 处空状态 + 6 处页面 loading，并删除 ConnectionsTable 的 .conn-empty (packages/ui)。优先级：P2。
+
+---
+
+- [ ] 去除代理自动定位
+      status: doing
+      open-at: 2026.09.27 03:52:03
+      closed-at: -
+      hash: -
+      tag: ux
+      doc: planning/feature/remove-proxy-auto-scroll.md
+      desc: 当前，在使用主从模式显示代理列表时，用户每次打开列表都会自动把列表滚动到当前使用中的代理条目所在的位置。去掉这一功能，让每次列表打开时，列表都是其自然打开时的滚动位置。
