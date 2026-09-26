@@ -97,19 +97,15 @@ const groupOptions = computed(() => [
         </button>
       </div>
 
-      <button
-        type="button"
-        class="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-base-content/12 bg-base-200/60 text-base-content transition-all duration-200 hover:border-base-content/20 hover:bg-base-300"
-        :class="{
-          'border-primary/40! bg-primary/15! text-primary!': enableQuickFilter,
-        }"
-        :title="t('quickFilter')"
-        :aria-label="t('quickFilter')"
+      <IconButton
+        size="lg"
+        variant="outline"
+        :icon="IconFilter"
+        :label="t('quickFilter')"
+        :active="enableQuickFilter"
         :aria-pressed="enableQuickFilter"
         @click="emit('update:enableQuickFilter', !enableQuickFilter)"
-      >
-        <IconFilter :size="18" />
-      </button>
+      />
 
       <IconMenuSelect
         :icon="IconDeviceDesktop"
@@ -127,14 +123,16 @@ const groupOptions = computed(() => [
           :model-value="sortColumn"
           @update:model-value="(v: string) => emit('update:sortColumn', v)"
         />
-        <button
-          class="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-base-content/12 bg-base-200/60 text-base-content transition-all duration-200 hover:border-base-content/20 hover:bg-base-300"
-          :title="t('sortBy')"
+        <IconButton
+          size="lg"
+          variant="outline"
+          :icon="IconSortDescending"
+          :label="t('sortBy')"
           @click="emit('toggleSortOrder')"
         >
           <IconSortDescending v-if="sortDesc" :size="18" />
           <IconSortAscending v-else :size="18" />
-        </button>
+        </IconButton>
       </div>
 
       <div class="flex min-w-56 flex-1 items-center gap-1">
@@ -156,36 +154,36 @@ const groupOptions = computed(() => [
           />
         </div>
 
-        <button
-          class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-base-content/12 bg-base-200/60 text-base-content transition-all duration-200 hover:border-base-content/20 hover:bg-base-300"
+        <IconButton
+          size="md"
+          variant="outline"
+          :icon="IconPlayerPause"
           :class="{
-            'border-warning/30 bg-warning/15 text-warning hover:bg-warning/25':
+            'border-warning/30! bg-warning/15! text-warning! hover:bg-warning/25!':
               paused,
           }"
           @click="emit('togglePaused')"
         >
           <IconPlayerPlay v-if="paused" :size="18" />
           <IconPlayerPause v-else :size="18" />
-        </button>
+        </IconButton>
 
-        <button
-          class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-base-content/12 bg-base-200/60 text-base-content transition-all duration-200 hover:border-error/30 hover:bg-error/15 hover:text-error disabled:cursor-not-allowed disabled:opacity-50"
+        <IconButton
+          size="md"
+          variant="danger"
+          :icon="IconX"
           :disabled="isClosingConnections"
+          :loading="isClosingConnections"
           @click="emit('closeConnections')"
-        >
-          <span
-            v-if="isClosingConnections"
-            class="h-4 w-4 animate-spin rounded-full border-2 border-current/30 border-t-current"
-          />
-          <IconX v-else :size="18" />
-        </button>
+        />
 
-        <button
-          class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-base-content/12 bg-base-200/60 text-base-content transition-all duration-200 hover:border-base-content/20 hover:bg-base-300"
+        <IconButton
+          size="md"
+          variant="outline"
+          :icon="IconSettings"
+          :label="t('settings')"
           @click="emit('openSettings')"
-        >
-          <IconSettings :size="18" />
-        </button>
+        />
       </div>
     </div>
 
