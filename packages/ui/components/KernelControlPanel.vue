@@ -8,6 +8,7 @@ import {
   IconRestore,
 } from '@tabler/icons-vue'
 import { toast } from 'vue-sonner'
+import { controlErrorMessage } from '~/utils/controlError'
 
 const { t } = useI18n()
 const { hasFeature, info } = useControlInfo()
@@ -99,7 +100,7 @@ const onRollback = () => {
       toast.success(t('kernelRollbackApplied'))
     } catch (e) {
       toast.error(t('kernelRollbackFailed'), {
-        description: e instanceof Error ? e.message : String(e),
+        description: controlErrorMessage(e),
       })
     }
   })
@@ -113,7 +114,7 @@ const onRecover = () => {
       toast.success(t('kernelRecoverApplied'))
     } catch (e) {
       toast.error(t('kernelRecoverFailed'), {
-        description: e instanceof Error ? e.message : String(e),
+        description: controlErrorMessage(e),
       })
     }
   })

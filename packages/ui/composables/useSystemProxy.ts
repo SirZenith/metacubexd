@@ -1,6 +1,7 @@
 // packages/ui/composables/useSystemProxy.ts
 import type { SystemProxyState } from '~/types/control'
 import { toast } from 'vue-sonner'
+import { useAsyncAction } from './useAsyncAction'
 import { useControlApi } from './useControlApi'
 import { useControlInfo } from './useControlInfo'
 import { onControlInvalidate } from './useControlSync'
@@ -33,7 +34,7 @@ export function useSystemProxy() {
   const enabled = ref(false)
   const port = ref(0)
   const bypassText = ref('')
-  const loading = ref(false)
+  const { busy: loading, run } = useAsyncAction()
 
   // Re-sync from the agent when system proxy is toggled from outside the SPA
   // (the tray checkbox routes through the Control API, not this composable).
@@ -50,42 +51,37 @@ export function useSystemProxy() {
 
   // Surface failures via toast — never swallowed (the panel previously hid
   // these behind .catch(() => {})).
-  const load = async () => {
-    loading.value = true
-    try {
-      sync(await api.getSysProxy())
-    } catch (e) {
-      toast.error(t('systemProxyLoadFailed'), {
-        description: e instanceof Error ? e.message : String(e),
-      })
-    } finally {
-      loading.value = false
-    }
-  }
+  const load = () =>
+    run(
+      async () => {
+        sync(await api.getSysProxy())
+      },
+      { errorKey: 'systemProxyLoadFailed' },
+    )
 
   // Returns whether the POST succeeded so callers (e.g. toggle) can revert
   // optimistic UI state on failure. The Apply button calls save() and gets a
   // success toast; toggle() passes { silent: true } since the switch already
   // mirrors state and would otherwise double-toast on every flip.
   const save = async (opts?: { silent?: boolean }): Promise<boolean> => {
-    loading.value = true
-    try {
-      sync(
-        await api.setSysProxy({
-          enabled: enabled.value,
-          bypass: parseBypass(bypassText.value),
-        }),
-      )
-      if (!opts?.silent) toast.success(t('systemProxyApplied'))
-      return true
-    } catch (e) {
-      toast.error(t('systemProxyApplyFailed'), {
-        description: e instanceof Error ? e.message : String(e),
-      })
-      return false
-    } finally {
-      loading.value = false
-    }
+    const result = await run(
+      async () => {
+        sync(
+          await api.setSysProxy({
+            enabled: enabled.value,
+            bypass: parseBypass(bypassText.value),
+          }),
+        )
+        return true
+      },
+      {
+        errorKey: 'systemProxyApplyFailed',
+        onSuccess: () => {
+          if (!opts?.silent) toast.success(t('systemProxyApplied'))
+        },
+      },
+    )
+    return result ?? false
   }
 
   // Flip the toggle then persist immediately (the enable/disable switch). If

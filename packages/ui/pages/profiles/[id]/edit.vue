@@ -216,7 +216,7 @@ watch(yamlText, (source) => {
     openDocument(source)
     yamlError.value = ''
   } catch (error) {
-    yamlError.value = error instanceof Error ? error.message : String(error)
+    yamlError.value = controlErrorMessage(error)
   }
 })
 
@@ -237,7 +237,7 @@ function switchMode(next: 'visual' | 'yaml') {
       configData.value = clone(doc.data)
       yamlError.value = ''
     } catch (error) {
-      yamlError.value = error instanceof Error ? error.message : String(error)
+      yamlError.value = controlErrorMessage(error)
       return
     }
   }
@@ -320,7 +320,7 @@ function saveResource() {
   try {
     advanced = JSON.parse(resourceJson.value) as LooseObject
   } catch (error) {
-    resourceError.value = error instanceof Error ? error.message : String(error)
+    resourceError.value = controlErrorMessage(error)
     return
   }
   const value = { ...advanced }

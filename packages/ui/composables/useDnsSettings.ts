@@ -1,6 +1,7 @@
 // packages/ui/composables/useDnsSettings.ts
 import type { Config } from '~/types'
 import { toast } from 'vue-sonner'
+import { useAsyncAction } from './useAsyncAction'
 
 // `useI18n` is auto-imported by @nuxtjs/i18n (no explicit import). In unit
 // tests it is provided as a global stub via test/setup.ts.
@@ -48,7 +49,7 @@ export function useDnsSettings(mutation: DnsSettingsMutation) {
     useHosts: false,
   })
 
-  const saving = ref(false)
+  const { busy: saving, run } = useAsyncAction()
 
   function syncFromConfig(config: Config | null | undefined) {
     const dns = (config?.dns ?? {}) as Partial<NonNullable<Config['dns']>>
@@ -70,17 +71,15 @@ export function useDnsSettings(mutation: DnsSettingsMutation) {
   }
 
   async function save() {
-    saving.value = true
-    try {
-      await mutation.mutate({ key: 'dns', value: buildPayload() })
-      toast.success(t('dnsSettingsSaved'))
-    } catch (e) {
-      toast.error(t('dnsSettingsSaveFailed'), {
-        description: e instanceof Error ? e.message : String(e),
-      })
-    } finally {
-      saving.value = false
-    }
+    await run(
+      async () => {
+        await mutation.mutate({ key: 'dns', value: buildPayload() })
+      },
+      {
+        errorKey: 'dnsSettingsSaveFailed',
+        onSuccess: () => toast.success(t('dnsSettingsSaved')),
+      },
+    )
   }
 
   return { form, saving, syncFromConfig, buildPayload, save }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ConfigJsonSchema } from '~/utils/configSchema'
 import { defaultForSchema, resolveConfigSchema } from '~/utils/configSchema'
+import { controlErrorMessage } from '~/utils/controlError'
 
 defineOptions({ name: 'SchemaValueEditor' })
 
@@ -92,7 +93,7 @@ function updateJson() {
     jsonError.value = ''
     emit('update:modelValue', value)
   } catch (error) {
-    jsonError.value = error instanceof Error ? error.message : String(error)
+    jsonError.value = controlErrorMessage(error)
   }
 }
 

@@ -2,6 +2,7 @@
 import type { SettingsBackup } from './useSettingsBackup'
 import type { WebdavCredentials } from '~/types/control'
 import { toast } from 'vue-sonner'
+import { useAsyncAction } from './useAsyncAction'
 import { useControlApi } from './useControlApi'
 import { useControlInfo } from './useControlInfo'
 import { useProfiles } from './useProfiles'
@@ -45,7 +46,7 @@ export function useWebdavBackup() {
     dir: '',
   })
 
-  const busy = ref(false)
+  const { busy, run } = useAsyncAction()
 
   // Build the per-request credentials from the persisted config (dir is sent so
   // the agent scopes the backup file under it).
@@ -56,43 +57,40 @@ export function useWebdavBackup() {
     dir: config.value.dir,
   })
 
-  const backup = async () => {
-    busy.value = true
-    try {
-      const uiSettings = exportSettings()
-      const res = await api.webdavBackup({ webdav: credentials(), uiSettings })
-      toast.success(t('webdavBackupSuccess'), { description: res.path })
-    } catch (e) {
-      toast.error(t('webdavBackupFailed'), {
-        description: e instanceof Error ? e.message : String(e),
-      })
-    } finally {
-      busy.value = false
-    }
-  }
+  const backup = () =>
+    run(
+      async () => {
+        const uiSettings = exportSettings()
+        return await api.webdavBackup({ webdav: credentials(), uiSettings })
+      },
+      {
+        errorKey: 'webdavBackupFailed',
+        onSuccess: (res) =>
+          toast.success(t('webdavBackupSuccess'), { description: res.path }),
+      },
+    )
 
-  const restore = async () => {
-    busy.value = true
-    try {
-      const res = await api.webdavRestore({ webdav: credentials() })
-      // Re-apply the UI settings snapshot if the backup carried one.
-      if (res.uiSettings) {
-        applySettings(res.uiSettings as Partial<SettingsBackup>)
-      }
-      // New profiles were created server-side — refresh the list/query so the
-      // profiles page reflects them without a reload.
-      await refreshProfiles()
-      toast.success(t('webdavRestoreSuccess'), {
-        description: t('webdavRestoreCount', { count: res.restored }),
-      })
-    } catch (e) {
-      toast.error(t('webdavRestoreFailed'), {
-        description: e instanceof Error ? e.message : String(e),
-      })
-    } finally {
-      busy.value = false
-    }
-  }
+  const restore = () =>
+    run(
+      async () => {
+        const res = await api.webdavRestore({ webdav: credentials() })
+        // Re-apply the UI settings snapshot if the backup carried one.
+        if (res.uiSettings) {
+          applySettings(res.uiSettings as Partial<SettingsBackup>)
+        }
+        // New profiles were created server-side — refresh the list/query so the
+        // profiles page reflects them without a reload.
+        await refreshProfiles()
+        return res
+      },
+      {
+        errorKey: 'webdavRestoreFailed',
+        onSuccess: (res) =>
+          toast.success(t('webdavRestoreSuccess'), {
+            description: t('webdavRestoreCount', { count: res.restored }),
+          }),
+      },
+    )
 
   return { available, config, busy, backup, restore }
 }

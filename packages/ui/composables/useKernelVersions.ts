@@ -1,5 +1,6 @@
 // packages/ui/composables/useKernelVersions.ts
 import { toast } from 'vue-sonner'
+import { useAsyncAction } from './useAsyncAction'
 import { useControlApi } from './useControlApi'
 import { useControlInfo } from './useControlInfo'
 
@@ -23,44 +24,37 @@ export function useKernelVersions() {
   const current = ref<string | undefined>(undefined)
   const bundled = ref('')
   const selected = ref('')
-  const loading = ref(false)
-  const switching = ref(false)
+  const { busy: loading, run: runLoad } = useAsyncAction()
+  const { busy: switching, run: runSwitch } = useAsyncAction()
 
-  const load = async () => {
-    loading.value = true
-    try {
-      const res = await api.getKernelVersions()
-      versions.value = res.versions
-      current.value = res.current
-      bundled.value = res.bundled
-      // Default the <select> to the currently active version.
-      selected.value = res.current ?? res.versions[0] ?? ''
-    } catch (e) {
-      toast.error(t('kernelVersionLoadFailed'), {
-        description: e instanceof Error ? e.message : String(e),
-      })
-    } finally {
-      loading.value = false
-    }
-  }
+  const load = () =>
+    runLoad(
+      async () => {
+        const res = await api.getKernelVersions()
+        versions.value = res.versions
+        current.value = res.current
+        bundled.value = res.bundled
+        // Default the <select> to the currently active version.
+        selected.value = res.current ?? res.versions[0] ?? ''
+      },
+      { errorKey: 'kernelVersionLoadFailed' },
+    )
 
   const switch_ = async () => {
     const version = selected.value
     if (!version) return
-    switching.value = true
-    try {
-      await api.switchKernel(version)
-      // The kernel restarts under a new binary — re-read the version list so
-      // `current` reflects the switch.
-      await load()
-      toast.success(t('kernelVersionSwitched', { version }))
-    } catch (e) {
-      toast.error(t('kernelVersionSwitchFailed'), {
-        description: e instanceof Error ? e.message : String(e),
-      })
-    } finally {
-      switching.value = false
-    }
+    await runSwitch(
+      async () => {
+        await api.switchKernel(version)
+        // The kernel restarts under a new binary — re-read the version list so
+        // `current` reflects the switch.
+        await load()
+      },
+      {
+        errorKey: 'kernelVersionSwitchFailed',
+        onSuccess: () => toast.success(t('kernelVersionSwitched', { version })),
+      },
+    )
   }
 
   return {

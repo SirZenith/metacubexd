@@ -1,5 +1,6 @@
 // packages/ui/composables/useNetworkConfig.ts
 import { toast } from 'vue-sonner'
+import { controlErrorMessage } from '~/utils/controlError'
 import { useControlApi } from './useControlApi'
 import { useControlInfo } from './useControlInfo'
 
@@ -137,7 +138,7 @@ export function useNetworkConfig() {
       secret.value = typeof secretSection === 'string' ? secretSection : ''
     } catch (e) {
       toast.error(t('networkConfigLoadFailed'), {
-        description: e instanceof Error ? e.message : String(e),
+        description: controlErrorMessage(e),
       })
     } finally {
       loading.value = false
@@ -167,7 +168,7 @@ export function useNetworkConfig() {
       return true
     } catch (e) {
       toast.error(t('networkConfigSaveFailed'), {
-        description: e instanceof Error ? e.message : String(e),
+        description: controlErrorMessage(e),
       })
       return false
     } finally {
@@ -191,7 +192,7 @@ export function useNetworkConfig() {
       return true
     } catch (e) {
       toast.error(t('networkConfigSaveFailed'), {
-        description: e instanceof Error ? e.message : String(e),
+        description: controlErrorMessage(e),
       })
       return false
     } finally {
@@ -213,7 +214,7 @@ export function useNetworkConfig() {
       return true
     } catch (e) {
       toast.error(t('networkConfigSaveFailed'), {
-        description: e instanceof Error ? e.message : String(e),
+        description: controlErrorMessage(e),
       })
       return false
     } finally {

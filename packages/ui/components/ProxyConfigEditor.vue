@@ -12,6 +12,7 @@ import {
 } from '@tabler/icons-vue'
 import { toast } from 'vue-sonner'
 import { useProxyConfigEditor } from '~/composables/useProxyConfigEditor'
+import { controlErrorMessage } from '~/utils/controlError'
 import {
   BOOLEAN_ROUTING_FIELDS,
   isSensitiveRoutingField,
@@ -162,7 +163,7 @@ function changeResourceType(nextType: string) {
     }
     advanced = parsed as ConfigObject
   } catch (error) {
-    resourceError.value = error instanceof Error ? error.message : String(error)
+    resourceError.value = controlErrorMessage(error)
     return
   }
 
@@ -242,7 +243,7 @@ function saveResource() {
   try {
     advanced = JSON.parse(resourceJson.value)
   } catch (error) {
-    resourceError.value = error instanceof Error ? error.message : String(error)
+    resourceError.value = controlErrorMessage(error)
     return
   }
   if (!advanced || Array.isArray(advanced) || typeof advanced !== 'object') {
