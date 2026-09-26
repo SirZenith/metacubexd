@@ -84,7 +84,16 @@ catalog:
   tailwindcss: ^4.3.3
   tree-kill: ^1.2.2
   tsx: ^4.23.11
-  typescript: ^7.0.2
+  # TypeScript 7.0 is the Go-native compiler and ships NO programmatic API, so
+  # tools that embed the compiler (vue-tsc / Volar, typescript-eslint) cannot
+  # consume it yet. Follow the official "run side-by-side with TypeScript 6.0"
+  # guidance: alias `typescript` to the compatibility package (which re-exports
+  # the TS 6 API and provides `tsc6`), and keep TS 7's native `tsc` under a
+  # separate alias. vue-tsc's resolveTscPath() detects the
+  # `@typescript/typescript6` alias and resolves `@typescript/old/lib/tsc`.
+  # https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/
+  '@typescript/native': npm:typescript@^7.0.2
+  typescript: npm:@typescript/typescript6@^6.0.2
   uqr: ^0.1.2
   vite: 8.2.1
   vitest: ^4.1.10
