@@ -37,9 +37,9 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
 - [x] (P1) control 页 NetworkConfigPanel 的 Tunnels 行使用固定 `grid-cols-[7rem_1fr_1fr_auto]`，
       输入框无 min-w-0，窄屏横向溢出被 overflow-x-hidden 裁掉，删除按钮不可达。应改为
       响应式列并允许收缩。→ 窄屏改单列堆叠（输入框由 ~72px 增至整行）；实测旧布局未硬性溢出，属可用性改善 (packages/ui) @b0536171
-- [ ] (P2) logs 页工具栏不换行且搜索框缺 min-w-0；日志表格移动端无替代布局，长 payload
+- [x] (P2) logs 页工具栏不换行且搜索框缺 min-w-0；日志表格移动端无替代布局，长 payload
       把表格撑到只能横向拖拽。应对齐 ConnectionsTable 的移动端处理并截断 payload。
-      → pages/logs.vue:279-290,334-426
+      → 窄屏 payload 换行（max-md）消除表格横向滚动并加 e2e；实测工具栏本就不溢出 (packages/ui) @53393c7b
 - [ ] (P2) overview 页 endpoint 信息条中的长 URL 无 min-w-0/truncate，被 overflow-x-hidden
       裁掉；与 config.vue 对同一 URL 的处理不一致，应统一。→ pages/overview.vue:520-529
 - [ ] (P2) rules 页规则卡片在窄屏把命中/未命中计数挤出 overflow-hidden 容器；应收敛 proxy
