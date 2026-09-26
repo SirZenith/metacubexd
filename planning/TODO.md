@@ -58,6 +58,6 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
 - [x] (P2) control 类 composable 中「异步动作 + loading 标志 + toast 成功/失败」模板与
       `instanceof Error ? e.message : String(e)` 描述重复 25 处（12 文件）。应提取
       useAsyncAction 与 errorDescription 收敛。→ 新增 useAsyncAction 收敛 busy+toast 模板，25 处错误描述改用既有 controlErrorMessage；新增单测 (packages/ui) @f35f419d
-- [ ] (P2) ProxyNodeCard 与 ProxyNodeListItem 各自实现同一套 tooltip 生命周期（open/close
+- [x] (P2) ProxyNodeCard 与 ProxyNodeListItem 各自实现同一套 tooltip 生命周期（open/close
       定时器、触摸判断、测速处理）大段重复。应提取 useProxyTooltip composable。
-      → components/ProxyNodeListItem.vue:41-112、components/ProxyNodeCard.vue:93-232
+      → 新增 useProxyTooltip（open/close 延迟、触摸守卫、单例 popover、外部点击关闭、长按），两组件复用；新增 5 项单测 (packages/ui) @f73f7d94
