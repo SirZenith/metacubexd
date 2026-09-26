@@ -82,7 +82,7 @@ body,
 
 @media (width >= 640px) {
   :root {
-    scrollbar-color: hsl(var(--p)) transparent;
+    scrollbar-color: var(--color-primary) transparent;
   }
 
   ::-webkit-scrollbar {

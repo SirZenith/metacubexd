@@ -52,7 +52,7 @@ onUnmounted(() => {
   <div class="relative">
     <button
       ref="reference"
-      class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-none bg-primary text-primary-content transition-all duration-200 ease-in-out hover:scale-110 hover:shadow-[0_4px_12px_oklch(var(--p)/0.4)]"
+      class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-none bg-primary text-primary-content transition-all duration-200 ease-in-out hover:scale-110 hover:shadow-[0_4px_12px_color-mix(in_oklab,var(--color-primary)_40%,transparent)]"
       :class="{ 'scale-110 rotate-[15deg]': isOpen }"
       @click.stop="toggleMenu"
     >

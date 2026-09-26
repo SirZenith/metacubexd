@@ -231,7 +231,7 @@ watch(
             :key="sub.label"
           >
             <tr
-              class="animate-in fade-in slide-in-from-bottom-1 m-1 flex cursor-pointer flex-wrap rounded-lg bg-base-100 p-2 transition-all duration-200 hover:bg-base-content/5 hover:shadow-[0_2px_8px_rgba(var(--color-base-content),0.08)] md:m-0 md:table-row md:rounded-none md:bg-transparent md:p-0 md:shadow-none md:even:bg-base-content/5 md:hover:bg-base-content/10 md:hover:shadow-none"
+              class="animate-in fade-in slide-in-from-bottom-1 m-1 flex cursor-pointer flex-wrap rounded-lg bg-base-100 p-2 transition-all duration-200 hover:bg-base-content/5 hover:shadow-[0_2px_8px_color-mix(in_oklab,var(--color-base-content)_8%,transparent)] md:m-0 md:table-row md:rounded-none md:bg-transparent md:p-0 md:shadow-none md:even:bg-base-content/5 md:hover:bg-base-content/10 md:hover:shadow-none"
               :class="{
                 'bg-primary/10! md:bg-primary/10!':
                   selectedSubRow === getSubRowKey(sub.label),
