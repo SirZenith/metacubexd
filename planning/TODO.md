@@ -44,10 +44,10 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
       裁掉；与 config.vue 对同一 URL 的处理不一致，应统一。→ 长 URL 单行 truncate（带 title），消除 3 行换行致条高 106px；实测未横向溢出 (packages/ui) @99eebb1e
 - [x] (P2) rules 页规则卡片在窄屏把命中/未命中计数挤出 overflow-hidden 容器；应收敛 proxy
       宽度或允许换行，保证计数可见。→ proxy chip 改为可收缩（min-w-0 shrink），长 proxy 名时命中/未命中计数保持可见 (packages/ui) @01c9c976
-- [ ] (P1) 展开后的全局流量浮窗（GlobalTrafficIndicator，fixed bottom-16px）与移动端底部导航
+- [x] (P1) 展开后的全局流量浮窗（GlobalTrafficIndicator，fixed bottom-16px）与移动端底部导航
       （MobileBottomNav，fixed bottom-0，约 74px 高）重叠，遮挡导航右侧项与中央 FAB。实测
       390×844：浮窗 bottom=828、导航 top=770，垂直重叠 58px。移动端应让开导航高度或调整
-      默认位置。→ components/GlobalTrafficIndicator.vue:54-66,562-568、components/MobileBottomNav.vue:145-161
+      默认位置。→ 紧凑视口且启用底导时浮窗默认上移至导航上方（含 safe-area），新增 e2e；实测重叠 58px→0 (packages/ui) @529268d5
 - [ ] (P2) MobileBottomNav 未处理底部安全区，home indicator 机型上导航落入系统手势区。
       应加 `env(safe-area-inset-bottom)`（对照 pages/proxies.vue:1233 的回到顶部按钮已用
       `max(...env(...))`），并同步 Sidebar 为该导航预留的 spacer 高度。
