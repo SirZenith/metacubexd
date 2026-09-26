@@ -1,5 +1,28 @@
 <script setup lang="ts">
 import type { DNSQuery } from '~/types'
+import {
+  IconArrowsExchange,
+  IconBolt,
+  IconBox,
+  IconClock,
+  IconDatabase,
+  IconDeviceDesktop,
+  IconDeviceFloppy,
+  IconDownload,
+  IconMoodSmile,
+  IconPlayerPlay,
+  IconRefresh,
+  IconRestore,
+  IconSearch,
+  IconSettings,
+  IconStack2,
+  IconTool,
+  IconTrash,
+  IconUpload,
+  IconWifi,
+  IconWorld,
+  IconX,
+} from '@tabler/icons-vue'
 import { useMutation } from '@tanstack/vue-query'
 import { useConfigActions, useRequest } from '~/composables/useApi'
 import { PORT_FIELDS, useGeneralConfig } from '~/composables/useGeneralConfig'
@@ -278,17 +301,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
         <div
           class="flex h-16 w-16 items-center justify-center rounded-full bg-error/10 text-error"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="size-8"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path d="M15 9l-6 6M9 9l6 6" />
-          </svg>
+          <IconX :size="32" />
         </div>
         <div>
           <h2 class="text-lg font-bold">{{ t('connectionError') }}</h2>
@@ -322,19 +335,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
           <div
             class="animate-pulse-subtle flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="size-6"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <circle cx="12" cy="12" r="3" />
-              <path
-                d="M12 1v6m0 6v10M4.22 4.22l4.24 4.24m7.08 7.08l4.24 4.24M1 12h6m6 0h10M4.22 19.78l4.24-4.24m7.08-7.08l4.24-4.24"
-              />
-            </svg>
+            <IconSettings :size="24" />
           </div>
           <div class="min-w-0">
             <h1 class="text-xl font-bold tracking-tight">{{ t('config') }}</h1>
@@ -343,16 +344,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
               :title="t('switchEndpoint')"
               @click="switchEndpoint"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-3 shrink-0"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5" />
-              </svg>
+              <IconArrowsExchange :size="12" class="shrink-0" />
               <span class="truncate">{{
                 endpointStore.currentEndpoint?.url
               }}</span>
@@ -416,18 +408,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
           <div
             class="flex items-center gap-2 border-b border-base-content/5 bg-base-300/30 px-4 py-3 text-sm font-semibold"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="size-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
-              />
-            </svg>
+            <IconStack2 :size="20" />
             <span>{{ t('coreConfig') }}</span>
           </div>
 
@@ -437,18 +418,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
               <ConfigSettingRow>
                 <template #label>
                   <div class="flex items-center gap-2 text-sm">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="size-4 opacity-60"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-                      />
-                    </svg>
+                    <IconWorld :size="16" class="opacity-60" />
                     <span>{{ t('allowLan') }}</span>
                   </div>
                 </template>
@@ -466,16 +436,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
               <ConfigSettingRow>
                 <template #label>
                   <div class="flex items-center gap-2 text-sm">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="size-4 opacity-60"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                    </svg>
+                    <IconBolt :size="16" class="opacity-60" />
                     <span>{{ t('runningMode') }}</span>
                   </div>
                 </template>
@@ -498,17 +459,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
               <ConfigSettingRow v-if="!isSingBox">
                 <template #label>
                   <div class="flex items-center gap-2 text-sm">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="size-4 opacity-60"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="M12 6v6l4 2" />
-                    </svg>
+                    <IconClock :size="16" class="opacity-60" />
                     <span>{{ t('unifiedDelay') }}</span>
                   </div>
                 </template>
@@ -529,17 +480,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
               <ConfigSettingRow>
                 <template #label>
                   <div class="flex items-center gap-2 text-sm">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="size-4 opacity-60"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                      <path d="M8 21h8M12 17v4" />
-                    </svg>
+                    <IconDeviceDesktop :size="16" class="opacity-60" />
                     <span>{{ t('outboundInterfaceName') }}</span>
                   </div>
                 </template>
@@ -565,18 +506,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                 <ConfigSettingRow>
                   <template #label>
                     <div class="flex items-center gap-2 text-sm">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="size-4 opacity-60"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path
-                          d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"
-                        />
-                      </svg>
+                      <IconWifi :size="16" class="opacity-60" />
                       <span>{{ t('enableTunDevice') }}</span>
                     </div>
                   </template>
@@ -647,19 +577,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     :loading="tunConfig.busy.value"
                     @click="onRecoverNetwork"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="size-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"
-                      />
-                      <path d="M3 3v5h5" />
-                    </svg>
+                    <IconRefresh :size="16" />
                     {{ t('tunRecoverNetwork') }}
                   </Button>
 
@@ -669,19 +587,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     :loading="tunConfig.busy.value"
                     @click="onUninstallHelper"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="size-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path d="M3 6h18" />
-                      <path
-                        d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
-                      />
-                    </svg>
+                    <IconTrash :size="16" />
                     {{ t('tunUninstallHelper') }}
                   </Button>
                 </template>
@@ -769,17 +675,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
           <div
             class="flex items-center gap-2 border-b border-base-content/5 bg-base-300/30 px-4 py-3 text-sm font-semibold"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="size-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" />
-            </svg>
+            <IconMoodSmile :size="20" />
             <span>{{ t('xdConfig') }}</span>
           </div>
 
@@ -1244,18 +1140,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                 class="mt-2 w-full btn-outline btn-warning"
                 @click="nodeRecommendationStore.clearAllData()"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
-                  />
-                </svg>
+                <IconTrash :size="16" />
                 {{ t('recommendation.clearHistory') }}
               </Button>
             </div>
@@ -1276,36 +1161,14 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                 class="btn-outline btn-secondary"
                 @click="downloadSettings"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"
-                  />
-                </svg>
+                <IconDownload :size="16" />
                 {{ t('exportSettings') }}
               </Button>
               <Button
                 class="btn-outline btn-secondary"
                 @click="settingsFileInput?.click()"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"
-                  />
-                </svg>
+                <IconUpload :size="16" />
                 {{ t('importSettings') }}
               </Button>
             </div>
@@ -1317,16 +1180,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                 class="w-full btn-outline btn-info"
                 @click="switchEndpoint"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5" />
-                </svg>
+                <IconArrowsExchange :size="16" />
                 {{ t('switchEndpoint') }}
               </Button>
 
@@ -1334,17 +1188,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                 class="w-full btn-outline btn-error"
                 @click="configStore.resetXdConfig()"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8" />
-                  <path d="M3 3v5h5" />
-                </svg>
+                <IconRestore :size="16" />
                 {{ t('resetSettings') }}
               </Button>
             </div>
@@ -1358,18 +1202,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
           <div
             class="flex items-center gap-2 border-b border-base-content/5 bg-base-300/30 px-4 py-3 text-sm font-semibold"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="size-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"
-              />
-            </svg>
+            <IconTool :size="20" />
             <span>{{ t('coreConfig') }} - Actions</span>
           </div>
 
@@ -1392,18 +1225,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                 :loading="configActions.fetchingRemoteConfig.value"
                 :disabled="!remoteConfigURL"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"
-                  />
-                </svg>
+                <IconDownload :size="16" />
                 {{ t('fetchRemoteConfig') }}
               </Button>
             </form>
@@ -1417,18 +1239,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                 :loading="configActions.reloadingConfigFile.value"
                 @click="configActions.reloadConfigFileAPI"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"
-                  />
-                </svg>
+                <IconRefresh :size="16" />
                 <Marquee class="w-full flex-1">
                   {{ t('reloadConfig') }}
                 </Marquee>
@@ -1439,16 +1250,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                 :loading="configActions.restartingBackend.value"
                 @click="configActions.restartBackendAPI"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <polygon points="5 3 19 12 5 21 5 3" />
-                </svg>
+                <IconPlayerPlay :size="16" />
                 <Marquee class="w-full flex-1">
                   {{ t('restartCore') }}
                 </Marquee>
@@ -1459,18 +1261,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                 :loading="configActions.flushingFakeIPData.value"
                 @click="configActions.flushFakeIPDataAPI"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"
-                  />
-                </svg>
+                <IconBox :size="16" />
                 <Marquee class="w-full flex-1">
                   {{ t('flushFakeIP') }}
                 </Marquee>
@@ -1481,18 +1272,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                 :loading="configActions.flushingDNSCache.value"
                 @click="configActions.flushDNSCacheAPI"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <ellipse cx="12" cy="5" rx="9" ry="3" />
-                  <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
-                  <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
-                </svg>
+                <IconDatabase :size="16" />
                 <Marquee class="w-full flex-1">
                   {{ t('flushDNSCache') }}
                 </Marquee>
@@ -1504,19 +1284,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                 :loading="configActions.updatingGEODatabases.value"
                 @click="configActions.updateGEODatabasesAPI"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path
-                    d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"
-                  />
-                </svg>
+                <IconWorld :size="16" />
                 <Marquee class="w-full flex-1">
                   {{ t('updateGEODatabases') }}
                 </Marquee>
@@ -1534,18 +1302,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
             <div
               class="flex items-center gap-2 border-b border-base-content/5 bg-base-300/30 px-4 py-3 text-sm font-semibold"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <ellipse cx="12" cy="5" rx="9" ry="3" />
-                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
-                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
-              </svg>
+              <IconDatabase :size="20" />
               <span>{{ t('dnsSettings') }}</span>
             </div>
 
@@ -1640,20 +1397,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                 :loading="dnsSettings.saving.value"
                 @click="dnsSettings.save()"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"
-                  />
-                  <polyline points="17 21 17 13 7 13 7 21" />
-                  <polyline points="7 3 7 8 15 8" />
-                </svg>
+                <IconDeviceFloppy :size="16" />
                 {{ t('save') }}
               </Button>
             </div>
@@ -1669,17 +1413,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
             <div
               class="flex items-center gap-2 border-b border-base-content/5 bg-base-300/30 px-4 py-3 text-sm font-semibold"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="M21 21l-4.35-4.35" />
-              </svg>
+              <IconSearch :size="20" />
               <span>{{ t('dnsQuery') }}</span>
             </div>
 
@@ -1722,17 +1456,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                   class="btn-primary"
                   :loading="dnsQueryMutation.isPending.value"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="size-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <circle cx="11" cy="11" r="8" />
-                    <path d="M21 21l-4.35-4.35" />
-                  </svg>
+                  <IconSearch :size="16" />
                   {{ t('dnsQuery') }}
                 </Button>
               </form>
