@@ -28,3 +28,37 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
       占用过多不可滚动高度，需要收敛。→ 小屏默认折叠 quick-filter rail（带激活计数），收紧标题/导航条/内边距 (packages/ui) @19352d53
 - [x] master-detail 模式为列表中各个代理条添加单独的测速按钮。→ ProxyNodeListItem 新增可选测速按钮（show-latency-test）并由 ProxyMasterDetail 启用，e2e 覆盖 (packages/ui) @ac9a9c36
 - [x] master-detail 模式去除单个代理条目的测试按钮改为给整个代理组进行测速的按钮。→ 移除逐条测速按钮，改由 ProxyMasterDetail 组 header 调用 proxyGroupLatencyTest，e2e 更新 (packages/ui) @64a69c50
+
+# 用户体验
+
+- [ ] (P1) traffic 页在小屏下选择「自定义时间范围」时，header 容器缺少 flex-wrap，两个
+      datetime-local 输入并排撑破 overflow-hidden 的页面容器，右侧输入与时间范围选择器
+      被裁掉、无法完成自定义区间操作。窄屏应纵向堆叠该时间范围区。→ pages/traffic.vue:301-326
+- [ ] (P1) control 页 NetworkConfigPanel 的 Tunnels 行使用固定 `grid-cols-[7rem_1fr_1fr_auto]`，
+      输入框无 min-w-0，窄屏横向溢出被 overflow-x-hidden 裁掉，删除按钮不可达。应改为
+      响应式列并允许收缩。→ components/NetworkConfigPanel.vue:160-202
+- [ ] (P2) logs 页工具栏不换行且搜索框缺 min-w-0；日志表格移动端无替代布局，长 payload
+      把表格撑到只能横向拖拽。应对齐 ConnectionsTable 的移动端处理并截断 payload。
+      → pages/logs.vue:279-290,334-426
+- [ ] (P2) overview 页 endpoint 信息条中的长 URL 无 min-w-0/truncate，被 overflow-x-hidden
+      裁掉；与 config.vue 对同一 URL 的处理不一致，应统一。→ pages/overview.vue:520-529
+- [ ] (P2) rules 页规则卡片在窄屏把命中/未命中计数挤出 overflow-hidden 容器；应收敛 proxy
+      宽度或允许换行，保证计数可见。→ pages/rules.vue:511-535
+
+# 视觉目标
+
+- [ ] (P1) 延迟分级仍使用 raw Tailwind 色（text-red-500/yellow-500/green-600），DESIGN.md
+      §7 已将其列为债务，且违反 PRODUCT.md「不得仅用颜色编码延迟/健康状态」。应迁移到语义色
+      error/warning/success，并补充形状/图标/数字等非颜色区分。→ utils/index.ts:255-258
+- [ ] (P2) config.vue 有 28 处手写内联 SVG 与 29 处重复的设置行骨架，未使用项目统一的
+      @tabler/icons-vue。应提取可复用的设置行组件并统一图标来源。→ pages/config.vue
+
+# 代码健康
+
+- [ ] (P2) control 类 composable 中「异步动作 + loading 标志 + toast 成功/失败」模板与
+      `instanceof Error ? e.message : String(e)` 描述重复 25 处（12 文件）。应提取
+      useAsyncAction 与 errorDescription 收敛。→ composables/useTun.ts, useNetworkConfig.ts,
+      useSystemProxy.ts, useKernelVersions.ts, useWebdavBackup.ts 等
+- [ ] (P2) ProxyNodeCard 与 ProxyNodeListItem 各自实现同一套 tooltip 生命周期（open/close
+      定时器、触摸判断、测速处理）大段重复。应提取 useProxyTooltip composable。
+      → components/ProxyNodeListItem.vue:41-112、components/ProxyNodeCard.vue:93-232
