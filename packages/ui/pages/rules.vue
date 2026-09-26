@@ -530,7 +530,7 @@ async function openFullEditor() {
                         </span>
                         <span class="shrink-0 opacity-40">-></span>
                         <span
-                          class="max-w-32 shrink-0 truncate rounded-md bg-secondary/15 px-2 py-0.5 font-medium text-secondary sm:max-w-none"
+                          class="max-w-32 min-w-0 shrink truncate rounded-md bg-secondary/15 px-2 py-0.5 font-medium text-secondary sm:max-w-none"
                         >
                           {{ item.data.proxy }}
                         </span>
