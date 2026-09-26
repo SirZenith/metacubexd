@@ -65,12 +65,12 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
   分段控件/工具条在 rounded-lg / rounded-xl / rounded-[0.625rem] 间；方形图标按钮在
   rounded-lg / rounded-[0.625rem] / rounded-md 间；输入框在 rounded-lg / rounded-md 间。
   应按 DESIGN §6 收敛（控件=field、卡片=box、pill=full）并清理无令牌值。→ blocked: 收敛涉及 100+ 处且 `rounded-xl` 有 28 种 class 形态（卡片/浮层/图标容器/按钮内高亮等），DESIGN §6 明确保留 `rounded-xl` 给「紧凑面板」，机械替换违背设计意图；视觉回归无法自动化验证，需人工界定规则。建议拆为可验收子任务：① 清理无令牌值 `rounded-[0.625rem]`（20 处）；② 统一图标按钮圆角；③ 卡片面板 `rounded-xl`→`rounded-2xl` 并逐屏视觉验收。未改动代码 (packages/ui)
-- [ ] (P2) 清理失效/硬编码颜色（不随主题切换）：assets/css/main.css:85 的 `hsl(var(--p))`
+- [x] (P2) 清理失效/硬编码颜色（不随主题切换）：assets/css/main.css:85 的 `hsl(var(--p))`
       与 components/ThemeSwitcher.vue:55 的 `oklch(var(--p)/0.4)` 引用了 daisyUI v5 未定义的
       `--p`（应已失效），components/TrafficDetailsTable.vue:234 的
       `rgba(var(--color-base-content),0.08)` 为非法色值，components/IconMenuSelect.vue:84
       硬编码纯黑阴影。应改用 `--color-*` 与 color-mix。
-      → assets/css/main.css、components/ThemeSwitcher.vue、components/TrafficDetailsTable.vue、components/IconMenuSelect.vue
+      → 滚动条改 `var(--color-primary)`；ThemeSwitcher/TrafficDetailsTable/IconMenuSelect 阴影改用 `color-mix(--color-*)`；构建产物旧失效写法清零 (packages/ui) @809ff885
 
 # 代码健康
 
