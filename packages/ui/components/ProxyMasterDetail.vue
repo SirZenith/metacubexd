@@ -3,6 +3,7 @@ import type { Proxy as ProxyType } from '~/types'
 import {
   IconBolt,
   IconChevronRight,
+  IconFilter,
   IconRouter,
   IconTarget,
   IconWorld,
@@ -84,6 +85,22 @@ const hasActiveFilter = computed(
     filterXudp.value,
 )
 
+// Small screens collapse the quick-filter rail behind a toggle so the group
+// header stays short and the node list gets the space. >=sm keeps it always
+// visible, unchanged from before.
+const isNarrow = useMediaQuery('(max-width: 639px)')
+const filterRailOpen = ref(false)
+const showFilterRail = computed(
+  () => hasAnyFacet.value && (!isNarrow.value || filterRailOpen.value),
+)
+const activeFilterCount = computed(
+  () =>
+    selectedRegions.value.size +
+    selectedTypes.value.size +
+    (filterUdp.value ? 1 : 0) +
+    (filterXudp.value ? 1 : 0),
+)
+
 const displayNodes = computed(() =>
   filterNodesByCapability(
     filterNodesByType(
@@ -148,6 +165,7 @@ defineExpose({ scrollToTop })
 // On group switch: reset local filters and reveal the selected node.
 watch(activeName, () => {
   clearFilters()
+  filterRailOpen.value = false
   nextTick(() => scrollSelectedIntoView('auto'))
 })
 
@@ -171,7 +189,7 @@ function aliveCount(group: ProxyType) {
         v-for="group in groups"
         :key="group.name"
         type="button"
-        class="flex w-36 shrink-0 flex-col gap-0.5 rounded-lg border px-3 py-2 text-left transition-all duration-200 sm:w-auto sm:shrink"
+        class="flex w-32 shrink-0 flex-col gap-0.5 rounded-lg border px-2.5 py-1.5 text-left transition-all duration-200 sm:w-auto sm:shrink sm:px-3 sm:py-2"
         :class="
           group.name === activeName
             ? 'border-primary/55 bg-primary/12 text-base-content'
@@ -198,13 +216,14 @@ function aliveCount(group: ProxyType) {
     >
       <div
         data-testid="master-detail-header"
-        class="flex shrink-0 flex-col gap-2 rounded-t-xl border-b border-base-content/8 bg-base-200/95 px-3 pt-3 pb-2"
+        class="flex shrink-0 flex-col gap-1.5 rounded-t-xl border-b border-base-content/8 bg-base-200/95 px-3 pt-2 pb-2 sm:gap-2 sm:pt-3"
       >
         <div class="flex min-w-0 items-center gap-2">
           <div class="flex min-w-0 flex-1 items-center gap-2">
-            <span class="truncate text-lg font-semibold text-base-content">{{
-              activeGroup.name
-            }}</span>
+            <span
+              class="truncate text-base font-semibold text-base-content sm:text-lg"
+              >{{ activeGroup.name }}</span
+            >
             <span
               class="badge inline-flex min-w-0 items-center gap-1 badge-sm badge-primary"
             >
@@ -220,6 +239,28 @@ function aliveCount(group: ProxyType) {
           <span class="shrink-0 text-xs text-base-content/45">
             {{ displayNodes.length }}/{{ activeNodes.length }}
           </span>
+          <button
+            v-if="isNarrow && hasAnyFacet"
+            type="button"
+            class="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all duration-200"
+            :class="
+              filterRailOpen || activeFilterCount > 0
+                ? 'border-primary/40 bg-primary/15 text-primary'
+                : 'border-base-content/10 bg-base-100/60 text-base-content/70 hover:border-primary/30 hover:bg-primary/15 hover:text-primary'
+            "
+            :title="t('quickFilter')"
+            :aria-label="t('quickFilter')"
+            :aria-expanded="filterRailOpen"
+            @click="filterRailOpen = !filterRailOpen"
+          >
+            <IconFilter :size="18" />
+            <span
+              v-if="activeFilterCount > 0"
+              class="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-primary text-[0.625rem] font-bold text-primary-content"
+            >
+              {{ activeFilterCount }}
+            </span>
+          </button>
           <button
             type="button"
             class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-base-content/10 bg-base-100/60 text-base-content/70 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
@@ -237,7 +278,7 @@ function aliveCount(group: ProxyType) {
              the protocol/feature filters off-screen — every row scrolls on its
              own, with its category icon pinned left. Rows render only when the
              group offers a real choice. -->
-        <div v-if="hasAnyFacet" class="flex items-start gap-1.5">
+        <div v-if="showFilterRail" class="flex items-start gap-1.5">
           <div class="flex min-w-0 flex-1 flex-col gap-1.5">
             <!-- Region -->
             <div
