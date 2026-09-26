@@ -60,12 +60,11 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
       error/warning/success，并补充形状/图标/数字等非颜色区分。→ 迁移 daisyUI 语义色（utils、ProxyPreviewBar/Dots），Latency pill 数值即非颜色区分；同步 DESIGN.md 与断言 (packages/ui) @dcd1a68b
 - [x] (P1) config.vue 有 29 处重复的设置行骨架，提取 SettingRow 组件对其进行替换 → 新增 ConfigSettingRow（label/默认 slot）替换 29 处骨架，保留 v-if 与 lg:hidden；构建与浏览器渲染验证 (packages/ui) @9e9cabe8
 - [x] (P2) config.vue 有 28 处手写内联 SVG，将它们迁移 @tabler/icons-vue → 28 处迁移为 21 个 tabler 图标，保留 size/opacity/shrink class；构建与渲染验证 (packages/ui) @fccbb11a
-- [ ] (P1) 圆角体系不统一，违反 TARGETS「整个项目的圆角要风格统一」。同类元素半径分裂：
-      卡片在 rounded-2xl / rounded-xl / 1rem 间混用（rounded-xl 约 88 处多为卡片面板）；
-      分段控件/工具条在 rounded-lg / rounded-xl / rounded-[0.625rem] 间；方形图标按钮在
-      rounded-lg / rounded-[0.625rem] / rounded-md 间；输入框在 rounded-lg / rounded-md 间。
-      应按 DESIGN §6 收敛（控件=field、卡片=box、pill=full）并清理无令牌值。
-      → pages/overview.vue、pages/profiles.vue、components/KernelControlPanel.vue、pages/proxies.vue、pages/rules.vue 等
+- [!] (P1) 圆角体系不统一，违反 TARGETS「整个项目的圆角要风格统一」。同类元素半径分裂：
+  卡片在 rounded-2xl / rounded-xl / 1rem 间混用（rounded-xl 约 88 处多为卡片面板）；
+  分段控件/工具条在 rounded-lg / rounded-xl / rounded-[0.625rem] 间；方形图标按钮在
+  rounded-lg / rounded-[0.625rem] / rounded-md 间；输入框在 rounded-lg / rounded-md 间。
+  应按 DESIGN §6 收敛（控件=field、卡片=box、pill=full）并清理无令牌值。→ blocked: 收敛涉及 100+ 处且 `rounded-xl` 有 28 种 class 形态（卡片/浮层/图标容器/按钮内高亮等），DESIGN §6 明确保留 `rounded-xl` 给「紧凑面板」，机械替换违背设计意图；视觉回归无法自动化验证，需人工界定规则。建议拆为可验收子任务：① 清理无令牌值 `rounded-[0.625rem]`（20 处）；② 统一图标按钮圆角；③ 卡片面板 `rounded-xl`→`rounded-2xl` 并逐屏视觉验收。未改动代码 (packages/ui)
 - [ ] (P2) 清理失效/硬编码颜色（不随主题切换）：assets/css/main.css:85 的 `hsl(var(--p))`
       与 components/ThemeSwitcher.vue:55 的 `oklch(var(--p)/0.4)` 引用了 daisyUI v5 未定义的
       `--p`（应已失效），components/TrafficDetailsTable.vue:234 的
