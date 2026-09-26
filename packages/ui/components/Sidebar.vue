@@ -247,10 +247,10 @@ async function onRestartCore() {
           <slot />
         </div>
 
-        <!-- Bottom nav spacer -->
+        <!-- Bottom nav spacer (matches the nav's height incl. its safe-area bottom margin) -->
         <div
           v-if="configStore.useMobileBottomNav && route.path !== '/setup'"
-          class="h-20 shrink-0 lg:hidden"
+          class="h-[calc(5rem_+_env(safe-area-inset-bottom,0px))] shrink-0 lg:hidden"
           aria-hidden="true"
         />
       </div>

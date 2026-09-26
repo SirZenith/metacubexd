@@ -147,7 +147,7 @@ onMounted(() => {
     "
   >
     <div
-      class="mx-1 mb-2 overflow-visible rounded-2xl shadow-lg backdrop-blur-[12px] sm:mx-2"
+      class="mx-1 mb-[max(0.5rem,env(safe-area-inset-bottom))] overflow-visible rounded-2xl shadow-lg backdrop-blur-[12px] sm:mx-2"
       :style="{
         border:
           '1px solid color-mix(in oklab, var(--color-base-content) 10%, transparent)',
