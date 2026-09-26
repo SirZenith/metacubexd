@@ -50,7 +50,7 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
 - [x] (P1) 延迟分级仍使用 raw Tailwind 色（text-red-500/yellow-500/green-600），DESIGN.md
       §7 已将其列为债务，且违反 PRODUCT.md「不得仅用颜色编码延迟/健康状态」。应迁移到语义色
       error/warning/success，并补充形状/图标/数字等非颜色区分。→ 迁移 daisyUI 语义色（utils、ProxyPreviewBar/Dots），Latency pill 数值即非颜色区分；同步 DESIGN.md 与断言 (packages/ui) @dcd1a68b
-- [ ] (P1) config.vue 有 29 处重复的设置行骨架，提取 SettingRow 组件对其进行替换
+- [x] (P1) config.vue 有 29 处重复的设置行骨架，提取 SettingRow 组件对其进行替换 → 新增 ConfigSettingRow（label/默认 slot）替换 29 处骨架，保留 v-if 与 lg:hidden；构建与浏览器渲染验证 (packages/ui) @9e9cabe8
 - [ ] (P2) config.vue 有 28 处手写内联 SVG，将它们迁移 @tabler/icons-vue
 
 # 代码健康
