@@ -434,24 +434,24 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
           <div class="flex flex-col gap-3 p-4">
             <!-- Basic Settings -->
             <div class="flex flex-col gap-2">
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="size-4 opacity-60"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path
-                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-                    />
-                  </svg>
-                  <span>{{ t('allowLan') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="size-4 opacity-60"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                      />
+                    </svg>
+                    <span>{{ t('allowLan') }}</span>
+                  </div>
+                </template>
                 <input
                   id="enable-allow-lan"
                   v-model="generalConfig.form.allowLan"
@@ -461,24 +461,24 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     generalConfig.save('allow-lan', generalConfig.form.allowLan)
                   "
                 />
-              </div>
+              </ConfigSettingRow>
 
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="size-4 opacity-60"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                  </svg>
-                  <span>{{ t('runningMode') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="size-4 opacity-60"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                    <span>{{ t('runningMode') }}</span>
+                  </div>
+                </template>
                 <select
                   id="mode"
                   v-model="generalConfig.form.mode"
@@ -493,26 +493,25 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     {{ getModeLabel(mode) }}
                   </option>
                 </select>
-              </div>
+              </ConfigSettingRow>
 
-              <div
-                v-if="!isSingBox"
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="size-4 opacity-60"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 6v6l4 2" />
-                  </svg>
-                  <span>{{ t('unifiedDelay') }}</span>
-                </div>
+              <ConfigSettingRow v-if="!isSingBox">
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="size-4 opacity-60"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M12 6v6l4 2" />
+                    </svg>
+                    <span>{{ t('unifiedDelay') }}</span>
+                  </div>
+                </template>
                 <input
                   id="unified-delay"
                   v-model="generalConfig.form.unifiedDelay"
@@ -525,25 +524,25 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     )
                   "
                 />
-              </div>
+              </ConfigSettingRow>
 
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="size-4 opacity-60"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                    <path d="M8 21h8M12 17v4" />
-                  </svg>
-                  <span>{{ t('outboundInterfaceName') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="size-4 opacity-60"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                      <path d="M8 21h8M12 17v4" />
+                    </svg>
+                    <span>{{ t('outboundInterfaceName') }}</span>
+                  </div>
+                </template>
                 <input
                   id="interface-name"
                   v-model="generalConfig.form.interfaceName"
@@ -556,31 +555,31 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     )
                   "
                 />
-              </div>
+              </ConfigSettingRow>
             </div>
 
             <!-- TUN Settings (hide for sing-box) -->
             <template v-if="!isSingBox">
               <div class="divider my-2 text-xs opacity-40">TUN</div>
               <div class="flex flex-col gap-2">
-                <div
-                  class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-                >
-                  <div class="flex items-center gap-2 text-sm">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="size-4 opacity-60"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"
-                      />
-                    </svg>
-                    <span>{{ t('enableTunDevice') }}</span>
-                  </div>
+                <ConfigSettingRow>
+                  <template #label>
+                    <div class="flex items-center gap-2 text-sm">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="size-4 opacity-60"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"
+                        />
+                      </svg>
+                      <span>{{ t('enableTunDevice') }}</span>
+                    </div>
+                  </template>
                   <div class="flex items-center gap-2">
                     <span
                       v-if="tunConfig.desktopMode.value && tunConfig.busy.value"
@@ -601,17 +600,17 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                       @change="onTunToggle"
                     />
                   </div>
-                </div>
+                </ConfigSettingRow>
 
                 <!-- Desktop (capability 'tun'): live status + install/elevation
                      note + recover-network escape hatch. -->
                 <template v-if="tunConfig.desktopMode.value">
-                  <div
-                    class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5"
-                  >
-                    <span class="pl-5 text-sm opacity-70">{{
-                      t('tunStatusLabel')
-                    }}</span>
+                  <ConfigSettingRow>
+                    <template #label>
+                      <span class="pl-5 text-sm opacity-70">{{
+                        t('tunStatusLabel')
+                      }}</span>
+                    </template>
                     <span
                       class="badge badge-sm"
                       :class="
@@ -626,7 +625,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                           : t('tunStatusSidecar')
                       }}
                     </span>
-                  </div>
+                  </ConfigSettingRow>
 
                   <p
                     v-if="tunConfig.needsProfile.value"
@@ -687,12 +686,12 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                   </Button>
                 </template>
 
-                <div
-                  class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-                >
-                  <div class="flex items-center gap-2 text-sm">
-                    <span class="pl-5">{{ t('tunModeStack') }}</span>
-                  </div>
+                <ConfigSettingRow>
+                  <template #label>
+                    <div class="flex items-center gap-2 text-sm">
+                      <span class="pl-5">{{ t('tunModeStack') }}</span>
+                    </div>
+                  </template>
                   <select
                     id="tun-ip-stack"
                     v-model="tunForm.tunStack"
@@ -710,17 +709,16 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                       {{ stack }}
                     </option>
                   </select>
-                </div>
+                </ConfigSettingRow>
 
                 <!-- TUN device name is agent-managed on desktop; only editable
                      against a plain remote backend (Clash-API PATCH). -->
-                <div
-                  v-if="!tunConfig.desktopMode.value"
-                  class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-                >
-                  <div class="flex items-center gap-2 text-sm">
-                    <span class="pl-5">{{ t('tunDeviceName') }}</span>
-                  </div>
+                <ConfigSettingRow v-if="!tunConfig.desktopMode.value">
+                  <template #label>
+                    <div class="flex items-center gap-2 text-sm">
+                      <span class="pl-5">{{ t('tunDeviceName') }}</span>
+                    </div>
+                  </template>
                   <input
                     id="device-name"
                     v-model="tunForm.tunDevice"
@@ -728,7 +726,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     class="input-bordered input w-32 input-sm"
                     @change="saveTun({ device: tunForm.tunDevice })"
                   />
-                </div>
+                </ConfigSettingRow>
               </div>
 
               <!-- Port Settings -->
@@ -787,73 +785,75 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
 
           <div class="flex flex-col gap-3 p-4">
             <div class="flex flex-col gap-2">
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('enableTwemoji') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('enableTwemoji') }}</span>
+                  </div>
+                </template>
                 <input
                   v-model="configStore.enableTwemoji"
                   type="checkbox"
                   class="toggle toggle-primary"
                 />
-              </div>
+              </ConfigSettingRow>
 
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex flex-col gap-0.5">
-                  <span class="text-sm">{{
-                    t('enableDataUsageTracking')
-                  }}</span>
-                  <span class="text-xs opacity-50">{{
-                    t('enableDataUsageTrackingDesc')
-                  }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex flex-col gap-0.5">
+                    <span class="text-sm">{{
+                      t('enableDataUsageTracking')
+                    }}</span>
+                    <span class="text-xs opacity-50">{{
+                      t('enableDataUsageTrackingDesc')
+                    }}</span>
+                  </div>
+                </template>
                 <input
                   v-model="configStore.enableDataUsageTracking"
                   type="checkbox"
                   class="toggle toggle-primary"
                 />
-              </div>
+              </ConfigSettingRow>
 
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex flex-col gap-0.5">
-                  <span class="text-sm">{{ t('resolveClientHostname') }}</span>
-                  <span class="text-xs opacity-50">{{
-                    t('resolveClientHostnameDesc')
-                  }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex flex-col gap-0.5">
+                    <span class="text-sm">{{
+                      t('resolveClientHostname')
+                    }}</span>
+                    <span class="text-xs opacity-50">{{
+                      t('resolveClientHostnameDesc')
+                    }}</span>
+                  </div>
+                </template>
                 <input
                   v-model="configStore.resolveClientHostname"
                   type="checkbox"
                   class="toggle toggle-primary"
                 />
-              </div>
+              </ConfigSettingRow>
 
               <!-- Mobile Bottom Nav Toggle - only visible on mobile -->
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5 lg:hidden"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('useMobileBottomNav') }}</span>
-                </div>
+              <ConfigSettingRow class="lg:hidden">
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('useMobileBottomNav') }}</span>
+                  </div>
+                </template>
                 <input
                   v-model="configStore.useMobileBottomNav"
                   type="checkbox"
                   class="toggle toggle-primary"
                 />
-              </div>
+              </ConfigSettingRow>
 
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('defaultPage') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('defaultPage') }}</span>
+                  </div>
+                </template>
                 <select
                   v-model="configStore.defaultPage"
                   class="select-bordered select select-sm"
@@ -865,55 +865,55 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                   <option value="logs">{{ t('logs') }}</option>
                   <option value="config">{{ t('config') }}</option>
                 </select>
-              </div>
+              </ConfigSettingRow>
 
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('autoSwitchEndpoint') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('autoSwitchEndpoint') }}</span>
+                  </div>
+                </template>
                 <input
                   v-model="configStore.autoSwitchEndpoint"
                   type="checkbox"
                   class="toggle toggle-primary"
                 />
-              </div>
+              </ConfigSettingRow>
 
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('autoSwitchTheme') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('autoSwitchTheme') }}</span>
+                  </div>
+                </template>
                 <input
                   v-model="configStore.autoSwitchTheme"
                   type="checkbox"
                   class="toggle toggle-primary"
                 />
-              </div>
+              </ConfigSettingRow>
 
               <template v-if="configStore.autoSwitchTheme">
-                <div
-                  class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-                >
-                  <div class="flex items-center gap-2 text-sm">
-                    <span class="pl-4 text-sm opacity-70">{{
-                      t('favDayTheme')
-                    }}</span>
-                  </div>
+                <ConfigSettingRow>
+                  <template #label>
+                    <div class="flex items-center gap-2 text-sm">
+                      <span class="pl-4 text-sm opacity-70">{{
+                        t('favDayTheme')
+                      }}</span>
+                    </div>
+                  </template>
                   <ThemeSelector v-model="configStore.favDayTheme" />
-                </div>
-                <div
-                  class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-                >
-                  <div class="flex items-center gap-2 text-sm">
-                    <span class="pl-4 text-sm opacity-70">{{
-                      t('favNightTheme')
-                    }}</span>
-                  </div>
+                </ConfigSettingRow>
+                <ConfigSettingRow>
+                  <template #label>
+                    <div class="flex items-center gap-2 text-sm">
+                      <span class="pl-4 text-sm opacity-70">{{
+                        t('favNightTheme')
+                      }}</span>
+                    </div>
+                  </template>
                   <ThemeSelector v-model="configStore.favNightTheme" />
-                </div>
+                </ConfigSettingRow>
               </template>
             </div>
 
@@ -923,12 +923,12 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
 
             <div class="flex flex-col gap-2">
               <!-- Font Family -->
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('fontFamily') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('fontFamily') }}</span>
+                  </div>
+                </template>
                 <select
                   v-model="configStore.fontFamily"
                   class="select-bordered select select-sm"
@@ -941,15 +941,15 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     {{ font.label }}
                   </option>
                 </select>
-              </div>
+              </ConfigSettingRow>
 
               <!-- Background Type -->
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('backgroundImage') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('backgroundImage') }}</span>
+                  </div>
+                </template>
                 <select
                   v-model="configStore.backgroundImageType"
                   class="select-bordered select select-sm"
@@ -962,7 +962,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     {{ t('backgroundImageUrlOption') }}
                   </option>
                 </select>
-              </div>
+              </ConfigSettingRow>
 
               <!-- Custom Upload -->
               <div
@@ -1002,12 +1002,12 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
 
               <!-- Blur + Overlay Opacity -->
               <template v-if="configStore.backgroundImageType !== 'none'">
-                <div
-                  class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-                >
-                  <div class="flex items-center gap-2 text-sm">
-                    <span>{{ t('backgroundBlur') }}</span>
-                  </div>
+                <ConfigSettingRow>
+                  <template #label>
+                    <div class="flex items-center gap-2 text-sm">
+                      <span>{{ t('backgroundBlur') }}</span>
+                    </div>
+                  </template>
                   <div class="flex items-center gap-2">
                     <input
                       v-model.number="configStore.backgroundBlur"
@@ -1020,13 +1020,13 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                       >{{ configStore.backgroundBlur }}px</span
                     >
                   </div>
-                </div>
-                <div
-                  class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-                >
-                  <div class="flex items-center gap-2 text-sm">
-                    <span>{{ t('backgroundOverlayOpacity') }}</span>
-                  </div>
+                </ConfigSettingRow>
+                <ConfigSettingRow>
+                  <template #label>
+                    <div class="flex items-center gap-2 text-sm">
+                      <span>{{ t('backgroundOverlayOpacity') }}</span>
+                    </div>
+                  </template>
                   <div class="flex items-center gap-2">
                     <input
                       v-model.number="configStore.backgroundOverlayOpacity"
@@ -1039,25 +1039,25 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                       >{{ configStore.backgroundOverlayOpacity }}%</span
                     >
                   </div>
-                </div>
+                </ConfigSettingRow>
               </template>
 
               <!-- Custom Theme Colors -->
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex flex-col gap-0.5">
-                  <span class="text-sm">{{ t('customThemeColors') }}</span>
-                  <span class="text-xs opacity-50">{{
-                    t('customThemeColorsDesc')
-                  }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex flex-col gap-0.5">
+                    <span class="text-sm">{{ t('customThemeColors') }}</span>
+                    <span class="text-xs opacity-50">{{
+                      t('customThemeColorsDesc')
+                    }}</span>
+                  </div>
+                </template>
                 <input
                   v-model="configStore.enableCustomThemeColors"
                   type="checkbox"
                   class="toggle toggle-primary"
                 />
-              </div>
+              </ConfigSettingRow>
               <div
                 v-if="configStore.enableCustomThemeColors"
                 class="grid grid-cols-2 gap-2 px-2 sm:grid-cols-3"
@@ -1111,31 +1111,31 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
             <!-- Recommendation Settings -->
             <div class="flex flex-col gap-2">
               <!-- Auto Switch Toggle -->
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex flex-col gap-0.5">
-                  <span class="text-sm">{{
-                    t('recommendation.autoSwitch')
-                  }}</span>
-                  <span class="text-xs opacity-50">{{
-                    t('recommendation.autoSwitchDesc')
-                  }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex flex-col gap-0.5">
+                    <span class="text-sm">{{
+                      t('recommendation.autoSwitch')
+                    }}</span>
+                    <span class="text-xs opacity-50">{{
+                      t('recommendation.autoSwitchDesc')
+                    }}</span>
+                  </div>
+                </template>
                 <input
                   v-model="nodeRecommendationStore.autoSwitchEnabled"
                   type="checkbox"
                   class="toggle toggle-primary"
                 />
-              </div>
+              </ConfigSettingRow>
 
               <!-- Latency Weight -->
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('recommendation.latencyWeight') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('recommendation.latencyWeight') }}</span>
+                  </div>
+                </template>
                 <div class="flex items-center gap-2">
                   <input
                     v-model.number="
@@ -1150,15 +1150,15 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     >{{ nodeRecommendationStore.scoringWeights.latency }}%</span
                   >
                 </div>
-              </div>
+              </ConfigSettingRow>
 
               <!-- Stability Weight -->
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('recommendation.stabilityWeight') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('recommendation.stabilityWeight') }}</span>
+                  </div>
+                </template>
                 <div class="flex items-center gap-2">
                   <input
                     v-model.number="
@@ -1175,15 +1175,15 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     }}%</span
                   >
                 </div>
-              </div>
+              </ConfigSettingRow>
 
               <!-- Success Rate Weight -->
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('recommendation.successRateWeight') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('recommendation.successRateWeight') }}</span>
+                  </div>
+                </template>
                 <div class="flex items-center gap-2">
                   <input
                     v-model.number="
@@ -1200,15 +1200,15 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     }}%</span
                   >
                 </div>
-              </div>
+              </ConfigSettingRow>
 
               <!-- Min Test Interval -->
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('recommendation.minTestInterval') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('recommendation.minTestInterval') }}</span>
+                  </div>
+                </template>
                 <input
                   v-model.number="nodeRecommendationStore.minTestInterval"
                   type="number"
@@ -1216,15 +1216,15 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                   max="60"
                   class="input-bordered input w-20 text-center input-sm"
                 />
-              </div>
+              </ConfigSettingRow>
 
               <!-- Excluded Nodes Count -->
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('recommendation.excludedNodes') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('recommendation.excludedNodes') }}</span>
+                  </div>
+                </template>
                 <div class="flex items-center gap-2">
                   <span class="badge badge-neutral">{{
                     nodeRecommendationStore.excludedNodes.length
@@ -1237,7 +1237,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                     {{ t('clearAll') }}
                   </button>
                 </div>
-              </div>
+              </ConfigSettingRow>
 
               <!-- Clear History Button -->
               <Button
@@ -1621,19 +1621,19 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
               </div>
 
               <!-- Use Hosts -->
-              <div
-                class="flex items-center justify-between gap-4 rounded-lg px-2 py-1.5 transition-colors hover:bg-base-content/5"
-              >
-                <div class="flex items-center gap-2 text-sm">
-                  <span>{{ t('dnsUseHosts') }}</span>
-                </div>
+              <ConfigSettingRow>
+                <template #label>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span>{{ t('dnsUseHosts') }}</span>
+                  </div>
+                </template>
                 <input
                   id="dns-use-hosts"
                   v-model="dnsSettings.form.useHosts"
                   type="checkbox"
                   class="toggle toggle-primary"
                 />
-              </div>
+              </ConfigSettingRow>
 
               <Button
                 class="btn-primary"
