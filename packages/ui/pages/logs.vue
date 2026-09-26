@@ -433,13 +433,11 @@ function downloadLogs() {
         </tbody>
       </table>
 
-      <div
+      <EmptyState
         v-if="rowModel.length === 0"
-        class="flex flex-col items-center justify-center gap-4 px-4 py-12 text-base-content/40"
-      >
-        <IconFileStack :size="48" class="opacity-50" />
-        <span>{{ t('noData') }}</span>
-      </div>
+        :icon="IconFileStack"
+        size="lg"
+      />
     </div>
 
     <!-- Settings Modal -->

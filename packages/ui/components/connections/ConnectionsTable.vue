@@ -449,12 +449,7 @@ async function copyCell(
       </template>
     </div>
 
-    <div
-      v-if="rowModel.length === 0"
-      class="conn-empty flex items-center justify-center px-4 py-12 text-sm"
-    >
-      <span>{{ t('noData') }}</span>
-    </div>
+    <EmptyState v-if="rowModel.length === 0" size="lg" />
   </div>
 </template>
 
@@ -657,10 +652,6 @@ async function copyCell(
     margin-left: 0;
     transform: translateY(-50%);
   }
-}
-
-.conn-empty {
-  color: color-mix(in oklab, var(--color-base-content) 50%, transparent);
 }
 
 /* GeoIP flag rendered inline before the destination host text. */

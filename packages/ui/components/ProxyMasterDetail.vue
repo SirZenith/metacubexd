@@ -442,12 +442,7 @@ function aliveCount(group: ProxyType) {
           :data-selected="activeGroup.now === name ? 'true' : undefined"
           @click="proxiesStore.selectProxyInGroup(activeGroup, name)"
         />
-        <div
-          v-if="displayNodes.length === 0"
-          class="py-8 text-center text-sm text-base-content/40"
-        >
-          {{ t('noData') }}
-        </div>
+        <EmptyState v-if="displayNodes.length === 0" />
       </div>
     </div>
   </div>

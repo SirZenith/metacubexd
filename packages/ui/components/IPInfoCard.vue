@@ -226,8 +226,6 @@ function handleProviderChange(event: Event) {
       </div>
     </div>
 
-    <div v-else class="py-6 text-center text-sm text-base-content/50">
-      {{ t('noData') }}
-    </div>
+    <EmptyState v-else />
   </PanelCard>
 </template>

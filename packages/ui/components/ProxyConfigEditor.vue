@@ -349,12 +349,7 @@ defineExpose({ open })
       <IconRoute :size="24" />
     </template>
 
-    <div
-      v-if="editor.loading.value"
-      class="flex min-h-64 items-center justify-center"
-    >
-      <span class="loading loading-lg loading-ring text-primary" />
-    </div>
+    <LoadingState v-if="editor.loading.value" />
 
     <div
       v-else-if="editor.state.value === 'no-active-profile'"
@@ -410,12 +405,7 @@ defineExpose({ open })
               {{ t('add') }}
             </Button>
           </div>
-          <div
-            v-if="!editor.proxies.value.length"
-            class="p-6 text-center text-sm opacity-55"
-          >
-            {{ t('noData') }}
-          </div>
+          <EmptyState v-if="!editor.proxies.value.length" />
           <div v-else class="flex flex-col gap-2">
             <div
               v-for="(draft, index) in editor.proxies.value"
@@ -473,12 +463,7 @@ defineExpose({ open })
               {{ t('add') }}
             </Button>
           </div>
-          <div
-            v-if="!editor.groups.value.length"
-            class="p-6 text-center text-sm opacity-55"
-          >
-            {{ t('noData') }}
-          </div>
+          <EmptyState v-if="!editor.groups.value.length" />
           <div v-else class="flex flex-col gap-2">
             <div
               v-for="(draft, index) in editor.groups.value"

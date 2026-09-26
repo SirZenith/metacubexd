@@ -75,12 +75,7 @@ const { t } = useI18n()
           </div>
         </div>
       </div>
-      <div
-        v-if="!data.length"
-        class="py-8 text-center text-sm text-base-content/60"
-      >
-        {{ t('noData') }}
-      </div>
+      <EmptyState v-if="!data.length" />
     </div>
   </div>
 </template>

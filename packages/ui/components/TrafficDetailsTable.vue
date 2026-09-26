@@ -356,12 +356,12 @@ watch(
           </template>
         </tbody>
       </table>
-      <div
+      <EmptyState
         v-if="!paginatedSubEntries.length"
-        class="flex items-center justify-center px-4 py-12 text-sm text-base-content/50 italic"
-      >
-        <span>{{ t('noDetailedData') }}</span>
-      </div>
+        :message="t('noDetailedData')"
+        italic
+        size="lg"
+      />
     </div>
 
     <!-- Footer Pagination -->

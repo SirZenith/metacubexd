@@ -1013,12 +1013,11 @@ const ProviderProxyNodes = defineComponent({
         />
       </div>
       <!-- Empty state: loaded but no proxy groups to show -->
-      <div
+      <EmptyState
         v-else-if="renderProxies.length === 0"
-        class="flex h-full flex-col items-center justify-center gap-2 py-12 text-center text-base-content/40"
-      >
-        <span class="text-sm">{{ t('noData') }}</span>
-      </div>
+        class="h-full"
+        size="lg"
+      />
       <template v-else>
         <ProxyMasterDetail
           v-if="isMasterMode"
@@ -1136,12 +1135,11 @@ const ProviderProxyNodes = defineComponent({
         />
       </div>
       <!-- Empty state: loaded but no providers -->
-      <div
+      <EmptyState
         v-else-if="proxiesStore.proxyProviders.length === 0"
-        class="flex h-full flex-col items-center justify-center gap-2 py-12 text-center text-base-content/40"
-      >
-        <span class="text-sm">{{ t('noData') }}</span>
-      </div>
+        class="h-full"
+        size="lg"
+      />
       <ProxiesRenderWrapper v-else ref="providersWrapper">
         <template v-if="providersWrapper?.isTwoColumns" #even>
           <Collapse

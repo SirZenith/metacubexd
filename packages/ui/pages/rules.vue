@@ -288,12 +288,7 @@ async function openFullEditor() {
 <template>
   <div class="rules-page flex h-full flex-col gap-3 overflow-y-auto">
     <!-- Loading State -->
-    <div v-if="isLoading" class="flex flex-1 items-center justify-center">
-      <div class="flex flex-col items-center gap-4">
-        <span class="loading loading-lg loading-ring text-primary" />
-        <span class="text-sm opacity-60">{{ t('rules') }}</span>
-      </div>
-    </div>
+    <LoadingState v-if="isLoading" class="flex-1" :label="t('rules')" />
 
     <template v-else>
       <!-- Header with Tabs and Search -->
@@ -681,12 +676,11 @@ async function openFullEditor() {
         <IconEdit :size="20" />
       </template>
 
-      <div
+      <LoadingState
         v-if="ruleEditor.loading.value"
-        class="flex min-h-40 items-center justify-center"
-      >
-        <span class="loading loading-ring text-primary" />
-      </div>
+        min-height="min-h-40"
+        ring="md"
+      />
 
       <div
         v-else-if="ruleEditor.state.value === 'no-active-profile'"

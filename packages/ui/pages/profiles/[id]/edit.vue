@@ -589,9 +589,7 @@ if (import.meta.client) {
 
 <template>
   <div class="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-1">
-    <div v-if="loading" class="flex min-h-64 items-center justify-center">
-      <span class="loading loading-lg loading-ring text-primary" />
-    </div>
+    <LoadingState v-if="loading" />
 
     <div
       v-else-if="loadError"

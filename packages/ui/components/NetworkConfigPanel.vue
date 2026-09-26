@@ -204,12 +204,11 @@ function setTunnelNetwork(index: number, optionValue: string) {
         </Button>
       </div>
 
-      <div
+      <EmptyState
         v-if="tunnels.length === 0"
-        class="py-4 text-center text-sm text-base-content/40"
-      >
-        {{ t('noTunnels') }}
-      </div>
+        :message="t('noTunnels')"
+        size="sm"
+      />
 
       <div class="flex items-center gap-2">
         <Button

@@ -289,10 +289,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
       v-if="isLoading && !isError"
       class="flex h-64 items-center justify-center"
     >
-      <div class="flex flex-col items-center gap-4">
-        <span class="loading loading-lg loading-ring text-primary" />
-        <span class="text-sm opacity-60">{{ t('config') }}</span>
-      </div>
+      <LoadingState :label="t('config')" />
     </div>
 
     <!-- Error State - Backend Unreachable -->

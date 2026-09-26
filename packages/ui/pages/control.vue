@@ -51,12 +51,7 @@ const showBackup = computed(() => hasFeature('webdav-backup'))
   <div class="flex h-full flex-col gap-6 overflow-x-hidden overflow-y-auto p-2">
     <!-- Probe still resolving (or a web user mid-redirect): hold a spinner so
          neither the header nor an empty container flashes before we bounce. -->
-    <div
-      v-if="!ready || !hasAgent"
-      class="flex h-64 items-center justify-center"
-    >
-      <span class="loading loading-lg loading-ring text-primary" />
-    </div>
+    <LoadingState v-if="!ready || !hasAgent" min-height="h-64" />
 
     <template v-else-if="hasAgent">
       <!-- Page header -->
