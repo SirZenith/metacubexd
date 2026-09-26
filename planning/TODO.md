@@ -93,7 +93,7 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
   （各自异常处理，两处含失败历史副作用）。应统一为一个 keyed-busy 抽象，显式区分
   是否重入保护、是否吞异常。
   → 部分完成：已扩展 useBusyKeys 支持显式 guardReentry/swallow，rules.vue 迁移并删除 utils.useStringBooleanMap，新增 2 项单测 (packages/ui) @9e80d8ca。blocked: stores/proxies.ts 的 4 个手写 map 是 store 公开 API，被 pages/proxies.vue、components/ProxyMasterDetail.vue 与 stores/**tests**/proxies.spec.ts 多处引用，迁移会改动 store API 与既有测试断言，属独立较大变更，本轮未纳入；建议为它另开一条。
-- [ ] (P2) 空状态（约 9 处 `t('noData')`，内边距与透明度在 /40~/60、py-6/8/12 间漂移）
+- [x] (P2) 空状态（约 9 处 `t('noData')`，内边距与透明度在 /40~/60、py-6/8/12 间漂移）
       与页面级 loading（约 5 处 `loading loading-lg loading-ring text-primary`）重复。
       应提取 EmptyState（icon/message/size）与 LoadingState（label/min-height）组件。
-      → components/IPInfoCard.vue、ProxyMasterDetail.vue、TrafficRankings.vue、ProxyConfigEditor.vue、pages/proxies.vue、pages/logs.vue、pages/rules.vue、pages/config.vue、pages/control.vue
+      → 新增 EmptyState（icon/message/size/italic，默认 t('noData')）与 LoadingState（label/min-height/ring），替换 9 处空状态 + 6 处页面 loading，并删除 ConnectionsTable 的 `.conn-empty` (packages/ui) @e355843d
