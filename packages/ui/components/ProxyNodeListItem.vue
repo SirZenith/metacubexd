@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { IconCircleCheckFilled } from '@tabler/icons-vue'
 import dayjs from 'dayjs'
+import { useProxyTooltip } from '~/composables/useProxyTooltip'
 import { getLatencyClassName } from '~/utils'
 
 interface Props {
@@ -38,78 +39,19 @@ const {
   { providerName: () => props.providerName },
 )
 
-// Anchor element for the lazily-mounted tooltip
-const reference = ref<HTMLElement | null>(null)
-const isTooltipOpen = ref(false)
-
-// Touch-primary devices: the floating popover is `strategy: fixed` and
-// re-anchors on scroll, riding along with the list and covering node rows —
-// no way to tap another node. Skip the popover on mobile; taps select the node.
-const isTouchDevice = useMediaQuery('(pointer: coarse)')
-
-let openTimeout: ReturnType<typeof setTimeout> | null = null
-let closeTimeout: ReturnType<typeof setTimeout> | null = null
-
-function clearTimeouts() {
-  if (openTimeout) {
-    clearTimeout(openTimeout)
-    openTimeout = null
-  }
-  if (closeTimeout) {
-    clearTimeout(closeTimeout)
-    closeTimeout = null
-  }
-}
-
-function openTooltip() {
-  if (isTouchDevice.value) return
-  acquireSingletonPopover(closeTooltip)
-  isTooltipOpen.value = true
-}
-
-function closeTooltip() {
-  isTooltipOpen.value = false
-  releaseSingletonPopover(closeTooltip)
-}
-
-function onMouseEnter() {
-  clearTimeouts()
-  openTimeout = setTimeout(() => {
-    openTooltip()
-  }, 300)
-}
-
-function onMouseLeave() {
-  clearTimeouts()
-  // Delay closing to allow mouse to move to tooltip
-  closeTimeout = setTimeout(() => {
-    closeTooltip()
-  }, 100)
-}
-
-function onTooltipMouseEnter() {
-  clearTimeouts()
-}
-
-function onTooltipMouseLeave() {
-  clearTimeouts()
-  closeTooltip()
-}
+const {
+  reference,
+  isTooltipOpen,
+  onMouseEnter,
+  onMouseLeave,
+  onTooltipMouseEnter,
+  onTooltipMouseLeave,
+  handleLatencyTest,
+} = useProxyTooltip({ onTest: runLatencyTest })
 
 function onClick() {
   emit('click')
 }
-
-function handleLatencyTest() {
-  clearTimeouts()
-  openTooltip()
-  runLatencyTest()
-}
-
-onBeforeUnmount(() => {
-  clearTimeouts()
-  releaseSingletonPopover(closeTooltip)
-})
 </script>
 
 <template>

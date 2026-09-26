@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { IconCircleCheckFilled, IconStar } from '@tabler/icons-vue'
 import dayjs from 'dayjs'
+import { useProxyTooltip } from '~/composables/useProxyTooltip'
 import { getLatencyClassName } from '~/utils'
 import { computeLatencyTrend, svgPathFromPoints } from '~/utils/latencyTrend'
 import {
@@ -90,145 +91,28 @@ const {
   { providerName: () => props.providerName, groupName: () => props.groupName },
 )
 
-// Anchor element for the lazily-mounted tooltip
-const reference = ref<HTMLElement | null>(null)
-const isTooltipOpen = ref(false)
-
-// Touch-primary devices: the floating popover is `strategy: fixed` and
-// re-anchors on scroll, so it rides along with the list and covers the node
-// cards — leaving no way to tap another node (#popover-follows-scroll). Skip
-// the popover entirely on mobile; taps just select the node.
-const isTouchDevice = useMediaQuery('(pointer: coarse)')
-
-let openTimeout: ReturnType<typeof setTimeout> | null = null
-let closeTimeout: ReturnType<typeof setTimeout> | null = null
-
-function clearTimeouts() {
-  if (openTimeout) {
-    clearTimeout(openTimeout)
-    openTimeout = null
-  }
-  if (closeTimeout) {
-    clearTimeout(closeTimeout)
-    closeTimeout = null
-  }
-}
-
-function openTooltip() {
-  if (isTouchDevice.value) return
-  acquireSingletonPopover(closeTooltip)
-  isTooltipOpen.value = true
-  document.addEventListener('click', onDocumentClick, true)
-  document.addEventListener('touchstart', onDocumentClick, true)
-}
-
-function closeTooltip() {
-  isTooltipOpen.value = false
-  document.removeEventListener('click', onDocumentClick, true)
-  document.removeEventListener('touchstart', onDocumentClick, true)
-  releaseSingletonPopover(closeTooltip)
-}
-
-function onDocumentClick(e: Event) {
-  const target = e.target as Node
-  if (reference.value?.contains(target)) return
-  if (target instanceof Element && target.closest('[data-proxy-tooltip]'))
-    return
-  closeTooltip()
-}
-
-function onMouseEnter() {
-  clearTimeouts()
-  openTimeout = setTimeout(() => {
-    openTooltip()
-  }, 300)
-}
-
-function onMouseLeave() {
-  clearTimeouts()
-  // Delay closing to allow mouse to move to tooltip
-  closeTimeout = setTimeout(() => {
-    closeTooltip()
-  }, 100)
-}
-
-function onTooltipMouseEnter() {
-  clearTimeouts()
-}
-
-function onTooltipMouseLeave() {
-  clearTimeouts()
-  closeTooltip()
-}
-
-// Mobile: a quick tap selects the node; a long-press opens the tooltip.
-// Tap and the synthetic click that follows touchend must NOT both fire —
-// long-press sets longPressFired so the resulting click skips selection.
-let touchStartX = 0
-let touchStartY = 0
-let longPressFired = false
-let longPressTimeout: ReturnType<typeof setTimeout> | null = null
-const TOUCH_MOVE_THRESHOLD = 10
-const LONG_PRESS_DURATION = 500
-
-function clearLongPress() {
-  if (longPressTimeout) {
-    clearTimeout(longPressTimeout)
-    longPressTimeout = null
-  }
-}
-
-function onTouchStart(e: TouchEvent) {
-  if (isTooltipOpen.value) return
-  const touch = e.touches[0]
-  if (!touch) return
-  touchStartX = touch.clientX
-  touchStartY = touch.clientY
-  longPressFired = false
-  clearLongPress()
-  longPressTimeout = setTimeout(() => {
-    longPressFired = true
-    openTooltip()
-  }, LONG_PRESS_DURATION)
-}
-
-function onTouchMove(e: TouchEvent) {
-  const touch = e.touches[0]
-  if (!touch) return
-  const dx = Math.abs(touch.clientX - touchStartX)
-  const dy = Math.abs(touch.clientY - touchStartY)
-  // Moved past the threshold — this is a scroll, not a long-press.
-  if (dx > TOUCH_MOVE_THRESHOLD || dy > TOUCH_MOVE_THRESHOLD) {
-    clearLongPress()
-  }
-}
-
-function onTouchEnd() {
-  // Lifted before the timer fired — a tap; let the click select the node.
-  clearLongPress()
-}
-
-onBeforeUnmount(() => {
-  clearTimeouts()
-  clearLongPress()
-  document.removeEventListener('click', onDocumentClick, true)
-  document.removeEventListener('touchstart', onDocumentClick, true)
-  releaseSingletonPopover(closeTooltip)
+const {
+  reference,
+  isTooltipOpen,
+  onMouseEnter,
+  onMouseLeave,
+  onTooltipMouseEnter,
+  onTooltipMouseLeave,
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
+  handleLatencyTest,
+  shouldSwallowClick,
+} = useProxyTooltip({
+  onTest: runLatencyTest,
+  dismissOnOutsidePointer: true,
+  longPressToOpen: true,
 })
 
 function onClick() {
   // Long-press already opened the tooltip; swallow the trailing synthetic click.
-  if (longPressFired) {
-    longPressFired = false
-    return
-  }
+  if (shouldSwallowClick()) return
   emit('click')
-}
-
-function handleLatencyTest() {
-  clearTimeouts()
-  openTooltip()
-  runLatencyTest()
 }
 </script>
 
