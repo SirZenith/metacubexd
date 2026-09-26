@@ -58,34 +58,35 @@ function getDotClass(latency: number | undefined, selected: boolean): string {
 </template>
 
 <style scoped>
-/* Good latency */
+/* Band colors bind to daisyUI semantic roles so they follow the active theme.
+   The selected dot keeps a light core with a colored ring. */
 .dot-good {
-  background: #16a34a;
+  background: var(--color-success);
 }
 
 .dot-good-selected {
   background: white;
-  border: 4px solid #16a34a;
+  border: 4px solid var(--color-success);
 }
 
 /* Medium latency */
 .dot-medium {
-  background: #eab308;
+  background: var(--color-warning);
 }
 
 .dot-medium-selected {
   background: white;
-  border: 4px solid #eab308;
+  border: 4px solid var(--color-warning);
 }
 
 /* Slow latency */
 .dot-slow {
-  background: #ef4444;
+  background: var(--color-error);
 }
 
 .dot-slow-selected {
   background: white;
-  border: 4px solid #ef4444;
+  border: 4px solid var(--color-error);
 }
 
 /* Not connected - uses CSS variable */

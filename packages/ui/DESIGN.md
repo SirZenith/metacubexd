@@ -209,7 +209,10 @@ works under light and dark themes.
 
 - **Style:** a fixed-width (`w-11`) `rounded-md` pill, `text-xs font-semibold`, `tabular-nums`, showing latency in ms or `---`.
 - **State:** classified into bands (good / medium / slow / not-connected). Testing shows a spinning ring; the value flips in with a `latency-flip` transition. Carries a full `aria-label` (value + unit + action) and is keyboard-operable only when `interactive`.
-- **Note:** band colors currently use raw Tailwind hues — see the color-blind-safe Don't below.
+- **Note:** band colors bind to daisyUI semantic roles (`success` / `warning` /
+  `error`), so they re-resolve under every theme. The rendered value (ms, or
+  `---`) carries the band without relying on hue alone — see the
+  color-blind-safe rule in §7.
 
 ### Cards / Panels
 
@@ -247,7 +250,7 @@ works under light and dark themes.
 
 ### Don't
 
-- **Don't** hardcode hex or raw Tailwind palette colors (`text-red-500`, `text-yellow-500`, `text-green-600`) for themeable UI — they don't re-resolve across themes and break user overrides. _(The latency bands currently do this; treat it as debt, migrate to semantic `error/warning/success`.)_
+- **Don't** hardcode hex or raw Tailwind palette colors (`text-red-500`, `text-yellow-500`, `text-green-600`) for themeable UI — they don't re-resolve across themes and break user overrides.
 - **Don't** signal status by hue alone. Latency/health/up-down must pair red/amber/green with shape, icon, position, or a number so a color-blind user can still read it. Green-vs-red is not an accessible status system.
 - **Don't** nest cards inside cards, or reach for a modal first — exhaust inline and progressive alternatives.
 - **Don't** introduce a second type family or a display font for UI labels; weight and size on Ubuntu carry the hierarchy.

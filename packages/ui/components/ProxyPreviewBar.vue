@@ -44,14 +44,11 @@ const notConnectedPercent = computed(
 <template>
   <div class="flex items-center gap-2">
     <div class="my-1 flex h-2 flex-1 items-stretch overflow-hidden rounded-2xl">
-      <div class="h-full bg-green-600" :style="{ width: `${goodPercent}%` }" />
+      <div class="h-full bg-success" :style="{ width: `${goodPercent}%` }" />
+      <div class="h-full bg-warning" :style="{ width: `${middlePercent}%` }" />
+      <div class="h-full bg-error" :style="{ width: `${slowPercent}%` }" />
       <div
-        class="h-full bg-yellow-500"
-        :style="{ width: `${middlePercent}%` }"
-      />
-      <div class="h-full bg-red-500" :style="{ width: `${slowPercent}%` }" />
-      <div
-        class="h-full bg-[var(--color-neutral)]"
+        class="h-full bg-neutral"
         :style="{ width: `${notConnectedPercent}%` }"
       />
     </div>
