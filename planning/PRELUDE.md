@@ -15,9 +15,9 @@
   当本文件的准则与 `packages/ui/PRODUCT.md`、`packages/ui/DESIGN.md` 冲突时，以本
   文件为准。
 - `DEV.md`：指向开发者信息的权威来源
-- `TODO.md`：计划入口，以 Markdown TODO list 的形式记录各个开发目标。
-  每个功能组块自带一个一级标题表明身份，各个开发目标则按自身特点下属于不同的功能
-  组块。
+- `TODO.md`：计划入口，每个开发目标写成一条带字段的条目（`status / open-at / closed-at /
+hash / tag / doc / desc`），条目之间用 `---` 分隔（`---` 前后各留一个空行）。
+  完成的条目标题行用 `- [x]`，其余用 `- [ ]`。字段含义见文件顶部注释与 `workflow/next.md`。
 - `feature/*.md`：按需创建，特性实施文档
 - `report/*.md`：按需创建，功能或重构的设计与实现报告。重构前收录架构与实现方式的
   设计，实现并验收后收录结果与结论。
