@@ -82,7 +82,7 @@ function setTunnelNetwork(index: number, optionValue: string) {
         {{ t('networkConfig') }}
       </span>
       <Button
-        class="btn-outline btn-sm btn-secondary"
+        class="btn-outline btn-secondary btn-sm"
         :loading="loading"
         @click="load()"
       >
@@ -104,11 +104,11 @@ function setTunnelNetwork(index: number, optionValue: string) {
         <input
           v-model="interfaceName"
           type="text"
-          class="input-bordered input input-sm w-full max-w-xs"
+          class="input-bordered input w-full max-w-xs input-sm"
           placeholder="eth0"
         />
         <Button
-          class="btn-sm btn-primary"
+          class="btn-primary btn-sm"
           :loading="savingKey === 'interface-name'"
           @click="saveInterfaceName()"
         >
@@ -139,7 +139,7 @@ function setTunnelNetwork(index: number, optionValue: string) {
         />
       </label>
       <Button
-        class="mt-1 w-fit btn-sm btn-primary"
+        class="mt-1 w-fit btn-primary btn-sm"
         :loading="savingKey === 'sniffer'"
         @click="saveSniffer()"
       >
@@ -157,10 +157,10 @@ function setTunnelNetwork(index: number, optionValue: string) {
       <div
         v-for="(tunnel, index) in tunnels"
         :key="index"
-        class="grid grid-cols-[7rem_1fr_1fr_auto] items-center gap-2 rounded-lg border border-base-content/8 bg-base-300/40 p-2"
+        class="grid grid-cols-1 items-center gap-2 rounded-lg border border-base-content/8 bg-base-300/40 p-2 sm:grid-cols-[7rem_1fr_1fr_auto]"
       >
         <select
-          class="select-bordered select select-sm"
+          class="select-bordered select min-w-0 select-sm"
           :value="networkValueOf(tunnel.network)"
           @change="
             setTunnelNetwork(index, ($event.target as HTMLSelectElement).value)
@@ -177,7 +177,7 @@ function setTunnelNetwork(index: number, optionValue: string) {
         <input
           :value="tunnel.address"
           type="text"
-          class="input-bordered input input-sm w-full text-xs"
+          class="input-bordered input w-full min-w-0 text-xs input-sm"
           :placeholder="t('tunnelAddress')"
           @input="
             setTunnelField(
@@ -190,7 +190,7 @@ function setTunnelNetwork(index: number, optionValue: string) {
         <input
           :value="tunnel.target"
           type="text"
-          class="input-bordered input input-sm w-full text-xs"
+          class="input-bordered input w-full min-w-0 text-xs input-sm"
           :placeholder="t('tunnelTarget')"
           @input="
             setTunnelField(
@@ -201,7 +201,7 @@ function setTunnelNetwork(index: number, optionValue: string) {
           "
         />
         <Button
-          class="flex h-7 w-7 items-center justify-center rounded-md text-base-content/50 transition-colors hover:bg-error/15 hover:text-error"
+          class="flex h-7 w-7 items-center justify-center justify-self-end rounded-md text-base-content/50 transition-colors hover:bg-error/15 hover:text-error sm:justify-self-auto"
           :title="t('delete')"
           @click="removeTunnel(index)"
         >
@@ -225,7 +225,7 @@ function setTunnelNetwork(index: number, optionValue: string) {
           {{ t('add') }}
         </Button>
         <Button
-          class="btn-sm btn-primary"
+          class="btn-primary btn-sm"
           :loading="savingKey === 'tunnels'"
           @click="saveTunnels()"
         >
@@ -251,7 +251,7 @@ function setTunnelNetwork(index: number, optionValue: string) {
             :value="externalController"
             type="text"
             readonly
-            class="input-bordered input input-sm w-full bg-base-300/40 font-mono text-xs"
+            class="input-bordered input w-full bg-base-300/40 font-mono text-xs input-sm"
           />
         </label>
         <label class="flex flex-col gap-1">
@@ -260,7 +260,7 @@ function setTunnelNetwork(index: number, optionValue: string) {
             :value="secret"
             type="text"
             readonly
-            class="input-bordered input input-sm w-full bg-base-300/40 font-mono text-xs"
+            class="input-bordered input w-full bg-base-300/40 font-mono text-xs input-sm"
           />
         </label>
       </div>
