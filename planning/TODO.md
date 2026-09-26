@@ -276,21 +276,21 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 ---
 
 - [x] 去除代理自动定位
-  status: done
-  open-at: 2026.09.27 03:52:03
-  closed-at: 2026.09.27 04:13:21
-  hash: 0ef5cefe
-  tag: ux
-  doc: planning/feature/remove-proxy-auto-scroll.md
-  desc: 当前，在使用主从模式显示代理列表时，用户每次打开列表都会自动把列表滚动到当前使用中的代理条目所在的位置。去掉这一功能，让每次列表打开时，列表都是其自然打开时的滚动位置。
+      status: done
+      open-at: 2026.09.27 03:52:03
+      closed-at: 2026.09.27 04:13:21
+      hash: 0ef5cefe
+      tag: ux
+      doc: planning/feature/remove-proxy-auto-scroll.md
+      desc: 当前，在使用主从模式显示代理列表时，用户每次打开列表都会自动把列表滚动到当前使用中的代理条目所在的位置。去掉这一功能，让每次列表打开时，列表都是其自然打开时的滚动位置。
 
 ---
 
-- [ ] 工具链修复
-  status: doing
-  open-at: 2026.09.27 04:15:29
-  closed-at: -
-  hash: -
-  tag: chore
-  doc: planning/feature/fix-typescript-7-toolchain.md
-  desc: vue-tsc@3.3.10 与 typescript@7.0.2 不兼容，导致 typecheck 与 pre-commit 的 ESLint 均失败；typescript-eslint 亦不支持 TS 7.0。这使 CI 与提交钩子不可用。
+- [x] 工具链修复
+      status: done
+      open-at: 2026.09.27 04:15:29
+      closed-at: 2026.09.27 04:21:11
+      hash: 2d824930
+      tag: chore
+      doc: planning/feature/fix-typescript-7-toolchain.md
+      desc: vue-tsc@3.3.10 与 typescript@7.0.2 不兼容，导致 typecheck 与 pre-commit 的 ESLint 均失败；typescript-eslint 亦不支持 TS 7.0。这使 CI 与提交钩子不可用。修复：catalog 中 typescript 别名到 @typescript/typescript6（TS 6 API + tsc6），新增 @typescript/native 保留 TS 7 tsc；并补上 typecheck 暴露的 2 处显式导入缺失（profiles.vue 的 formatTimeFromNow、proxies.vue 的 PROXIES_PREVIEW_TYPE）。
