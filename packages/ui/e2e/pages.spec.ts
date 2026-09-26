@@ -939,5 +939,46 @@ describe('e2E Page Tests', () => {
         await restoreDesktopLayout(currentPage)
       }
     })
+
+    it('should fit the logs table inside the viewport on mobile', async () => {
+      const currentPage = getPage(page)
+
+      try {
+        await configureMobileLayout(currentPage, true, 844)
+        await currentPage.reload({ waitUntil: 'domcontentloaded' })
+
+        // See the traffic test above: the entry redirect can race the first
+        // hash navigation, so retry until the target route sticks.
+        for (let attempt = 0; attempt < 3; attempt++) {
+          await gotoAppPath(currentPage, '/logs')
+          const hash = await currentPage.evaluate(() => window.location.hash)
+          if (hash === '#/logs') break
+          await currentPage.waitForTimeout(300)
+        }
+
+        await currentPage.waitForSelector(
+          '[data-testid="logs-table-container"] table',
+          { timeout: ELEMENT_TIMEOUT },
+        )
+
+        const layout = await currentPage.evaluate(() => {
+          const container = document.querySelector<HTMLElement>(
+            '[data-testid="logs-table-container"]',
+          )
+          if (!container) throw new Error('Logs table container missing')
+
+          return {
+            clientWidth: container.clientWidth,
+            scrollWidth: container.scrollWidth,
+          }
+        })
+
+        // Long payloads must wrap on narrow screens instead of forcing the
+        // table into horizontal scroll.
+        expect(layout.scrollWidth).toBeLessThanOrEqual(layout.clientWidth + 1)
+      } finally {
+        await restoreDesktopLayout(currentPage)
+      }
+    })
   })
 })

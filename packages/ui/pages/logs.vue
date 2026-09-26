@@ -332,10 +332,11 @@ function downloadLogs() {
 
     <!-- Logs Table -->
     <div
+      data-testid="logs-table-container"
       class="min-h-0 flex-1 overflow-auto rounded-xl border border-base-content/10 bg-base-200/50"
     >
       <table
-        class="table w-full border-collapse whitespace-nowrap"
+        class="table w-full border-collapse whitespace-nowrap max-md:whitespace-normal"
         :class="tableSizeClass"
       >
         <thead>
@@ -419,7 +420,10 @@ function downloadLogs() {
               <td
                 v-for="(col, index) in columns"
                 :key="col.id"
-                :class="index === 0 ? 'py-1 leading-6' : ''"
+                :class="[
+                  index === 0 ? 'py-1 leading-6' : '',
+                  col.id === 'payload' ? 'max-md:min-w-0 max-md:break-all' : '',
+                ]"
                 class="border-b border-base-content/5"
               >
                 <component :is="() => col.render(row.original)" />
