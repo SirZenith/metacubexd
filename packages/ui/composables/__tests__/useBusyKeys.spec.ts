@@ -62,4 +62,31 @@ describe('composables/useBusyKeys', () => {
     await p
     expect(anyBusy.value).toBe(false)
   })
+
+  it('swallows the rejection when swallow is set (and still clears the key)', async () => {
+    const { isBusy, run } = useBusyKeys()
+
+    await expect(
+      run('update:x', () => Promise.reject(new Error('nope')), {
+        swallow: true,
+      }),
+    ).resolves.toBeUndefined()
+    expect(isBusy('update:x')).toBe(false)
+  })
+
+  it('allows re-entry when guardReentry is disabled', async () => {
+    const { run } = useBusyKeys()
+    let release!: () => void
+    const gate = new Promise<void>((r) => (release = r))
+    const fn = vi.fn(() => gate)
+
+    const first = run('create', fn, { guardReentry: false })
+    await nextTick()
+    // Without the guard the same key runs again while still in flight.
+    const second = run('create', fn, { guardReentry: false })
+    expect(fn).toHaveBeenCalledTimes(2)
+
+    release()
+    await Promise.all([first, second])
+  })
 })

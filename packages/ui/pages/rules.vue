@@ -34,7 +34,6 @@ import {
   formatTimeFromNow,
   getRuleFacets,
   sortRulesByOrderingType,
-  useStringBooleanMap,
 } from '~/utils'
 
 const { t, locale } = useI18n()
@@ -62,8 +61,10 @@ const toggleRuleDisabledMutation = useToggleRuleDisabledMutation()
 const activeTab = ref<'rules' | 'ruleProviders'>('rules')
 const globalFilter = ref('')
 
-const { map: updatingMap, setWithCallback: setUpdatingMap } =
-  useStringBooleanMap()
+const { isBusy, run } = useBusyKeys()
+// Row actions keep their previous swallow-on-error semantics.
+const setUpdatingMap = (name: string, callback: () => Promise<void>) =>
+  run(name, callback, { swallow: true })
 
 // Virtual scroll refs
 const rulesParentRef = ref<HTMLElement | null>(null)
@@ -513,7 +514,7 @@ async function openFullEditor() {
                       :checked="!item.data.extra?.disabled"
                       class="toggle shrink-0 toggle-primary toggle-sm"
                       type="checkbox"
-                      :disabled="updatingMap[`rule-${item.data.index}`]"
+                      :disabled="isBusy(`rule-${item.data.index}`)"
                       @change="onToggleRuleDisabled(item.data)"
                     />
 
@@ -649,14 +650,13 @@ async function openFullEditor() {
                     </div>
                     <Button
                       class="flex h-7 w-7 items-center justify-center rounded-lg border border-base-content/8 bg-base-content/5 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
-                      :disabled="updatingMap[item.data.name]"
+                      :disabled="isBusy(item.data.name)"
                       @click="onUpdateProvider(item.data.name)"
                     >
                       <IconReload
                         :size="16"
                         :class="{
-                          'animate-spin text-success':
-                            updatingMap[item.data.name],
+                          'animate-spin text-success': isBusy(item.data.name),
                         }"
                       />
                     </Button>

@@ -760,30 +760,6 @@ export function sortRulesByOrderingType(
   })
 }
 
-// String boolean map helper
-export function useStringBooleanMap() {
-  const map = ref<Record<string, boolean>>({})
-
-  const set = (name: string, value: boolean) => {
-    map.value = { ...map.value, [name]: value }
-  }
-
-  const setWithCallback = async (
-    name: string,
-    callback: () => Promise<void>,
-  ) => {
-    set(name, true)
-    try {
-      await callback()
-    } catch {
-      /* empty */
-    }
-    set(name, false)
-  }
-
-  return { map, set, setWithCallback }
-}
-
 // Table filter helper
 export function fuzzyFilter(
   row: { getValue: (columnId: string) => unknown },
