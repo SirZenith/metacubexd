@@ -80,10 +80,10 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
 - [x] (P2) ProxyNodeCard 与 ProxyNodeListItem 各自实现同一套 tooltip 生命周期（open/close
       定时器、触摸判断、测速处理）大段重复。应提取 useProxyTooltip composable。
       → 新增 useProxyTooltip（open/close 延迟、触摸守卫、单例 popover、外部点击关闭、长按），两组件复用；新增 5 项单测 (packages/ui) @f73f7d94
-- [ ] (P1) 控制/配置面板的重复外壳（`rounded-xl border border-base-content/10 bg-base-200 p-4`）
+- [x] (P1) 控制/配置面板的重复外壳（`rounded-xl border border-base-content/10 bg-base-200 p-4`）
       与重复头部（图标 + 标题 + 右侧操作）散落在 11 个组件与 3 处页面卡片中。应提取
       PanelCard（外壳 + 可选 visible）与 PanelHeader（props icon/title、slot #actions）。
-      → components/KernelControlPanel.vue、NetworkConfigPanel.vue、RuntimeConfigPanel.vue、SystemProxyControlPanel.vue、WebdavBackupPanel.vue、KernelVersionPanel.vue、LatencyCard.vue、IPInfoCard.vue 等
+      → 新增 PanelCard（外壳 + visible）与 PanelHeader（icon/title + #actions），替换 8 面板 + DesktopSettingsPanel/KernelLogView + profiles/overview 卡片共 14 处外壳与 6 处头部；构建与渲染验证 (packages/ui) @c54b5b5d
 - [ ] (P2) 方形图标按钮 class（`h-9 w-9` / `h-7 w-7` / `h-8 w-8` + `rounded-*` + hover）
       在 15+ 处逐字复制。应提取 IconButton（props icon/size/variant/label），并让
       IconMenuSelect、ProxiesDisplayModeSwitcher 复用（注意 $attrs 与 aria 状态透传）。
