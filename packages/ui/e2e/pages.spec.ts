@@ -852,5 +852,92 @@ describe('e2E Page Tests', () => {
         await restoreDesktopLayout(currentPage)
       }
     })
+
+    it('should stack custom time range inputs without horizontal overflow', async () => {
+      const currentPage = getPage(page)
+
+      try {
+        await configureMobileLayout(currentPage, true, 844)
+        await currentPage.evaluate(() => {
+          localStorage.setItem('traffic_time_range', '-1')
+        })
+        await currentPage.reload({ waitUntil: 'domcontentloaded' })
+
+        // pages/index.vue replaces the entry route with defaultPage once on
+        // load; a first hash navigation can race with that replace and be
+        // overwritten. Retry until the target route sticks.
+        for (let attempt = 0; attempt < 3; attempt++) {
+          await gotoAppPath(currentPage, '/traffic')
+          const hash = await currentPage.evaluate(() => window.location.hash)
+          if (hash === '#/traffic') break
+          await currentPage.waitForTimeout(300)
+        }
+
+        await currentPage.waitForSelector(
+          '[data-testid="traffic-time-range"] input[type="datetime-local"]',
+          { timeout: ELEMENT_TIMEOUT },
+        )
+
+        const layout = await currentPage.evaluate(() => {
+          const container = document.querySelector<HTMLElement>(
+            '[data-testid="traffic-time-range"]',
+          )
+          if (!container) throw new Error('Time range container was missing')
+
+          const inputs = Array.from(
+            container.querySelectorAll<HTMLInputElement>(
+              'input[type="datetime-local"]',
+            ),
+          )
+          const containerRect = container.getBoundingClientRect()
+
+          return {
+            containerRect: {
+              left: containerRect.left,
+              right: containerRect.right,
+            },
+            inputRects: inputs.map((input) => {
+              const rect = input.getBoundingClientRect()
+
+              return {
+                bottom: rect.bottom,
+                left: rect.left,
+                right: rect.right,
+                top: rect.top,
+              }
+            }),
+            viewportWidth: window.innerWidth,
+          }
+        })
+
+        // The custom range shows two inputs at mobile widths.
+        expect(layout.inputRects).toHaveLength(2)
+
+        // The whole header row must fit the viewport...
+        expect(layout.containerRect.left).toBeGreaterThanOrEqual(0)
+        expect(layout.containerRect.right).toBeLessThanOrEqual(
+          layout.viewportWidth + 1,
+        )
+
+        // ...the individual inputs must stay inside it...
+        for (const rect of layout.inputRects) {
+          expect(rect.left).toBeGreaterThanOrEqual(0)
+          expect(rect.right).toBeLessThanOrEqual(layout.viewportWidth + 1)
+        }
+
+        // ...and the two inputs must stack vertically instead of squeezing
+        // onto a single row.
+        const [start, end] = layout.inputRects as [
+          (typeof layout.inputRects)[number],
+          (typeof layout.inputRects)[number],
+        ]
+        expect(end.top).toBeGreaterThan(start.top)
+      } finally {
+        await currentPage.evaluate(() => {
+          localStorage.setItem('traffic_time_range', '3600000')
+        })
+        await restoreDesktopLayout(currentPage)
+      }
+    })
   })
 })

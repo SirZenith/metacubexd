@@ -298,22 +298,25 @@ const currentViewLabel = computed(
       </div>
 
       <!-- Time & Action Area -->
-      <div class="flex items-center gap-2">
+      <div
+        data-testid="traffic-time-range"
+        class="flex w-full flex-wrap items-center gap-2 sm:w-auto"
+      >
         <div
           v-if="selectedTimeRange === -1"
-          class="animate-in fade-in zoom-in-95 flex items-center gap-1"
+          class="animate-in fade-in zoom-in-95 flex w-full flex-col gap-1 sm:w-auto sm:flex-row sm:items-center"
         >
           <input
             v-model="customStart"
             type="datetime-local"
-            class="rounded-lg border border-[color-mix(in_oklab,var(--color-base-content)_12%,transparent)] bg-base-200/60 px-2 py-1.5 text-[0.75rem] text-base-content focus:border-primary focus:outline-none"
+            class="w-full min-w-0 rounded-lg border border-[color-mix(in_oklab,var(--color-base-content)_12%,transparent)] bg-base-200/60 px-2 py-1.5 text-[0.75rem] text-base-content focus:border-primary focus:outline-none sm:w-auto"
             @change="fetchData"
           />
-          <span class="text-[10px] opacity-30">→</span>
+          <span class="hidden text-[10px] opacity-30 sm:inline">→</span>
           <input
             v-model="customEnd"
             type="datetime-local"
-            class="rounded-lg border border-[color-mix(in_oklab,var(--color-base-content)_12%,transparent)] bg-base-200/60 px-2 py-1.5 text-[0.75rem] text-base-content focus:border-primary focus:outline-none"
+            class="w-full min-w-0 rounded-lg border border-[color-mix(in_oklab,var(--color-base-content)_12%,transparent)] bg-base-200/60 px-2 py-1.5 text-[0.75rem] text-base-content focus:border-primary focus:outline-none sm:w-auto"
             @change="fetchData"
           />
         </div>
