@@ -51,11 +51,30 @@ const activeConnections = computed(
 // Format bytes helper
 const formatBytes = (bytes: number) => byteSize(bytes).toString()
 
+const route = useRoute()
+const isCompactViewport = useMediaQuery('(max-width: 1023px)')
+
+// The expanded popover defaults to the bottom-right corner. On compact
+// viewports the mobile bottom nav (h-16 bar + mb-2, lg:hidden) occupies that
+// corner, so lift the popover above it — otherwise it covers the nav's right
+// items and the central FAB. Mirrors the nav's own render gate.
+const showMobileBottomNav = computed(
+  () =>
+    configStore.useMobileBottomNav &&
+    route.path !== '/setup' &&
+    isCompactViewport.value,
+)
+
 // Computed position style for expanded view
 const positionStyle = computed(() => {
   // Default position (bottom-right)
   if (position.value.x === -1 || position.value.y === -1) {
-    return { right: '16px', bottom: '16px' }
+    return {
+      right: '16px',
+      bottom: showMobileBottomNav.value
+        ? 'calc(5.5rem + env(safe-area-inset-bottom, 0px))'
+        : '16px',
+    }
   }
 
   // Use absolute left/top positioning
@@ -563,6 +582,7 @@ onBeforeUnmount(() => {
     <div
       v-if="isVisible && !isCollapsed && globalStore.latestTraffic"
       ref="containerRef"
+      data-testid="global-traffic-popover"
       class="fixed z-50 min-w-56 rounded-xl bg-[var(--color-base-200)] shadow-lg select-none"
       :class="{ 'cursor-grabbing': isDragging }"
       :style="positionStyle"

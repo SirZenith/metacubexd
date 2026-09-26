@@ -1042,5 +1042,52 @@ describe('e2E Page Tests', () => {
         await restoreDesktopLayout(currentPage)
       }
     })
+
+    it('should keep the expanded traffic popover above the mobile bottom nav', async () => {
+      const currentPage = getPage(page)
+
+      try {
+        await configureMobileLayout(currentPage, true, 844)
+        await currentPage.evaluate(() => {
+          localStorage.setItem('globalTrafficIndicatorCollapsed', 'false')
+        })
+        await currentPage.reload({ waitUntil: 'domcontentloaded' })
+
+        for (let attempt = 0; attempt < 3; attempt++) {
+          await gotoAppPath(currentPage, '/overview')
+          const hash = await currentPage.evaluate(() => window.location.hash)
+          if (hash === '#/overview') break
+          await currentPage.waitForTimeout(300)
+        }
+
+        await currentPage.waitForSelector(
+          '[data-testid="global-traffic-popover"]',
+          { timeout: ELEMENT_TIMEOUT },
+        )
+
+        const layout = await currentPage.evaluate(() => {
+          const popover = document.querySelector<HTMLElement>(
+            '[data-testid="global-traffic-popover"]',
+          )
+          const nav = document.querySelector<HTMLElement>(
+            '[data-testid="mobile-bottom-nav"]',
+          )
+          if (!popover || !nav) throw new Error('popover or nav missing')
+
+          return {
+            navTop: nav.getBoundingClientRect().top,
+            popoverBottom: popover.getBoundingClientRect().bottom,
+          }
+        })
+
+        // The expanded popover must clear the bottom nav instead of covering it.
+        expect(layout.popoverBottom).toBeLessThanOrEqual(layout.navTop)
+      } finally {
+        await currentPage.evaluate(() => {
+          localStorage.setItem('globalTrafficIndicatorCollapsed', 'true')
+        })
+        await restoreDesktopLayout(currentPage)
+      }
+    })
   })
 })

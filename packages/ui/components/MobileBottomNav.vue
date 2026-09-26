@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {MobileNavReselectDetail} from '~/constants';
+import type { MobileNavReselectDetail } from '~/constants'
 import {
   IconChartAreaLine,
   IconFileStack,
@@ -12,11 +12,7 @@ import {
   IconSettings,
   IconX,
 } from '@tabler/icons-vue'
-import {
-  MOBILE_NAV_RESELECT_EVENT,
-  
-  ROUTES
-} from '~/constants'
+import { MOBILE_NAV_RESELECT_EVENT, ROUTES } from '~/constants'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -144,6 +140,7 @@ onMounted(() => {
   <!-- Bottom nav bar -->
   <nav
     aria-label="Mobile bottom navigation"
+    data-testid="mobile-bottom-nav"
     class="fixed inset-x-0 bottom-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden"
     :class="
       isVisible ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
