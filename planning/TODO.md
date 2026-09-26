@@ -42,8 +42,8 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
       → 窄屏 payload 换行（max-md）消除表格横向滚动并加 e2e；实测工具栏本就不溢出 (packages/ui) @53393c7b
 - [x] (P2) overview 页 endpoint 信息条中的长 URL 无 min-w-0/truncate，被 overflow-x-hidden
       裁掉；与 config.vue 对同一 URL 的处理不一致，应统一。→ 长 URL 单行 truncate（带 title），消除 3 行换行致条高 106px；实测未横向溢出 (packages/ui) @99eebb1e
-- [ ] (P2) rules 页规则卡片在窄屏把命中/未命中计数挤出 overflow-hidden 容器；应收敛 proxy
-      宽度或允许换行，保证计数可见。→ pages/rules.vue:511-535
+- [x] (P2) rules 页规则卡片在窄屏把命中/未命中计数挤出 overflow-hidden 容器；应收敛 proxy
+      宽度或允许换行，保证计数可见。→ proxy chip 改为可收缩（min-w-0 shrink），长 proxy 名时命中/未命中计数保持可见 (packages/ui) @01c9c976
 
 # 视觉目标
 
