@@ -88,11 +88,11 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
       在 15+ 处逐字复制。应提取 IconButton（props icon/size/variant/label），并让
       IconMenuSelect、ProxiesDisplayModeSwitcher 复用（注意 $attrs 与 aria 状态透传）。
       → 新增 IconButton（icon/label/size/variant/active/loading + attrs 透传），替换 ConnectionsToolbar 5 处与 LatencyCard/IPInfoCard 各 1 处「逐字复制」的原生图标按钮；proxies/rules 的同类按钮是项目 `<Button>`（btn 基础）、ProxiesDisplayModeSwitcher 为分段控件、另有特殊底色变体，样式各异故未纳入 (packages/ui) @8e8b7cf5
-- [ ] (P2) 按 key 追踪「进行中」状态存在三套不一致实现：useBusyKeys（重入保护、异常上抛）、
-      utils 的 useStringBooleanMap（无重入、静默吞异常）、stores/proxies.ts 的手写 map
-      （各自异常处理，两处含失败历史副作用）。应统一为一个 keyed-busy 抽象，显式区分
-      是否重入保护、是否吞异常。
-      → composables/useBusyKeys.ts、utils/index.ts:761-785、stores/proxies.ts:60-63,550-714
+- [!] (P2) 按 key 追踪「进行中」状态存在三套不一致实现：useBusyKeys（重入保护、异常上抛）、
+  utils 的 useStringBooleanMap（无重入、静默吞异常）、stores/proxies.ts 的手写 map
+  （各自异常处理，两处含失败历史副作用）。应统一为一个 keyed-busy 抽象，显式区分
+  是否重入保护、是否吞异常。
+  → 部分完成：已扩展 useBusyKeys 支持显式 guardReentry/swallow，rules.vue 迁移并删除 utils.useStringBooleanMap，新增 2 项单测 (packages/ui) @9e80d8ca。blocked: stores/proxies.ts 的 4 个手写 map 是 store 公开 API，被 pages/proxies.vue、components/ProxyMasterDetail.vue 与 stores/**tests**/proxies.spec.ts 多处引用，迁移会改动 store API 与既有测试断言，属独立较大变更，本轮未纳入；建议为它另开一条。
 - [ ] (P2) 空状态（约 9 处 `t('noData')`，内边距与透明度在 /40~/60、py-6/8/12 间漂移）
       与页面级 loading（约 5 处 `loading loading-lg loading-ring text-primary`）重复。
       应提取 EmptyState（icon/message/size）与 LoadingState（label/min-height）组件。
