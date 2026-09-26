@@ -42,6 +42,7 @@ const items = computed(() =>
       v-for="item in items"
       :key="item.mode"
       type="button"
+      :data-testid="`display-mode-${item.mode}`"
       class="flex h-7 w-7 items-center justify-center rounded-md transition-all duration-200"
       :class="
         configStore.proxiesDisplayMode === item.mode

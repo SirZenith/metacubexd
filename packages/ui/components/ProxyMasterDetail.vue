@@ -409,6 +409,7 @@ function aliveCount(group: ProxyType) {
           :test-url="activeGroup.testUrl || null"
           :timeout="activeGroup.timeout ?? null"
           :is-selected="activeGroup.now === name"
+          show-latency-test
           :data-selected="activeGroup.now === name ? 'true' : undefined"
           @click="proxiesStore.selectProxyInGroup(activeGroup, name)"
         />

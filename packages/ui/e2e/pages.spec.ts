@@ -383,6 +383,49 @@ describe('e2E Page Tests', () => {
       }
     })
 
+    it('should expose a per-node latency test button in master-detail', async () => {
+      const currentPage = await gotoAppPath(page, '/proxies')
+      await expect
+        .poll(
+          () =>
+            currentPage.getByTestId('display-mode-masterDetailMode').count(),
+          { timeout: ELEMENT_TIMEOUT },
+        )
+        .toBeGreaterThan(0)
+      // Switch by test id: the switcher's title is localized.
+      await currentPage.getByTestId('display-mode-masterDetailMode').click()
+
+      try {
+        const nodeList = currentPage.getByTestId(
+          'master-detail-scroll-container',
+        )
+        const rows = nodeList.locator('[role="button"][aria-pressed]')
+        const testButtons = nodeList.getByTestId('node-latency-test')
+
+        await expect
+          .poll(() => rows.count(), { timeout: ELEMENT_TIMEOUT })
+          .toBeGreaterThan(0)
+        // Every node row carries its own probe control.
+        await expect
+          .poll(
+            async () => (await testButtons.count()) === (await rows.count()),
+            { timeout: ELEMENT_TIMEOUT },
+          )
+          .toBe(true)
+
+        // Probing must not select the row.
+        const pressedBefore = await rows.first().getAttribute('aria-pressed')
+        await testButtons.first().click()
+        await expect
+          .poll(() => rows.first().getAttribute('aria-pressed'), {
+            timeout: ELEMENT_TIMEOUT,
+          })
+          .toBe(pressedBefore)
+      } finally {
+        await currentPage.getByTestId('display-mode-cardMode').click()
+      }
+    })
+
     it('should scroll the active proxy tab to top on mobile', async () => {
       const currentPage = getPage(page)
       await currentPage.setViewportSize({ width: 390, height: 844 })
