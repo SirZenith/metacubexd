@@ -2,6 +2,7 @@
 import type { Proxy as ProxyType } from '~/types'
 import {
   IconBolt,
+  IconBrandSpeedtest,
   IconChevronRight,
   IconFilter,
   IconRouter,
@@ -49,6 +50,20 @@ const activeNodes = computed(() =>
     ? props.sortedNamesByGroup[activeGroup.value.name] || []
     : [],
 )
+
+// Whole-group probe: master-detail rows carry no per-node test control, so the
+// group header owns the one action that re-tests every member at once.
+const isTestingGroup = computed(
+  () =>
+    !!activeGroup.value &&
+    !!proxiesStore.proxyGroupLatencyTestingMap[activeGroup.value.name],
+)
+
+function testActiveGroup() {
+  const group = activeGroup.value
+  if (!group) return
+  proxiesStore.proxyGroupLatencyTest(group.name)
+}
 
 // --- Local workbench state (scoped to the active group; reset on switch) ---
 const selectedRegions = ref<Set<string>>(new Set())
@@ -271,6 +286,21 @@ function aliveCount(group: ProxyType) {
           >
             <IconTarget :size="18" />
           </button>
+          <button
+            type="button"
+            data-testid="master-detail-test-group"
+            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-base-content/10 bg-base-100/60 text-base-content/70 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
+            :disabled="isTestingGroup"
+            :title="t('testLatency')"
+            :aria-label="t('testLatency')"
+            :aria-busy="isTestingGroup || undefined"
+            @click="testActiveGroup"
+          >
+            <IconBrandSpeedtest
+              :size="18"
+              :class="{ 'animate-pulse text-success': isTestingGroup }"
+            />
+          </button>
         </div>
 
         <!-- Quick-filter rail: region · protocol · features. Each facet group
@@ -409,7 +439,6 @@ function aliveCount(group: ProxyType) {
           :test-url="activeGroup.testUrl || null"
           :timeout="activeGroup.timeout ?? null"
           :is-selected="activeGroup.now === name"
-          show-latency-test
           :data-selected="activeGroup.now === name ? 'true' : undefined"
           @click="proxiesStore.selectProxyInGroup(activeGroup, name)"
         />

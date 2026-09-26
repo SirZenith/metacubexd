@@ -383,7 +383,7 @@ describe('e2E Page Tests', () => {
       }
     })
 
-    it('should expose a per-node latency test button in master-detail', async () => {
+    it('should test the whole group instead of per-node probes in master-detail', async () => {
       const currentPage = await gotoAppPath(page, '/proxies')
       await expect
         .poll(
@@ -399,28 +399,29 @@ describe('e2E Page Tests', () => {
         const nodeList = currentPage.getByTestId(
           'master-detail-scroll-container',
         )
-        const rows = nodeList.locator('[role="button"][aria-pressed]')
-        const testButtons = nodeList.getByTestId('node-latency-test')
+        const groupTest = currentPage.getByTestId('master-detail-test-group')
 
-        await expect
-          .poll(() => rows.count(), { timeout: ELEMENT_TIMEOUT })
-          .toBeGreaterThan(0)
-        // Every node row carries its own probe control.
         await expect
           .poll(
-            async () => (await testButtons.count()) === (await rows.count()),
+            () => nodeList.locator('[role="button"][aria-pressed]').count(),
             { timeout: ELEMENT_TIMEOUT },
           )
-          .toBe(true)
-
-        // Probing must not select the row.
-        const pressedBefore = await rows.first().getAttribute('aria-pressed')
-        await testButtons.first().click()
+          .toBeGreaterThan(0)
+        // The group header owns the probe; individual rows must not.
         await expect
-          .poll(() => rows.first().getAttribute('aria-pressed'), {
+          .poll(() => groupTest.count(), { timeout: ELEMENT_TIMEOUT })
+          .toBe(1)
+        await expect
+          .poll(() => nodeList.getByTestId('node-latency-test').count(), {
             timeout: ELEMENT_TIMEOUT,
           })
-          .toBe(pressedBefore)
+          .toBe(0)
+
+        // Running the probe must leave the control operable again.
+        await groupTest.click()
+        await expect
+          .poll(() => groupTest.isEnabled(), { timeout: ELEMENT_TIMEOUT })
+          .toBe(true)
       } finally {
         await currentPage.getByTestId('display-mode-cardMode').click()
       }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconBrandSpeedtest, IconCircleCheckFilled } from '@tabler/icons-vue'
+import { IconCircleCheckFilled } from '@tabler/icons-vue'
 import dayjs from 'dayjs'
 import { getLatencyClassName } from '~/utils'
 
@@ -9,15 +9,11 @@ interface Props {
   timeout: number | null
   isSelected?: boolean
   providerName?: string
-  // Master-detail rows expose an explicit per-node probe control on top of the
-  // clickable latency pill. Off by default so the list renderer is unchanged.
-  showLatencyTest?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   isSelected: false,
   providerName: '',
-  showLatencyTest: false,
 })
 
 const emit = defineEmits<{
@@ -171,24 +167,6 @@ onBeforeUnmount(() => {
         <span class="hidden text-xs uppercase opacity-75 sm:inline">
           {{ proxyType }}
         </span>
-
-        <!-- Standalone latency probe (master-detail rows) -->
-        <button
-          v-if="showLatencyTest"
-          type="button"
-          data-testid="node-latency-test"
-          class="flex size-7 shrink-0 items-center justify-center rounded-md text-base-content/40 transition-colors hover:bg-primary/15 hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
-          :disabled="isTesting"
-          :title="t('testLatency')"
-          :aria-label="t('testLatency')"
-          :aria-busy="isTesting || undefined"
-          @click.stop="runLatencyTest"
-        >
-          <IconBrandSpeedtest
-            :size="16"
-            :class="{ 'animate-pulse text-success': isTesting }"
-          />
-        </button>
 
         <!-- Latency -->
         <div class="flex shrink-0 flex-col items-end gap-1">
