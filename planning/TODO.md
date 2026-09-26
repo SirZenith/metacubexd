@@ -50,8 +50,8 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
 - [x] (P1) 延迟分级仍使用 raw Tailwind 色（text-red-500/yellow-500/green-600），DESIGN.md
       §7 已将其列为债务，且违反 PRODUCT.md「不得仅用颜色编码延迟/健康状态」。应迁移到语义色
       error/warning/success，并补充形状/图标/数字等非颜色区分。→ 迁移 daisyUI 语义色（utils、ProxyPreviewBar/Dots），Latency pill 数值即非颜色区分；同步 DESIGN.md 与断言 (packages/ui) @dcd1a68b
-- [ ] (P2) config.vue 有 28 处手写内联 SVG 与 29 处重复的设置行骨架，未使用项目统一的
-      @tabler/icons-vue。应提取可复用的设置行组件并统一图标来源。→ pages/config.vue
+- [!] (P2) config.vue 有 28 处手写内联 SVG 与 29 处重复的设置行骨架，未使用项目统一的
+  @tabler/icons-vue。应提取可复用的设置行组件并统一图标来源。→ blocked: 本条混合两类独立重构——29 处设置行骨架中仅 5 处含图标，其余 28 个内联 SVG 多分布在页面头部/卡片标题/按钮；单轮完成 57 处替换风险高、易破坏 UI。建议拆为「提取 SettingRow 组件替换 29 行」与「28 个内联 SVG 迁移 @tabler/icons-vue」两条独立需求后重试。未改动代码 (packages/ui)
 
 # 代码健康
 
