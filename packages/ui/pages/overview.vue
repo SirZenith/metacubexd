@@ -523,9 +523,11 @@ watch(
     >
       <IconServer :size="18" class="text-primary" />
       <span class="text-sm text-base-content/60">{{ t('connectedTo') }}:</span>
-      <span class="font-mono text-sm font-medium text-base-content">{{
-        endpointStore.currentEndpoint?.url
-      }}</span>
+      <span
+        class="min-w-0 truncate font-mono text-sm font-medium text-base-content"
+        :title="endpointStore.currentEndpoint?.url"
+        >{{ endpointStore.currentEndpoint?.url }}</span
+      >
     </div>
 
     <!-- Charts Grid -->

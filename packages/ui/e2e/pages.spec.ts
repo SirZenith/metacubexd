@@ -980,5 +980,67 @@ describe('e2E Page Tests', () => {
         await restoreDesktopLayout(currentPage)
       }
     })
+
+    it('should truncate a long endpoint url to a single line', async () => {
+      const currentPage = getPage(page)
+      const longUrl =
+        'https://metacubexd-dashboard-endpoint-with-a-very-long-hostname.example.com:8443'
+
+      try {
+        await configureMobileLayout(currentPage, true, 844)
+        await currentPage.evaluate((url) => {
+          localStorage.setItem('selectedEndpoint', 'long-endpoint')
+          localStorage.setItem(
+            'endpointList',
+            JSON.stringify([{ id: 'long-endpoint', url, secret: '' }]),
+          )
+        }, longUrl)
+        await currentPage.reload({ waitUntil: 'domcontentloaded' })
+
+        for (let attempt = 0; attempt < 3; attempt++) {
+          await gotoAppPath(currentPage, '/overview')
+          const hash = await currentPage.evaluate(() => window.location.hash)
+          if (hash === '#/overview') break
+          await currentPage.waitForTimeout(300)
+        }
+
+        await currentPage.waitForSelector('.overview-stat-card', {
+          timeout: ELEMENT_TIMEOUT,
+        })
+
+        const layout = await currentPage.evaluate(() => {
+          const urlSpan = Array.from(document.querySelectorAll('span')).find(
+            (span) =>
+              span.textContent?.includes('metacubexd-dashboard-endpoint'),
+          )
+          if (!urlSpan) throw new Error('Endpoint url span was missing')
+          const rect = urlSpan.getBoundingClientRect()
+
+          return {
+            clientWidth: urlSpan.clientWidth,
+            height: rect.height,
+            right: rect.right,
+            scrollWidth: urlSpan.scrollWidth,
+            viewportWidth: window.innerWidth,
+          }
+        })
+
+        // The url stays on one line, truncated rather than wrapped or clipped.
+        expect(layout.height).toBeLessThan(30)
+        expect(layout.right).toBeLessThanOrEqual(layout.viewportWidth + 1)
+        expect(layout.scrollWidth).toBeGreaterThan(layout.clientWidth)
+      } finally {
+        await currentPage.evaluate(() => {
+          localStorage.setItem('selectedEndpoint', 'mock-endpoint')
+          localStorage.setItem(
+            'endpointList',
+            JSON.stringify([
+              { id: 'mock-endpoint', url: 'http://127.0.0.1:9090', secret: '' },
+            ]),
+          )
+        })
+        await restoreDesktopLayout(currentPage)
+      }
+    })
   })
 })
