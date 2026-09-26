@@ -48,10 +48,10 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
       （MobileBottomNav，fixed bottom-0，约 74px 高）重叠，遮挡导航右侧项与中央 FAB。实测
       390×844：浮窗 bottom=828、导航 top=770，垂直重叠 58px。移动端应让开导航高度或调整
       默认位置。→ 紧凑视口且启用底导时浮窗默认上移至导航上方（含 safe-area），新增 e2e；实测重叠 58px→0 (packages/ui) @529268d5
-- [ ] (P2) MobileBottomNav 未处理底部安全区，home indicator 机型上导航落入系统手势区。
+- [x] (P2) MobileBottomNav 未处理底部安全区，home indicator 机型上导航落入系统手势区。
       应加 `env(safe-area-inset-bottom)`（对照 pages/proxies.vue:1233 的回到顶部按钮已用
       `max(...env(...))`），并同步 Sidebar 为该导航预留的 spacer 高度。
-      → components/MobileBottomNav.vue:145-161、components/Sidebar.vue:250-255
+      → 底导条 `mb=max(0.5rem,env(safe-area-inset-bottom))`，Sidebar spacer 同步 `calc(5rem+env)`；CDP 模拟 inset=34 实测生效、零 inset 无回归 (packages/ui) @17126243
 
 # 视觉目标
 
