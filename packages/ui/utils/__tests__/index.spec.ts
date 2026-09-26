@@ -215,22 +215,22 @@ describe('utils/index', () => {
       HIGH: 500,
     }
 
-    it('returns green for low latency', () => {
-      expect(getLatencyClassName(100, latencyQualityMap)).toBe('text-green-600')
+    it('returns the success role for low latency', () => {
+      expect(getLatencyClassName(100, latencyQualityMap)).toBe('text-success')
     })
 
-    it('returns yellow for medium latency', () => {
-      expect(getLatencyClassName(300, latencyQualityMap)).toBe(
-        'text-yellow-500',
+    it('returns the warning role for medium latency', () => {
+      expect(getLatencyClassName(300, latencyQualityMap)).toBe('text-warning')
+    })
+
+    it('returns the error role for high latency', () => {
+      expect(getLatencyClassName(600, latencyQualityMap)).toBe('text-error')
+    })
+
+    it('returns a muted role for not connected', () => {
+      expect(getLatencyClassName(0, latencyQualityMap)).toBe(
+        'text-base-content/40',
       )
-    })
-
-    it('returns red for high latency', () => {
-      expect(getLatencyClassName(600, latencyQualityMap)).toBe('text-red-500')
-    })
-
-    it('returns gray for not connected', () => {
-      expect(getLatencyClassName(0, latencyQualityMap)).toBe('text-gray')
     })
   })
 
