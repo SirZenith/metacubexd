@@ -61,7 +61,7 @@ const cardGridStyle = computed(() => ({
     "
   >
     <div
-      class="flex min-w-0 cursor-pointer items-center justify-between p-4 pr-3 text-xl font-medium text-[var(--color-base-content)]"
+      class="flex min-w-0 cursor-pointer items-center justify-between p-3 pr-2 text-lg font-medium text-[var(--color-base-content)] sm:p-4 sm:pr-3 sm:text-xl"
       @click="emit('collapse', !isOpen)"
     >
       <slot name="title" />
@@ -85,7 +85,7 @@ const cardGridStyle = computed(() => ({
     </div>
 
     <div
-      class="px-4 pt-2 pb-4 transition-opacity duration-300 ease-out"
+      class="px-3 pt-2 pb-3 transition-opacity duration-300 ease-out sm:px-4 sm:pt-2 sm:pb-4"
       :class="[isOpen ? 'opacity-100' : 'hidden opacity-0', bodyLayoutClass]"
       :style="isCardMode ? cardGridStyle : undefined"
     >

@@ -370,7 +370,7 @@ const ProxyGroupTitle = defineComponent({
                   'span',
                   {
                     class:
-                      'text-lg font-semibold tracking-tight line-clamp-1 break-all text-base-content',
+                      'text-base font-semibold tracking-tight line-clamp-1 break-all text-base-content sm:text-lg',
                   },
                   props.proxyGroup.name,
                 ),
@@ -384,13 +384,13 @@ const ProxyGroupTitle = defineComponent({
                 ),
               ],
             ),
-            h('div', { class: 'flex items-center gap-1.5 shrink-0' }, [
+            h('div', { class: 'flex items-center gap-1 shrink-0 sm:gap-1.5' }, [
               // Desktop quick navigation to the selected node in this group.
               h(
                 Button,
                 {
                   class:
-                    'hidden sm:flex items-center justify-center w-9 h-9 rounded-lg bg-base-content/6 border border-base-content/8 text-base-content/60 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:-translate-y-px hover:shadow-lg hover:shadow-primary/15 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40',
+                    'hidden sm:flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-base-content/6 border border-base-content/8 text-base-content/60 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:-translate-y-px hover:shadow-lg hover:shadow-primary/15 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40',
                   disabled: !hasVisibleCurrentProxy.value,
                   title: t('jumpToCurrent'),
                   'aria-label': `${t('jumpToCurrent')}: ${props.proxyGroup.name}`,
@@ -411,7 +411,7 @@ const ProxyGroupTitle = defineComponent({
                   Button,
                   {
                     class:
-                      'flex items-center justify-center w-9 h-9 rounded-lg bg-warning/10 border border-warning/20 text-warning transition-all duration-200 hover:bg-warning/20 hover:border-warning/40 hover:-translate-y-px hover:shadow-lg hover:shadow-warning/15 active:translate-y-0',
+                      'flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-warning/10 border border-warning/20 text-warning transition-all duration-200 hover:bg-warning/20 hover:border-warning/40 hover:-translate-y-px hover:shadow-lg hover:shadow-warning/15 active:translate-y-0',
                     title:
                       t(
                         'recommendation.switchToRecommended',
@@ -433,7 +433,7 @@ const ProxyGroupTitle = defineComponent({
                   Button,
                   {
                     class:
-                      'flex items-center justify-center w-9 h-9 rounded-lg bg-warning/10 border border-warning/20 text-warning transition-all duration-200 hover:bg-warning/20 hover:border-warning/40 hover:-translate-y-px hover:shadow-lg hover:shadow-warning/15 active:translate-y-0',
+                      'flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-warning/10 border border-warning/20 text-warning transition-all duration-200 hover:bg-warning/20 hover:border-warning/40 hover:-translate-y-px hover:shadow-lg hover:shadow-warning/15 active:translate-y-0',
                     title: t('unfixProxy'),
                     onClick: (e: MouseEvent) => {
                       e.stopPropagation()
@@ -448,7 +448,7 @@ const ProxyGroupTitle = defineComponent({
                 Button,
                 {
                   class:
-                    'flex items-center justify-center w-9 h-9 rounded-lg bg-base-content/6 border border-base-content/8 text-base-content/60 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:-translate-y-px hover:shadow-lg hover:shadow-primary/15 active:translate-y-0 disabled:bg-success/15 disabled:border-success/30 disabled:cursor-not-allowed disabled:opacity-100',
+                    'flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-base-content/6 border border-base-content/8 text-base-content/60 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:-translate-y-px hover:shadow-lg hover:shadow-primary/15 active:translate-y-0 disabled:bg-success/15 disabled:border-success/30 disabled:cursor-not-allowed disabled:opacity-100',
                   disabled:
                     proxiesStore.proxyGroupLatencyTestingMap[
                       props.proxyGroup.name
@@ -477,31 +477,42 @@ const ProxyGroupTitle = defineComponent({
             ]),
           ],
         ),
-        h('div', { class: 'flex flex-col gap-2.5 pt-1' }, [
-          h(
-            'div',
-            {
-              class:
-                'badge badge-primary badge-sm inline-flex max-w-full items-center gap-1',
-            },
-            [
-              h(
-                'span',
-                { class: 'shrink-0 font-bold' },
-                formatProxyType(props.proxyGroup.type, t),
-              ),
-              props.proxyGroup.now?.length > 0 && [
-                h(IconChevronRight, { size: 18, class: 'shrink-0' }),
-                h('span', { class: 'min-w-0 truncate' }, props.proxyGroup.now),
+        h(
+          'div',
+          {
+            class:
+              'flex flex-row flex-wrap items-center gap-2 pt-1 sm:flex-col sm:items-start sm:gap-2.5',
+          },
+          [
+            h(
+              'div',
+              {
+                class:
+                  'badge badge-primary badge-sm inline-flex max-w-full items-center gap-1',
+              },
+              [
+                h(
+                  'span',
+                  { class: 'shrink-0 font-bold' },
+                  formatProxyType(props.proxyGroup.type, t),
+                ),
+                props.proxyGroup.now?.length > 0 && [
+                  h(IconChevronRight, { size: 18, class: 'shrink-0' }),
+                  h(
+                    'span',
+                    { class: 'min-w-0 truncate' },
+                    props.proxyGroup.now,
+                  ),
+                ],
               ],
-            ],
-          ),
-          h(
-            'div',
-            { class: 'badge badge-secondary badge-sm' },
-            `${formatBytes(connectionsStore.speedGroupByName[props.proxyGroup.name] || 0)}/s`,
-          ),
-        ]),
+            ),
+            h(
+              'div',
+              { class: 'badge badge-secondary badge-sm' },
+              `${formatBytes(connectionsStore.speedGroupByName[props.proxyGroup.name] || 0)}/s`,
+            ),
+          ],
+        ),
         !proxiesStore.collapsedMap[props.proxyGroup.name] &&
           h(ProxyNodePreview, {
             proxyNameList: props.sortedProxyNames,
@@ -641,7 +652,7 @@ const ProxyProviderTitle = defineComponent({
                   'span',
                   {
                     class:
-                      'text-lg font-semibold tracking-tight line-clamp-1 break-all text-base-content',
+                      'text-base font-semibold tracking-tight line-clamp-1 break-all text-base-content sm:text-lg',
                   },
                   props.provider.name,
                 ),
@@ -663,12 +674,12 @@ const ProxyProviderTitle = defineComponent({
                 ),
               ],
             ),
-            h('div', { class: 'flex items-center gap-1.5 shrink-0' }, [
+            h('div', { class: 'flex items-center gap-1 shrink-0 sm:gap-1.5' }, [
               h(
                 Button,
                 {
                   class:
-                    'flex items-center justify-center w-9 h-9 rounded-lg bg-base-content/6 border border-base-content/8 text-base-content/60 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:-translate-y-px hover:shadow-lg hover:shadow-primary/15 active:translate-y-0 disabled:bg-success/15 disabled:border-success/30 disabled:cursor-not-allowed disabled:opacity-100',
+                    'flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-base-content/6 border border-base-content/8 text-base-content/60 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:-translate-y-px hover:shadow-lg hover:shadow-primary/15 active:translate-y-0 disabled:bg-success/15 disabled:border-success/30 disabled:cursor-not-allowed disabled:opacity-100',
                   disabled: proxiesStore.updatingMap[props.provider.name],
                   onClick: (e: MouseEvent) => {
                     e.stopPropagation()
@@ -692,7 +703,7 @@ const ProxyProviderTitle = defineComponent({
                 Button,
                 {
                   class:
-                    'flex items-center justify-center w-9 h-9 rounded-lg bg-base-content/6 border border-base-content/8 text-base-content/60 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:-translate-y-px hover:shadow-lg hover:shadow-primary/15 active:translate-y-0 disabled:bg-success/15 disabled:border-success/30 disabled:cursor-not-allowed disabled:opacity-100',
+                    'flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-base-content/6 border border-base-content/8 text-base-content/60 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:-translate-y-px hover:shadow-lg hover:shadow-primary/15 active:translate-y-0 disabled:bg-success/15 disabled:border-success/30 disabled:cursor-not-allowed disabled:opacity-100',
                   disabled:
                     proxiesStore.proxyProviderLatencyTestingMap[
                       props.provider.name
