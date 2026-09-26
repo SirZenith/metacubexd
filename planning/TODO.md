@@ -21,5 +21,10 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
 
 - [x] 选择代理连接的界面在手机上不论哪种代理列表样式都会使用次要信息占据大量屏幕
       空间。需要调整UI 进行优化。→ 小屏收敛共用 Collapse 分组容器与 ProxyGroupTitle 的次要 badge/按钮 (packages/ui) @ca5d828b
+
+# 代理列表
+
 - [x] master-detail 显示模式在手机小屏下 header（分组导航条 + 标题 + 快捷筛选三行）
       占用过多不可滚动高度，需要收敛。→ 小屏默认折叠 quick-filter rail（带激活计数），收紧标题/导航条/内边距 (packages/ui) @19352d53
+- [x] master-detail 模式为列表中各个代理条添加单独的测速按钮。→ ProxyNodeListItem 新增可选测速按钮（show-latency-test）并由 ProxyMasterDetail 启用，e2e 覆盖 (packages/ui) @ac9a9c36
+- [x] master-detail 模式去除单个代理条目的测试按钮改为给整个代理组进行测速的按钮。→ 移除逐条测速按钮，改由 ProxyMasterDetail 组 header 调用 proxyGroupLatencyTest，e2e 更新 (packages/ui) @64a69c50
