@@ -84,10 +84,10 @@ TODO 循环用法（详细流程见 planning/WORKFLOW.md）：
       与重复头部（图标 + 标题 + 右侧操作）散落在 11 个组件与 3 处页面卡片中。应提取
       PanelCard（外壳 + 可选 visible）与 PanelHeader（props icon/title、slot #actions）。
       → 新增 PanelCard（外壳 + visible）与 PanelHeader（icon/title + #actions），替换 8 面板 + DesktopSettingsPanel/KernelLogView + profiles/overview 卡片共 14 处外壳与 6 处头部；构建与渲染验证 (packages/ui) @c54b5b5d
-- [ ] (P2) 方形图标按钮 class（`h-9 w-9` / `h-7 w-7` / `h-8 w-8` + `rounded-*` + hover）
+- [x] (P2) 方形图标按钮 class（`h-9 w-9` / `h-7 w-7` / `h-8 w-8` + `rounded-*` + hover）
       在 15+ 处逐字复制。应提取 IconButton（props icon/size/variant/label），并让
       IconMenuSelect、ProxiesDisplayModeSwitcher 复用（注意 $attrs 与 aria 状态透传）。
-      → pages/proxies.vue、pages/rules.vue、components/connections/ConnectionsToolbar.vue、components/IconMenuSelect.vue 等
+      → 新增 IconButton（icon/label/size/variant/active/loading + attrs 透传），替换 ConnectionsToolbar 5 处与 LatencyCard/IPInfoCard 各 1 处「逐字复制」的原生图标按钮；proxies/rules 的同类按钮是项目 `<Button>`（btn 基础）、ProxiesDisplayModeSwitcher 为分段控件、另有特殊底色变体，样式各异故未纳入 (packages/ui) @8e8b7cf5
 - [ ] (P2) 按 key 追踪「进行中」状态存在三套不一致实现：useBusyKeys（重入保护、异常上抛）、
       utils 的 useStringBooleanMap（无重入、静默吞异常）、stores/proxies.ts 的手写 map
       （各自异常处理，两处含失败历史副作用）。应统一为一个 keyed-busy 抽象，显式区分
