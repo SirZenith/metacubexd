@@ -341,11 +341,11 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] CI
-      status: doing
+- [x] CI
+      status: done
       open-at: 2026.09.27 04:57:13
-      closed-at: -
-      hash: -
+      closed-at: 2026.09.28 00:46:30
+      hash: cdac5129
       tag: chore
       doc: planning/feature/ci-typecheck-step.md
       desc: 在 .github/workflows/ 中新增 typecheck 步骤
