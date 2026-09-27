@@ -353,12 +353,12 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 ---
 
 - [ ] 概览页数据文本出界
-      status: pending
+      status: doing
       open-at: 2026.09.27 22:10:16
       closed-at: -
       hash: -
       tag: bugfix
-      doc: -
+      doc: planning/feature/fix-overview-stat-card-overflow.md
       desc: overview 界面的 overview-stat-card 里，各个文本会在文本内容过长时超出卡片提供的可视范围，导致文本被裁切。要砂在保持文本易读性的前提下，让文本不要在长内容时有文本超界。
 
 ---
