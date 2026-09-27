@@ -349,3 +349,25 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
       tag: chore
       doc: -
       desc: 在 .github/workflows/ 中新增 typecheck 步骤
+
+---
+
+- [ ] 概览页数据文本出界
+      status: pending
+      open-at: 2026.09.27 22:10:16
+      closed-at: -
+      hash: -
+      tag: bugfix
+      doc: -
+      desc: overview 界面的 overview-stat-card 里，各个文本会在文本内容过长时超出卡片提供的可视范围，导致文本被裁切。要砂在保持文本易读性的前提下，让文本不要在长内容时有文本超界。
+
+---
+
+- [ ] 调整小屏模式下的代理工具栏
+      status: doing
+      open-at: 2026.09.27 22:28:53
+      closed-at: -
+      hash: -
+      tag: ux
+      doc: planning/feature/collapse-proxies-toolbar-mobile.md
+      desc: 小屏下，代理界面顶部的工具按钮（Action Buttons 区域）改为初始隐藏，改为使用一个工具箱图标的按钮切换其显示状态。工具箱按钮显示位置在与 Tabs 同一行的最右侧。界面打开时，工具栏隐藏，点击工具箱按钮后，工具箱按钮切换为 active 样式，并将工具按钮区域显示出来；在工具按钮区域显示时，按下工具箱按钮，能让工具按钮区域隐藏，工具箱按钮回到非 active 样式。
