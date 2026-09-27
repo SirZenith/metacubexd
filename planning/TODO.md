@@ -342,12 +342,12 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 ---
 
 - [ ] CI
-      status: pending
+      status: doing
       open-at: 2026.09.27 04:57:13
       closed-at: -
       hash: -
       tag: chore
-      doc: -
+      doc: planning/feature/ci-typecheck-step.md
       desc: 在 .github/workflows/ 中新增 typecheck 步骤
 
 ---
