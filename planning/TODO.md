@@ -407,14 +407,14 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] 代理列表评价模式添加入场动画
-      status: doing
+- [x] 代理列表评价模式添加入场动画
+      status: done
       open-at: 2026.09.28 01:08:53
-      closed-at: -
-      hash: -
+      closed-at: 2026.09.28 02:27:30
+      hash: 23658809
       tag: feature
       doc: planning/feature/animate-proxies-mode-switch.md
-      desc: 代理列表从其它显示方案切换到主从列表模式的过程过于生硬，请为这个变化过程添加合理的动画，让过渡显得自然。
+      desc: 代理列表从其它显示方案切换到主从列表模式的过程过于生硬，请为这个变化过程添加合理的动画，让过渡显得自然。实现采用交叉淡入（Transition mode=default + translateY/opacity），并用页面级 isTwoColumns 取代模板 ref 作为 slot 分支依据；连续快速切换不再出现列表空白。
 
 ---
 
@@ -425,7 +425,7 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
       hash: -
       tag: bugfix
       doc: -
-      desc: packages/ui/i18n/locales/ru.json 比 en.json 少 18 个 key（shortcuts、connectionError、connectionErrorDesc、retry、recommendation、kernelRollback、kernelRecover、kernelRollbackConfirm、kernelRecoverConfirm、kernelRollbackApplied、kernelRecoverApplied、kernelRollbackFailed、kernelRecoverFailed、profilesRefreshAndApply、profilesAutoUpdate、profilesAutoUpdateOff、profilesAutoUpdateMinutes、profilesAutoUpdateHours），运行时只能回退到英文，违反 copilot-instructions.md「Add the same key to every locale」与 PRODUCT.md 的七语言要求。**tests**/locales.spec.ts 目前有意把 ru 排除在严格 parity 之外（注释说明为已知技术债），本次补齐后应把 ru 纳入 PARITY_LOCALES，使守卫覆盖全部七种语言。
+      desc: packages/ui/i18n/locales/ru.json 比 en.json 少 18 个 key（shortcuts、connectionError、connectionErrorDesc、retry、recommendation、kernelRollback、kernelRecover、kernelRollbackConfirm、kernelRecoverConfirm、kernelRollbackApplied、kernelRecoverApplied、kernelRollbackFailed、kernelRecoverFailed、profilesRefreshAndApply、profilesAutoUpdate、profilesAutoUpdateOff、profilesAutoUpdateMinutes、profilesAutoUpdateHours），运行时只能回退到英文，违反 copilot-instructions.md「Add the same key to every locale」与 PRODUCT.md 的七语言要求。`packages/ui/__tests__/locales.spec.ts` 目前有意把 ru 排除在严格 parity 之外（注释说明为已知技术债），本次补齐后应把 ru 纳入 PARITY_LOCALES，使守卫覆盖全部七种语言。
 
 ---
 
@@ -436,7 +436,7 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
       hash: -
       tag: visual
       doc: -
-      desc: packages/ui/components/ProxyMasterDetail.vue 第 234 行的 header 使用 rounded-t-xl（0.75rem），而其父容器（第 230 行）是 rounded-2xl（1rem），DESIGN.md §6 规定卡片/面板用 rounded-2xl、rounded-xl 仅用于刻意紧凑的面板，二者不匹配。应改为 rounded-t-2xl；同时 **tests**/card-panel-radius.spec.ts 仅用字符串匹配 rounded-xl，无法捕获 rounded-t-xl 这类方向变体，需强化断言（如正则匹配 rounded(-[trbl])?-xl）以免同类漂移再次漏检。
+      desc: packages/ui/components/ProxyMasterDetail.vue 第 234 行的 header 使用 rounded-t-xl（0.75rem），而其父容器（第 230 行）是 rounded-2xl（1rem），DESIGN.md §6 规定卡片/面板用 rounded-2xl、rounded-xl 仅用于刻意紧凑的面板，二者不匹配。应改为 rounded-t-2xl；同时 `packages/ui/__tests__/card-panel-radius.spec.ts` 仅用字符串匹配 rounded-xl，无法捕获 rounded-t-xl 这类方向变体，需强化断言（如正则匹配 rounded(-[trbl])?-xl）以免同类漂移再次漏检。
 
 ---
 
