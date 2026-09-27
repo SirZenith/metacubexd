@@ -481,6 +481,44 @@ describe('e2E Page Tests', () => {
       }
     })
 
+    it('should cap the master-detail pane width on large screens', async () => {
+      const currentPage = await gotoAppPath(page, '/proxies')
+      await expect
+        .poll(
+          () =>
+            currentPage.getByTestId('display-mode-masterDetailMode').count(),
+          { timeout: ELEMENT_TIMEOUT },
+        )
+        .toBeGreaterThan(0)
+      await currentPage.getByTestId('display-mode-masterDetailMode').click()
+
+      try {
+        const detail = currentPage.getByTestId('master-detail-detail')
+        await expect
+          .poll(() => detail.count(), { timeout: ELEMENT_TIMEOUT })
+          .toBeGreaterThan(0)
+
+        // At the 2xl breakpoint the pane caps at max-w-5xl (64rem / 1024px).
+        await currentPage.setViewportSize({ width: 1920, height: 900 })
+        await expect
+          .poll(async () => (await detail.boundingBox())?.width ?? Infinity, {
+            timeout: ELEMENT_TIMEOUT,
+          })
+          .toBeLessThanOrEqual(1026)
+
+        // Below 2xl the pane caps at max-w-4xl (56rem / 896px).
+        await currentPage.setViewportSize({ width: 1280, height: 900 })
+        await expect
+          .poll(async () => (await detail.boundingBox())?.width ?? Infinity, {
+            timeout: ELEMENT_TIMEOUT,
+          })
+          .toBeLessThanOrEqual(898)
+      } finally {
+        await currentPage.getByTestId('display-mode-cardMode').click()
+        await currentPage.setViewportSize({ width: 1920, height: 1080 })
+      }
+    })
+
     it('should scroll the active proxy tab to top on mobile', async () => {
       const currentPage = getPage(page)
       await currentPage.setViewportSize({ width: 390, height: 844 })
