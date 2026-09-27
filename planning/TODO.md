@@ -385,11 +385,11 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] 让其它 UI 元素响应代理主从列表的调整
-      status: doing
+- [x] 让其它 UI 元素响应代理主从列表的调整
+      status: done
       open-at: 2026.09.28 00:06:12
-      closed-at: -
-      hash: -
+      closed-at: 2026.09.28 00:59:24
+      hash: 45aed7ce
       tag: visual
       doc: planning/feature/align-proxies-chrome-master-detail.md
       desc: 代理界面的主从列表显示模式已经给代理条目列表添加了最大宽度的限制。但是 Node Name Filter、Connectivity Board Button、返回列表顶部按钮都没有响应列表的这种变化，根据你调研的结果进行你认为合适的配套调整
