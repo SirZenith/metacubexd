@@ -254,6 +254,37 @@ describe('e2E Page Tests', () => {
         currentPage.getByText('Memory').count(),
       ).resolves.toBeGreaterThan(0)
     })
+
+    it('keeps stat card text inside the card when values are long', async () => {
+      const currentPage = await gotoAppPath(page, '/overview')
+      await currentPage.setViewportSize({ width: 390, height: 844 })
+
+      try {
+        await currentPage.waitForSelector('.overview-stat-card', {
+          timeout: ELEMENT_TIMEOUT,
+        })
+
+        // Force over-long values to reproduce the reported overflow.
+        const widths = await currentPage.evaluate(() =>
+          [
+            ...document.querySelectorAll('.overview-stat-card .tabular-nums'),
+          ].map((el) => {
+            el.textContent = '12345.67 TB/s and more'
+            return {
+              scrollWidth: el.scrollWidth,
+              clientWidth: el.clientWidth,
+            }
+          }),
+        )
+
+        expect(widths.length).toBeGreaterThan(0)
+        for (const { scrollWidth, clientWidth } of widths) {
+          expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1)
+        }
+      } finally {
+        await currentPage.setViewportSize({ width: 1920, height: 1080 })
+      }
+    })
   })
 
   describe('proxies Page', () => {

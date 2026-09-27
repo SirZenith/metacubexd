@@ -400,7 +400,7 @@ watch(
             {{ t('upload') }}
           </span>
           <span
-            class="text-base font-semibold whitespace-nowrap text-base-content tabular-nums"
+            class="text-base font-semibold break-words text-base-content tabular-nums"
           >
             {{ formatBytes(globalStore.latestTraffic?.up || 0) }}/s
           </span>
@@ -420,7 +420,7 @@ watch(
             {{ t('download') }}
           </span>
           <span
-            class="text-base font-semibold whitespace-nowrap text-base-content tabular-nums"
+            class="text-base font-semibold break-words text-base-content tabular-nums"
           >
             {{ formatBytes(globalStore.latestTraffic?.down || 0) }}/s
           </span>
@@ -440,7 +440,7 @@ watch(
             {{ t('uploadTotal') }}
           </span>
           <span
-            class="text-base font-semibold whitespace-nowrap text-base-content tabular-nums"
+            class="text-base font-semibold break-words text-base-content tabular-nums"
           >
             {{
               formatBytes(
@@ -464,7 +464,7 @@ watch(
             {{ t('downloadTotal') }}
           </span>
           <span
-            class="text-base font-semibold whitespace-nowrap text-base-content tabular-nums"
+            class="text-base font-semibold break-words text-base-content tabular-nums"
           >
             {{
               formatBytes(
@@ -488,7 +488,7 @@ watch(
             {{ t('activeConnections') }}
           </span>
           <span
-            class="text-base font-semibold whitespace-nowrap text-base-content tabular-nums"
+            class="text-base font-semibold break-words text-base-content tabular-nums"
           >
             {{ connectionsStore.latestConnectionMsg?.connections?.length || 0 }}
           </span>
@@ -508,7 +508,7 @@ watch(
             {{ t('memoryUsage') }}
           </span>
           <span
-            class="text-base font-semibold whitespace-nowrap text-base-content tabular-nums"
+            class="text-base font-semibold break-words text-base-content tabular-nums"
           >
             {{ formatBytes(globalStore.latestMemory?.inuse || 0) }}
           </span>
