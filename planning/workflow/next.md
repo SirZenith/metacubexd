@@ -5,7 +5,9 @@
 TODO 条目字段结构（缩进两空格）：`status / open-at / closed-at / hash / tag / doc / desc`。
 循环只处理未被注释的 `status: pending` 条目。
 
-1. 在 TODO.md 中取第一个未被注释的 `status: pending` 条目，作为实现的目标。
+1. 在 TODO.md 中取实现目标：若 /next 指定了目标关键词，则取标题包含该关键词的第一条未被注释的
+   条目（若其不是 `status: pending` 或不存在，则提示并结束）；否则取第一个未被注释的
+   `status: pending` 条目。
 2. 根据该条目的 `desc` 等内容进行实现细节的确认。
 
    如果当前并非处于循环状态，可以使用互动式提问确认。

@@ -598,6 +598,59 @@ describe('e2E Page Tests', () => {
         await currentPage.setViewportSize({ width: 1920, height: 1080 })
       }
     })
+
+    it('should collapse the mobile proxies toolbar behind a tools toggle', async () => {
+      const currentPage = getPage(page)
+      await currentPage.setViewportSize({ width: 390, height: 844 })
+
+      try {
+        await gotoAppPath(currentPage, '/proxies')
+
+        const toolsToggle = currentPage.getByTestId('proxies-tools-toggle')
+        const actions = currentPage.getByTestId('proxies-actions')
+        const tabs = currentPage.getByTestId('proxies-tabs')
+
+        await expect
+          .poll(() => toolsToggle.isVisible(), { timeout: ELEMENT_TIMEOUT })
+          .toBe(true)
+        // Collapsed by default on small screens.
+        await expect(actions.isVisible()).resolves.toBe(false)
+        await expect(toolsToggle.getAttribute('aria-expanded')).resolves.toBe(
+          'false',
+        )
+
+        // The toggle sits on the tabs row, at its far right.
+        const tabsBox = await tabs.boundingBox()
+        const toggleBox = await toolsToggle.boundingBox()
+        expect(tabsBox).not.toBeNull()
+        expect(toggleBox).not.toBeNull()
+        expect(Math.abs(toggleBox!.y - tabsBox!.y)).toBeLessThan(
+          tabsBox!.height,
+        )
+        expect(toggleBox!.x).toBeGreaterThan(tabsBox!.x + tabsBox!.width)
+
+        // Expanding reveals the actions and marks the toggle active.
+        await toolsToggle.click()
+        await expect(actions.isVisible()).resolves.toBe(true)
+        await expect(toolsToggle.getAttribute('aria-expanded')).resolves.toBe(
+          'true',
+        )
+
+        // Collapsing hides them again.
+        await toolsToggle.click()
+        await expect(actions.isVisible()).resolves.toBe(false)
+        await expect(toolsToggle.getAttribute('aria-expanded')).resolves.toBe(
+          'false',
+        )
+
+        // Desktop keeps the toolbar always visible and hides the toggle.
+        await currentPage.setViewportSize({ width: 1280, height: 800 })
+        await expect(toolsToggle.isVisible()).resolves.toBe(false)
+        await expect(actions.isVisible()).resolves.toBe(true)
+      } finally {
+        await currentPage.setViewportSize({ width: 1920, height: 1080 })
+      }
+    })
   })
 
   describe('connections Page', () => {

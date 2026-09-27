@@ -19,6 +19,7 @@ import {
   IconSearch,
   IconSettings,
   IconTarget,
+  IconTools,
   IconWand,
   IconX,
 } from '@tabler/icons-vue'
@@ -64,6 +65,9 @@ const {
 } = useBatchLatencyTest()
 
 const activeTab = ref<'proxies' | 'proxyProviders'>('proxies')
+// Small-screen action toolbar starts collapsed; the toolbox toggle reveals it.
+// Not persisted: the requirement is that the toolbar is hidden on open.
+const showMobileTools = ref(false)
 const settingsModal = ref<{ open: () => void; close: () => void }>()
 const connectivityModal = ref<{ open: () => void; close: () => void }>()
 const proxyConfigEditor = ref<{ open: () => Promise<void> | void }>()
@@ -831,6 +835,7 @@ const ProviderProxyNodes = defineComponent({
     >
       <!-- Tabs -->
       <div
+        data-testid="proxies-tabs"
         class="flex gap-1 rounded-xl border border-base-content/8 bg-base-200/60 p-1 backdrop-blur-sm"
       >
         <button
@@ -855,8 +860,32 @@ const ProviderProxyNodes = defineComponent({
         </button>
       </div>
 
+      <!-- Small-screen toolbox toggle: pinned to the far right of the tabs row,
+           hidden on desktop where the action toolbar is always visible. -->
+      <Button
+        data-testid="proxies-tools-toggle"
+        class="ml-auto flex h-9 w-9 items-center justify-center rounded-[0.625rem] border transition-all duration-200 sm:hidden"
+        :class="
+          showMobileTools
+            ? 'border-primary/40 bg-primary/15 text-primary'
+            : 'border-base-content/10 bg-base-200/80 hover:border-primary/30 hover:bg-primary/15 hover:text-primary'
+        "
+        :title="t('proxiesTools')"
+        :aria-label="t('proxiesTools')"
+        :aria-expanded="showMobileTools"
+        aria-controls="proxies-actions"
+        @click="showMobileTools = !showMobileTools"
+      >
+        <IconTools :size="18" />
+      </Button>
+
       <!-- Action Buttons -->
-      <div class="flex items-center gap-2">
+      <div
+        id="proxies-actions"
+        data-testid="proxies-actions"
+        class="flex items-center gap-2 max-sm:w-full max-sm:flex-wrap"
+        :class="{ 'max-sm:hidden': !showMobileTools }"
+      >
         <ProxiesDisplayModeSwitcher />
         <ProxiesSortSelect />
         <ProxiesCardSizeSelect
