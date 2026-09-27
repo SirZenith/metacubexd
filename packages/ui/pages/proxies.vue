@@ -864,7 +864,7 @@ const ProviderProxyNodes = defineComponent({
            hidden on desktop where the action toolbar is always visible. -->
       <Button
         data-testid="proxies-tools-toggle"
-        class="ml-auto flex h-9 w-9 items-center justify-center rounded-[0.625rem] border transition-all duration-200 sm:hidden"
+        class="ml-auto flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-200 sm:hidden"
         :class="
           showMobileTools
             ? 'border-primary/40 bg-primary/15 text-primary'
@@ -896,7 +896,7 @@ const ProviderProxyNodes = defineComponent({
              collapsible group panels, so the toggle is meaningless there. -->
         <Button
           v-if="activeTab === 'proxies' && !isMasterMode"
-          class="flex h-9 w-9 items-center justify-center rounded-[0.625rem] border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
+          class="flex h-9 w-9 items-center justify-center rounded-lg border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
           :title="
             anyGroupExpanded
               ? t('collapseAll', 'Collapse All')
@@ -911,7 +911,7 @@ const ProviderProxyNodes = defineComponent({
         <!-- Edit managed proxy definitions -->
         <Button
           v-if="activeTab === 'proxies' && hasFeature('visual-config-editor')"
-          class="flex h-9 w-9 items-center justify-center rounded-[0.625rem] border border-primary/20 bg-primary/10 text-primary transition-all duration-200 hover:bg-primary/20"
+          class="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary transition-all duration-200 hover:bg-primary/20"
           :title="t('editProxies')"
           @click="proxyConfigEditor?.open()"
         >
@@ -921,7 +921,7 @@ const ProviderProxyNodes = defineComponent({
         <!-- Test All Groups Button -->
         <Button
           v-if="activeTab === 'proxies'"
-          class="flex h-9 w-9 items-center justify-center rounded-[0.625rem] border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
+          class="flex h-9 w-9 items-center justify-center rounded-lg border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
           :disabled="isBatchTesting"
           :title="t('recommendation.testAllGroups', 'Test All Groups')"
           @click="testAllGroups"
@@ -954,7 +954,7 @@ const ProviderProxyNodes = defineComponent({
         <!-- Health-check All Providers Button -->
         <Button
           v-if="activeTab === 'proxyProviders'"
-          class="flex h-9 w-9 items-center justify-center rounded-[0.625rem] border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
+          class="flex h-9 w-9 items-center justify-center rounded-lg border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
           :disabled="isBatchTesting"
           :title="t('healthCheckAllProviders')"
           @click="healthCheckAllProviders"
@@ -967,7 +967,7 @@ const ProviderProxyNodes = defineComponent({
 
         <Button
           v-if="activeTab === 'proxyProviders'"
-          class="flex h-9 w-9 items-center justify-center rounded-[0.625rem] border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
+          class="flex h-9 w-9 items-center justify-center rounded-lg border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
           :disabled="proxiesStore.isAllProviderUpdating"
           @click="proxiesStore.updateAllProvider"
         >
@@ -984,7 +984,7 @@ const ProviderProxyNodes = defineComponent({
       <div
         id="proxies-name-filter"
         data-testid="proxies-name-filter"
-        class="ml-auto flex h-9 min-w-40 flex-1 items-center gap-2 rounded-[0.625rem] border border-base-content/10 bg-base-200/80 px-3 transition-all duration-200 focus-within:border-primary/40 focus-within:shadow-[0_0_0_3px] focus-within:shadow-primary/10 sm:max-w-64"
+        class="ml-auto flex h-9 min-w-40 flex-1 items-center gap-2 rounded-lg border border-base-content/10 bg-base-200/80 px-3 transition-all duration-200 focus-within:border-primary/40 focus-within:shadow-[0_0_0_3px] focus-within:shadow-primary/10 sm:max-w-64"
         :class="{ 'max-sm:hidden': !showMobileTools }"
       >
         <IconSearch :size="16" class="shrink-0 opacity-50" />
@@ -1011,7 +1011,7 @@ const ProviderProxyNodes = defineComponent({
         :class="{ 'max-sm:hidden': !showMobileTools }"
       >
         <Button
-          class="flex h-9 w-9 items-center justify-center rounded-[0.625rem] border border-base-content/10 bg-base-200/80 text-base-content/70 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
+          class="flex h-9 w-9 items-center justify-center rounded-lg border border-base-content/10 bg-base-200/80 text-base-content/70 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
           :title="t('connectivityBoard')"
           @click="connectivityModal?.open()"
         >
@@ -1026,7 +1026,7 @@ const ProviderProxyNodes = defineComponent({
         :class="{ 'max-sm:hidden': !showMobileTools }"
       >
         <Button
-          class="flex h-9 w-9 items-center justify-center rounded-[0.625rem] border border-base-content/10 bg-primary/10 text-primary transition-all duration-200 hover:border-primary/30 hover:bg-primary/15"
+          class="flex h-9 w-9 items-center justify-center rounded-lg border border-base-content/10 bg-primary/10 text-primary transition-all duration-200 hover:border-primary/30 hover:bg-primary/15"
           @click="settingsModal?.open()"
         >
           <IconSettings :size="18" />

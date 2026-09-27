@@ -335,7 +335,7 @@ async function openFullEditor() {
 
           <Button
             v-if="activeTab === 'rules' && ruleEditor.available.value"
-            class="flex h-9 w-9 items-center justify-center rounded-[0.625rem] border border-primary/20 bg-primary/10 text-primary transition-all duration-200 hover:bg-primary/20"
+            class="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary transition-all duration-200 hover:bg-primary/20"
             :title="t('editRules')"
             @click="openRuleEditor"
           >
@@ -344,7 +344,7 @@ async function openFullEditor() {
 
           <Button
             v-if="activeTab === 'ruleProviders'"
-            class="flex h-9 w-9 items-center justify-center rounded-[0.625rem] border border-primary/20 bg-primary/10 text-primary transition-all duration-200 hover:bg-primary/20"
+            class="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary transition-all duration-200 hover:bg-primary/20"
             :disabled="allProviderIsUpdating"
             @click="onUpdateAllProvider"
           >

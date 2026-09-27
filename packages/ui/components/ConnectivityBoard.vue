@@ -100,7 +100,7 @@ const hasRun = computed(() => Object.keys(results.value).length > 0)
       </div>
 
       <Button
-        class="flex h-10 items-center gap-2 rounded-[0.625rem] border border-primary/30 bg-primary/10 px-4 text-primary transition-all duration-200 hover:border-primary/40 hover:bg-primary/15 disabled:cursor-not-allowed disabled:opacity-60"
+        class="flex h-10 items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-4 text-primary transition-all duration-200 hover:border-primary/40 hover:bg-primary/15 disabled:cursor-not-allowed disabled:opacity-60"
         :disabled="isRunning || !selectedNode"
         @click="runBoard"
       >

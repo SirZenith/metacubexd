@@ -36,7 +36,7 @@ const items = computed(() =>
 
 <template>
   <div
-    class="flex items-center gap-1 rounded-[0.625rem] border border-base-content/10 bg-base-200/80 p-1"
+    class="flex items-center gap-1 rounded-lg border border-base-content/10 bg-base-200/80 p-1"
   >
     <button
       v-for="item in items"

@@ -391,7 +391,7 @@ watch(
         class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:0ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
       >
         <div
-          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-success/15 text-success"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-success/15 text-success"
         >
           <IconArrowUpRight :size="20" />
         </div>
@@ -411,7 +411,7 @@ watch(
         class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:50ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
       >
         <div
-          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-info/15 text-info"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-info/15 text-info"
         >
           <IconArrowDownRight :size="20" />
         </div>
@@ -431,7 +431,7 @@ watch(
         class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:100ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
       >
         <div
-          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-secondary/15 text-secondary"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary/15 text-secondary"
         >
           <IconCloud :size="20" />
         </div>
@@ -455,7 +455,7 @@ watch(
         class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:150ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
       >
         <div
-          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-secondary/15 text-secondary"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary/15 text-secondary"
         >
           <IconCloud :size="20" />
         </div>
@@ -479,7 +479,7 @@ watch(
         class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:200ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
       >
         <div
-          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-warning/15 text-warning"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-warning/15 text-warning"
         >
           <IconPlugConnected :size="20" />
         </div>
@@ -499,7 +499,7 @@ watch(
         class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:250ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
       >
         <div
-          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-error/15 text-error"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-error/15 text-error"
         >
           <IconCpu :size="20" />
         </div>
