@@ -287,12 +287,12 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 ---
 
 - [ ] 统一 keyed-busy 抽象
-      status: pending
+      status: doing
       open-at: 2026.09.26 16:45:04
       closed-at: -
       hash: -
       tag: refactor
-      doc: -
+      doc: planning/feature/unify-keyed-busy-map.md
       desc: 优化 stores/proxies.ts 的 4 个手写 map 以方便 keyed-busy 抽象的摘取。优先级：P2。
 
 ---
