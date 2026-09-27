@@ -297,13 +297,13 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] 统一 keyed-busy 抽象
-      status: pending
+- [x] 统一 keyed-busy 抽象
+      status: done
       open-at: 2026.09.26 16:45:04
-      closed-at: 2026.09.26 16:48:37
-      hash: 9e80d8ca
+      closed-at: 2026.09.28 00:43:43
+      hash: 5f7a10c3
       tag: refactor
-      doc: -
+      doc: planning/feature/unify-keyed-busy-map.md
       desc: 按 key 追踪「进行中」状态存在三套不一致实现（useBusyKeys、utils 的 useStringBooleanMap、stores/proxies.ts 的手写 map）；已扩展 useBusyKeys 支持显式 guardReentry/swallow，rules.vue 迁移并删除 utils.useStringBooleanMap，新增 2 项单测 (packages/ui)。blocked: stores/proxies.ts 的 4 个手写 map 是 store 公开 API，被多处引用，迁移会改动 store API 与既有测试断言，属独立较大变更，建议另开一条。优先级：P2。
 
 ---
