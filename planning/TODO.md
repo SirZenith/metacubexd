@@ -188,13 +188,46 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 ---
 
 - [ ] 统一项目圆角体系
-      status: blocked
+      status: pending
       open-at: 2026.09.26 16:10:00
       closed-at: -
       hash: -
       tag: visual
       doc: -
-      desc: 圆角体系不统一，违反 TARGETS「整个项目的圆角要风格统一」；卡片在 rounded-2xl / rounded-xl / 1rem 间混用，分段控件/工具条、方形图标按钮、输入框各自在多种半径间分裂，应按 DESIGN §6 收敛并清理无令牌值。blocked: 收敛涉及 100+ 处且 rounded-xl 有 28 种 class 形态，DESIGN §6 明确保留 rounded-xl 给「紧凑面板」，机械替换违背设计意图；视觉回归无法自动化验证，需人工界定规则。建议拆为可验收子任务：① 清理无令牌值 rounded-[0.625rem]（20 处）；② 统一图标按钮圆角；③ 卡片面板 rounded-xl→rounded-2xl 并逐屏视觉验收。未改动代码 (packages/ui)。优先级：P1。
+      desc: 清理无令牌值 rounded-[0.625rem]（20 处）优先级：P1。
+
+---
+
+- [ ] 统一项目圆角体系
+      status: pending
+      open-at: 2026.09.26 16:10:00
+      closed-at: -
+      hash: -
+      tag: visual
+      doc: -
+      desc: 统一图标按钮圆角 优先级：P1。
+
+---
+
+- [ ] 统一项目圆角体系
+      status: pending
+      open-at: 2026.09.26 16:10:00
+      closed-at: -
+      hash: -
+      tag: visual
+      doc: -
+      desc: 卡片面板 rounded-xl→rounded-2xl 并逐屏视觉验收。优先级：P1。
+
+---
+
+- [ ] 统一项目圆角体系
+      status: pending
+      open-at: 2026.09.26 16:10:00
+      closed-at: -
+      hash: -
+      tag: visual
+      doc: -
+      desc: 检查项目的圆角体系是否已经统一
 
 ---
 
@@ -254,7 +287,18 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 ---
 
 - [ ] 统一 keyed-busy 抽象
-      status: blocked
+      status: pending
+      open-at: 2026.09.26 16:45:04
+      closed-at: -
+      hash: -
+      tag: refactor
+      doc: -
+      desc: 优化 stores/proxies.ts 的 4 个手写 map 以方便 keyed-busy 抽象的摘取。优先级：P2。
+
+---
+
+- [ ] 统一 keyed-busy 抽象
+      status: pending
       open-at: 2026.09.26 16:45:04
       closed-at: 2026.09.26 16:48:37
       hash: 9e80d8ca
@@ -294,3 +338,14 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
       tag: chore
       doc: planning/feature/fix-typescript-7-toolchain.md
       desc: vue-tsc@3.3.10 与 typescript@7.0.2 不兼容，导致 typecheck 与 pre-commit 的 ESLint 均失败；typescript-eslint 亦不支持 TS 7.0。这使 CI 与提交钩子不可用。修复：catalog 中 typescript 别名到 @typescript/typescript6（TS 6 API + tsc6），新增 @typescript/native 保留 TS 7 tsc；并补上 typecheck 暴露的 2 处显式导入缺失（profiles.vue 的 formatTimeFromNow、proxies.vue 的 PROXIES_PREVIEW_TYPE）。
+
+---
+
+- [ ] CI
+      status: pending
+      open-at: 2026.09.27 04:57:13
+      closed-at: -
+      hash: -
+      tag: chore
+      doc: -
+      desc: 在 .github/workflows/ 中新增 typecheck 步骤
