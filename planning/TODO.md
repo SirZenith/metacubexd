@@ -363,11 +363,22 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] 调整小屏模式下的代理工具栏
-      status: doing
+- [x] 调整小屏模式下的代理工具栏
+      status: done
       open-at: 2026.09.27 22:28:53
-      closed-at: -
-      hash: -
+      closed-at: 2026.09.27 23:41:59
+      hash: 6c6d8a1b
       tag: ux
       doc: planning/feature/collapse-proxies-toolbar-mobile.md
       desc: 小屏下，代理界面顶部的工具栏（Action Buttons 区域、Node Name Filter 区域、Connectivity Board Button、Settings Button）改为初始隐藏，改为使用一个工具箱图标的按钮切换其显示状态。工具箱按钮显示位置在与 Tabs 同一行的最右侧。界面打开时，工具栏隐藏，点击工具箱按钮后，工具箱按钮切换为 active 样式，并将工具栏显示出来；在工具按钮区域显示时，按下工具箱按钮，能让工具栏隐藏，工具箱按钮回到非 active 样式。
+
+---
+
+- [ ] 优化代理主从列表显示
+      status: pending
+      open-at: 2026.09.27 23:47:47
+      closed-at: -
+      hash: -
+      tag: visual
+      doc: -
+      desc: 当前主从列表在大屏上代理条目列表区域会扩展到占据屏幕靠右侧的大量区域，这让单个条目的信息被拉长放置在了屏幕左侧和右侧，视觉效果很不好。调研一下别的软件中是如何实现该功能还保持该功能在大屏上好看的，将调研得到的最优结果应用到主从模式的大屏显示样式上。
