@@ -187,11 +187,11 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] 统一项目圆角体系
-      status: doing
+- [x] 统一项目圆角体系
+      status: done
       open-at: 2026.09.26 16:10:00
-      closed-at: -
-      hash: -
+      closed-at: 2026.09.28 00:03:13
+      hash: 1322a922
       tag: visual
       doc: planning/feature/unify-rounded-token.md
       desc: 清理无令牌值 rounded-[0.625rem]（20 处）优先级：P1。
