@@ -415,3 +415,58 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
       tag: feature
       doc: planning/feature/animate-proxies-mode-switch.md
       desc: 代理列表从其它显示方案切换到主从列表模式的过程过于生硬，请为这个变化过程添加合理的动画，让过渡显得自然。
+
+---
+
+- [ ] 补齐 ru 语言缺失的 i18n key
+      status: pending
+      open-at: 2026.09.28 01:30:00
+      closed-at: -
+      hash: -
+      tag: bugfix
+      doc: -
+      desc: packages/ui/i18n/locales/ru.json 比 en.json 少 18 个 key（shortcuts、connectionError、connectionErrorDesc、retry、recommendation、kernelRollback、kernelRecover、kernelRollbackConfirm、kernelRecoverConfirm、kernelRollbackApplied、kernelRecoverApplied、kernelRollbackFailed、kernelRecoverFailed、profilesRefreshAndApply、profilesAutoUpdate、profilesAutoUpdateOff、profilesAutoUpdateMinutes、profilesAutoUpdateHours），运行时只能回退到英文，违反 copilot-instructions.md「Add the same key to every locale」与 PRODUCT.md 的七语言要求。**tests**/locales.spec.ts 目前有意把 ru 排除在严格 parity 之外（注释说明为已知技术债），本次补齐后应把 ru 纳入 PARITY_LOCALES，使守卫覆盖全部七种语言。
+
+---
+
+- [ ] 修正主从面板 header 的圆角不一致
+      status: pending
+      open-at: 2026.09.28 01:30:00
+      closed-at: -
+      hash: -
+      tag: visual
+      doc: -
+      desc: packages/ui/components/ProxyMasterDetail.vue 第 234 行的 header 使用 rounded-t-xl（0.75rem），而其父容器（第 230 行）是 rounded-2xl（1rem），DESIGN.md §6 规定卡片/面板用 rounded-2xl、rounded-xl 仅用于刻意紧凑的面板，二者不匹配。应改为 rounded-t-2xl；同时 **tests**/card-panel-radius.spec.ts 仅用字符串匹配 rounded-xl，无法捕获 rounded-t-xl 这类方向变体，需强化断言（如正则匹配 rounded(-[trbl])?-xl）以免同类漂移再次漏检。
+
+---
+
+- [ ] 为显示模式切换器补可访问性语义
+      status: pending
+      open-at: 2026.09.28 01:30:00
+      closed-at: -
+      hash: -
+      tag: ux
+      doc: -
+      desc: packages/ui/components/ProxiesDisplayModeSwitcher.vue 的四个图标按钮只有 :title，没有 aria-label，也没有表达当前选中态的 aria-pressed（或 role=radiogroup + aria-checked），违反 PRODUCT.md「every icon-only control an accessible name」与 DESIGN.md §7。对比 ProxiesSortSelect/ProxiesCardSizeSelect 经 IconMenuSelect 已有 aria-label。需补 aria-label 与选中态语义，并加单测或 e2e 断言。
+
+---
+
+- [ ] 提取代理页重复的图标按钮样式
+      status: pending
+      open-at: 2026.09.28 01:30:00
+      closed-at: -
+      hash: -
+      tag: refactor
+      doc: -
+      desc: packages/ui/pages/proxies.vue 中方形图标按钮的长 class 串重复 4 处（第 398、456、699、723 行，flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-base-content/6 ...），另有 6 处 h-9 w-9 ... bg-base-200/80 的工具栏按钮 class 重复。项目已有 IconButton.vue 组件但此处未复用。应评估复用 IconButton 或提取共享 class 常量，消除逐字复制。
+
+---
+
+- [ ] 提取代理节点增量渲染逻辑
+      status: pending
+      open-at: 2026.09.28 01:30:00
+      closed-at: -
+      hash: -
+      tag: refactor
+      doc: -
+      desc: packages/ui/pages/proxies.vue 内联的 ProxyNodes（第 561 行）与 ProviderProxyNodes（第 772 行）两个 defineComponent 各自实现了同一套「renderCount + loadMoreSentinel + useIntersectionObserver 增量渲染」逻辑，仅 root 元素与节点 props 不同。应提取为共享 composable（如 useIncrementalRender）或共享组件，减少重复并便于后续维护；同时该文件已达 1542 行，可一并评估拆分。
