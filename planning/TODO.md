@@ -396,11 +396,22 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] 代理评价列表显示位置优化
-      status: doing
+- [x] 代理评价列表显示位置优化
+      status: done
       open-at: 2026.09.28 01:03:30
-      closed-at: -
-      hash: -
+      closed-at: 2026.09.28 01:18:30
+      hash: a8a01f7e
       tag: visual
       doc: planning/feature/center-master-detail-wide-layout.md
       desc: 当前评价列表在大屏上整体完全显示在左侧，这让画面非常的不平衡。调查应该如何使列表与界面中的其它 UI 元素在整个界面上能够让显示内容更平衡，并将调查到的方案应用于代理界面的主从显示模式。
+
+---
+
+- [ ] 代理列表评价模式添加入场动画
+      status: pending
+      open-at: 2026.09.28 01:08:53
+      closed-at: -
+      hash: -
+      tag: feature
+      doc: -
+      desc: 代理列表从其它显示方案切换到主从列表模式的过程过于生硬，请为这个变化过程添加合理的动画，让过渡显得自然。
