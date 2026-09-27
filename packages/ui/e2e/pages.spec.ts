@@ -368,6 +368,12 @@ describe('e2E Page Tests', () => {
       await currentPage.setViewportSize({ width: 1024, height: 600 })
 
       try {
+        // This test asserts layout/scroll behavior, not the mode-switch
+        // animation. Disable motion so the switch lands instantly, and wait for
+        // the transition classes to clear before measuring (Vue applies/removes
+        // enter-from asynchronously, so an immediate read can catch the 8px
+        // offset even with a collapsed duration).
+        await currentPage.emulateMedia({ reducedMotion: 'reduce' })
         await currentPage.getByTitle('Master-detail').click()
         const detailScrollContainer = currentPage.getByTestId(
           'master-detail-scroll-container',
@@ -376,6 +382,17 @@ describe('e2E Page Tests', () => {
         await expect(
           detailHeader.locator('input[type="search"]').count(),
         ).resolves.toBe(0)
+        await expect
+          .poll(
+            () =>
+              currentPage
+                .locator(
+                  '.proxies-mode-enter-active, .proxies-mode-leave-active',
+                )
+                .count(),
+            { timeout: ELEMENT_TIMEOUT },
+          )
+          .toBe(0)
         const headerTopBeforeScroll = await detailHeader.evaluate(
           (element) => element.getBoundingClientRect().top,
         )
@@ -559,9 +576,12 @@ describe('e2E Page Tests', () => {
           { timeout: ELEMENT_TIMEOUT },
         )
         .toBeGreaterThan(0)
-      await currentPage.getByTestId('display-mode-masterDetailMode').click()
 
       try {
+        // Layout assertion, not an animation test: disable motion so the switch
+        // lands instantly and the boxes below are not measured mid-transition.
+        await currentPage.emulateMedia({ reducedMotion: 'reduce' })
+        await currentPage.getByTestId('display-mode-masterDetailMode').click()
         await currentPage.setViewportSize({ width: 1920, height: 900 })
 
         const header = currentPage.getByTestId('proxies-header')
@@ -569,6 +589,20 @@ describe('e2E Page Tests', () => {
         await expect
           .poll(() => detail.count(), { timeout: ELEMENT_TIMEOUT })
           .toBeGreaterThan(0)
+        // Wait for the transition classes to clear: an immediate read can catch
+        // the 8px enter-from offset even though reduced motion collapses the
+        // duration.
+        await expect
+          .poll(
+            () =>
+              currentPage
+                .locator(
+                  '.proxies-mode-enter-active, .proxies-mode-leave-active',
+                )
+                .count(),
+            { timeout: ELEMENT_TIMEOUT },
+          )
+          .toBe(0)
 
         const headerBox = await header.boundingBox()
         const detailBox = await detail.boundingBox()
@@ -583,6 +617,7 @@ describe('e2E Page Tests', () => {
         // The page chrome is capped well below the viewport on 2xl.
         expect(headerBox!.width).toBeLessThanOrEqual(76.75 * 16 + 2)
       } finally {
+        await currentPage.emulateMedia({ reducedMotion: 'no-preference' })
         await currentPage.getByTestId('display-mode-cardMode').click()
         await currentPage.setViewportSize({ width: 1920, height: 1080 })
       }
@@ -644,6 +679,170 @@ describe('e2E Page Tests', () => {
         expect(gaps.left).toBeGreaterThan(50)
         expect(gaps.right).toBeGreaterThan(50)
       } finally {
+        await currentPage.getByTestId('display-mode-cardMode').click()
+        await currentPage.setViewportSize({ width: 1920, height: 1080 })
+      }
+    })
+
+    it('keeps the proxy list rendered after rapid mode switches', async () => {
+      const currentPage = getPage(page)
+      await currentPage.setViewportSize({ width: 1280, height: 900 })
+
+      try {
+        await expect
+          .poll(() => new URL(currentPage.url()).hash, {
+            timeout: ELEMENT_TIMEOUT,
+          })
+          .toMatch(/^#\/[a-z]/)
+        await gotoAppPath(currentPage, '/proxies')
+
+        const masterButton = currentPage.getByTestId(
+          'display-mode-masterDetailMode',
+        )
+        await expect
+          .poll(() => masterButton.count(), { timeout: ELEMENT_TIMEOUT })
+          .toBeGreaterThan(0)
+
+        // Rapidly toggle in and out of master-detail, including bursts where
+        // the next click lands while the previous transition is still running.
+        // An interrupted `out-in` transition can detach both nodes and leave
+        // the body blank while the stored mode says otherwise, so assert the
+        // rendered body actually matches the selected mode.
+        const master = currentPage.getByTestId('display-mode-masterDetailMode')
+        const card = currentPage.getByTestId('display-mode-cardMode')
+        // Interleave with sub-transition gaps *and* back-to-back bursts so the
+        // interruption race is reliably hit.
+        for (let i = 0; i < 8; i++) {
+          await master.click()
+          await currentPage.waitForTimeout(150)
+          await card.click()
+          await currentPage.waitForTimeout(150)
+        }
+        await master.click()
+        for (let i = 0; i < 20; i++) {
+          await card.click()
+          await master.click()
+        }
+        await card.click()
+        await currentPage.waitForTimeout(800)
+
+        // Selected mode is card => the group list must be rendered.
+        const assertBodyMatchesMode = async () => {
+          const state = await currentPage.evaluate(() => ({
+            mode: localStorage.getItem('proxiesDisplayMode'),
+            groups: document.querySelectorAll('[data-proxy-group]').length,
+            detail: document.querySelectorAll(
+              '[data-testid="master-detail-detail"]',
+            ).length,
+          }))
+          if (state.mode === 'cardMode' || state.mode === 'listMode') {
+            expect(state.groups).toBeGreaterThan(0)
+          }
+          if (state.mode === 'masterDetailMode') {
+            expect(state.detail).toBeGreaterThan(0)
+          }
+        }
+        await assertBodyMatchesMode()
+
+        // The card/list body must still render its groups.
+        await expect
+          .poll(
+            () =>
+              currentPage
+                .getByTestId('proxies-scroll-container')
+                .locator('[data-proxy-group]')
+                .count(),
+            { timeout: ELEMENT_TIMEOUT },
+          )
+          .toBeGreaterThan(0)
+
+        // And a final switch into master-detail must still work.
+        await masterButton.click()
+        await expect
+          .poll(() => currentPage.getByTestId('master-detail-detail').count(), {
+            timeout: ELEMENT_TIMEOUT,
+          })
+          .toBeGreaterThan(0)
+      } finally {
+        await currentPage.getByTestId('display-mode-cardMode').click()
+        await currentPage.setViewportSize({ width: 1920, height: 1080 })
+      }
+    })
+
+    it('animates the proxies display-mode switch', async () => {
+      const currentPage = getPage(page)
+      await currentPage.setViewportSize({ width: 1280, height: 900 })
+
+      try {
+        // Settle the initial empty-hash redirect before navigating (see the
+        // mobile tests below).
+        await expect
+          .poll(() => new URL(currentPage.url()).hash, {
+            timeout: ELEMENT_TIMEOUT,
+          })
+          .toMatch(/^#\/[a-z]/)
+        await gotoAppPath(currentPage, '/proxies')
+
+        const masterButton = currentPage.getByTestId(
+          'display-mode-masterDetailMode',
+        )
+        await expect
+          .poll(() => masterButton.count(), { timeout: ELEMENT_TIMEOUT })
+          .toBeGreaterThan(0)
+
+        // The transition must define a real motion duration. Cross-fade keeps
+        // the outgoing node mounted briefly, so clicks are dispatched and then
+        // we wait for the transition to settle.
+        await masterButton.click()
+        const active = currentPage.locator(
+          '.proxies-mode-enter-active, .proxies-mode-leave-active',
+        )
+        await expect
+          .poll(() => active.first().count(), { timeout: ELEMENT_TIMEOUT })
+          .toBeGreaterThan(0)
+        const duration = await active.first().evaluate((el) => {
+          const style = getComputedStyle(el)
+          return {
+            base: style.getPropertyValue('--dur-base').trim(),
+            soft: style.getPropertyValue('--ease-soft').trim(),
+          }
+        })
+        expect(duration.base).not.toBe('')
+        expect(duration.soft).not.toBe('')
+
+        // Switching to master-detail must land on the master-detail body.
+        await expect
+          .poll(() => currentPage.getByTestId('master-detail-detail').count(), {
+            timeout: ELEMENT_TIMEOUT,
+          })
+          .toBeGreaterThan(0)
+
+        // Interrupting the transition must never blank the body: flip back to
+        // the grid mid-fade and the group list must still be rendered.
+        await currentPage.getByTestId('display-mode-cardMode').click()
+        await currentPage.getByTestId('display-mode-masterDetailMode').click()
+        await currentPage.getByTestId('display-mode-cardMode').click()
+        await expect
+          .poll(
+            () =>
+              currentPage
+                .getByTestId('proxies-scroll-container')
+                .locator('[data-proxy-group]')
+                .count(),
+            { timeout: ELEMENT_TIMEOUT },
+          )
+          .toBeGreaterThan(0)
+
+        // Reduced motion collapses the transition to (near) zero.
+        await currentPage.emulateMedia({ reducedMotion: 'reduce' })
+        await currentPage.getByTestId('display-mode-masterDetailMode').click()
+        await expect
+          .poll(() => currentPage.getByTestId('master-detail-detail').count(), {
+            timeout: ELEMENT_TIMEOUT,
+          })
+          .toBeGreaterThan(0)
+      } finally {
+        await currentPage.emulateMedia({ reducedMotion: 'no-preference' })
         await currentPage.getByTestId('display-mode-cardMode').click()
         await currentPage.setViewportSize({ width: 1920, height: 1080 })
       }

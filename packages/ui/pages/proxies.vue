@@ -71,11 +71,19 @@ const showMobileTools = ref(false)
 const settingsModal = ref<{ open: () => void; close: () => void }>()
 const connectivityModal = ref<{ open: () => void; close: () => void }>()
 const proxyConfigEditor = ref<{ open: () => Promise<void> | void }>()
-const proxyGroupsWrapper = ref<{ isTwoColumns: boolean }>()
-const providersWrapper = ref<{ isTwoColumns: boolean }>()
 const proxyMasterDetail = ref<{
   scrollToTop: (behavior?: ScrollBehavior) => void
 }>()
+
+// Column layout for the group/provider grids. Owned by the page so slot
+// selection does not depend on ProxiesRenderWrapper's template ref: that ref is
+// only populated while the wrapper is mounted, and the mode-switch transition
+// swaps the wrapper in and out. Keeping the layout state on the page keeps the
+// slot branches valid regardless of the wrapper's mount lifecycle.
+const { width: viewportWidth } = useWindowSize()
+const isTwoColumns = computed(
+  () => configStore.renderProxiesInTwoColumns && viewportWidth.value > 480,
+)
 
 // Progressive rendering: only mount a window of nodes per group, growing as the
 // user scrolls near the bottom. Avoids mounting hundreds of cards in one frame
@@ -1081,96 +1089,116 @@ const ProviderProxyNodes = defineComponent({
         size="lg"
       />
       <template v-else>
-        <ProxyMasterDetail
-          v-if="isMasterMode"
-          ref="proxyMasterDetail"
-          :groups="renderProxies"
-          :sorted-names-by-group="sortedNamesByGroup"
-          @scroll="updateScrollToTopVisibility"
-        />
-        <ProxiesRenderWrapper v-else ref="proxyGroupsWrapper">
-          <template v-if="proxyGroupsWrapper?.isTwoColumns" #even>
-            <Collapse
-              v-for="(proxyGroup, index) in renderProxies.filter(
-                (_, i) => i % 2 === 0,
-              )"
-              :key="proxyGroup.name"
-              class="animate-fade-slide-in"
-              :style="{ animationDelay: `${index * 50}ms` }"
-              :is-open="proxiesStore.collapsedMap[proxyGroup.name] || false"
-              @collapse="
-                (val) => (proxiesStore.collapsedMap[proxyGroup.name] = val)
-              "
-            >
-              <template #title>
-                <ProxyGroupTitle
+        <!-- Mode switch. `mode="default"` (cross-fade) rather than `out-in`:
+             an interrupted out-in leaves both the outgoing and incoming nodes
+             detached, so the body goes blank. During the cross-fade the
+             outgoing node is taken out of flow (position: absolute) so the two
+             layouts never fight over height. Only opacity + transform animate. -->
+        <Transition name="proxies-mode">
+          <ProxyMasterDetail
+            v-if="isMasterMode"
+            key="master"
+            ref="proxyMasterDetail"
+            data-testid="proxies-mode-transition"
+            :groups="renderProxies"
+            :sorted-names-by-group="sortedNamesByGroup"
+            @scroll="updateScrollToTopVisibility"
+          />
+          <ProxiesRenderWrapper
+            v-else
+            key="grid"
+            data-testid="proxies-mode-transition"
+            :is-two-columns="isTwoColumns"
+          >
+            <template v-if="isTwoColumns" #even>
+              <Collapse
+                v-for="(proxyGroup, index) in renderProxies.filter(
+                  (_, i) => i % 2 === 0,
+                )"
+                :key="proxyGroup.name"
+                class="animate-fade-slide-in"
+                :style="{ animationDelay: `${index * 50}ms` }"
+                :is-open="proxiesStore.collapsedMap[proxyGroup.name] || false"
+                @collapse="
+                  (val) => (proxiesStore.collapsedMap[proxyGroup.name] = val)
+                "
+              >
+                <template #title>
+                  <ProxyGroupTitle
+                    :proxy-group="proxyGroup"
+                    :sorted-proxy-names="
+                      sortedNamesByGroup[proxyGroup.name] || []
+                    "
+                  />
+                </template>
+                <ProxyNodes
                   :proxy-group="proxyGroup"
                   :sorted-proxy-names="
                     sortedNamesByGroup[proxyGroup.name] || []
                   "
                 />
-              </template>
-              <ProxyNodes
-                :proxy-group="proxyGroup"
-                :sorted-proxy-names="sortedNamesByGroup[proxyGroup.name] || []"
-              />
-            </Collapse>
-          </template>
+              </Collapse>
+            </template>
 
-          <template v-if="proxyGroupsWrapper?.isTwoColumns" #odd>
-            <Collapse
-              v-for="(proxyGroup, index) in renderProxies.filter(
-                (_, i) => i % 2 === 1,
-              )"
-              :key="proxyGroup.name"
-              class="animate-fade-slide-in"
-              :style="{ animationDelay: `${index * 50 + 25}ms` }"
-              :is-open="proxiesStore.collapsedMap[proxyGroup.name] || false"
-              @collapse="
-                (val) => (proxiesStore.collapsedMap[proxyGroup.name] = val)
-              "
-            >
-              <template #title>
-                <ProxyGroupTitle
+            <template v-if="isTwoColumns" #odd>
+              <Collapse
+                v-for="(proxyGroup, index) in renderProxies.filter(
+                  (_, i) => i % 2 === 1,
+                )"
+                :key="proxyGroup.name"
+                class="animate-fade-slide-in"
+                :style="{ animationDelay: `${index * 50 + 25}ms` }"
+                :is-open="proxiesStore.collapsedMap[proxyGroup.name] || false"
+                @collapse="
+                  (val) => (proxiesStore.collapsedMap[proxyGroup.name] = val)
+                "
+              >
+                <template #title>
+                  <ProxyGroupTitle
+                    :proxy-group="proxyGroup"
+                    :sorted-proxy-names="
+                      sortedNamesByGroup[proxyGroup.name] || []
+                    "
+                  />
+                </template>
+                <ProxyNodes
                   :proxy-group="proxyGroup"
                   :sorted-proxy-names="
                     sortedNamesByGroup[proxyGroup.name] || []
                   "
                 />
-              </template>
-              <ProxyNodes
-                :proxy-group="proxyGroup"
-                :sorted-proxy-names="sortedNamesByGroup[proxyGroup.name] || []"
-              />
-            </Collapse>
-          </template>
+              </Collapse>
+            </template>
 
-          <template v-if="!proxyGroupsWrapper?.isTwoColumns" #default>
-            <Collapse
-              v-for="(proxyGroup, index) in renderProxies"
-              :key="proxyGroup.name"
-              class="animate-fade-slide-in"
-              :style="{ animationDelay: `${index * 40}ms` }"
-              :is-open="proxiesStore.collapsedMap[proxyGroup.name] || false"
-              @collapse="
-                (val) => (proxiesStore.collapsedMap[proxyGroup.name] = val)
-              "
-            >
-              <template #title>
-                <ProxyGroupTitle
+            <template v-if="!isTwoColumns" #default>
+              <Collapse
+                v-for="(proxyGroup, index) in renderProxies"
+                :key="proxyGroup.name"
+                class="animate-fade-slide-in"
+                :style="{ animationDelay: `${index * 40}ms` }"
+                :is-open="proxiesStore.collapsedMap[proxyGroup.name] || false"
+                @collapse="
+                  (val) => (proxiesStore.collapsedMap[proxyGroup.name] = val)
+                "
+              >
+                <template #title>
+                  <ProxyGroupTitle
+                    :proxy-group="proxyGroup"
+                    :sorted-proxy-names="
+                      sortedNamesByGroup[proxyGroup.name] || []
+                    "
+                  />
+                </template>
+                <ProxyNodes
                   :proxy-group="proxyGroup"
                   :sorted-proxy-names="
                     sortedNamesByGroup[proxyGroup.name] || []
                   "
                 />
-              </template>
-              <ProxyNodes
-                :proxy-group="proxyGroup"
-                :sorted-proxy-names="sortedNamesByGroup[proxyGroup.name] || []"
-              />
-            </Collapse>
-          </template>
-        </ProxiesRenderWrapper>
+              </Collapse>
+            </template>
+          </ProxiesRenderWrapper>
+        </Transition>
       </template>
     </div>
 
@@ -1202,8 +1230,8 @@ const ProviderProxyNodes = defineComponent({
         class="h-full"
         size="lg"
       />
-      <ProxiesRenderWrapper v-else ref="providersWrapper">
-        <template v-if="providersWrapper?.isTwoColumns" #even>
+      <ProxiesRenderWrapper v-else :is-two-columns="isTwoColumns">
+        <template v-if="isTwoColumns" #even>
           <Collapse
             v-for="(provider, index) in proxiesStore.proxyProviders.filter(
               (_, i) => i % 2 === 0,
@@ -1229,7 +1257,7 @@ const ProviderProxyNodes = defineComponent({
           </Collapse>
         </template>
 
-        <template v-if="providersWrapper?.isTwoColumns" #odd>
+        <template v-if="isTwoColumns" #odd>
           <Collapse
             v-for="(provider, index) in proxiesStore.proxyProviders.filter(
               (_, i) => i % 2 === 1,
@@ -1255,7 +1283,7 @@ const ProviderProxyNodes = defineComponent({
           </Collapse>
         </template>
 
-        <template v-if="!providersWrapper?.isTwoColumns" #default>
+        <template v-if="!isTwoColumns" #default>
           <Collapse
             v-for="(provider, index) in proxiesStore.proxyProviders"
             :key="provider.name"
@@ -1506,5 +1534,40 @@ const ProviderProxyNodes = defineComponent({
 
 .animate-fade-slide-in {
   animation: fade-slide-in 0.4s ease-out backwards;
+}
+
+/* Display-mode switch: cross-fade + slight lift, reusing the motion tokens.
+   Only opacity/transform animate (GPU-composited); reduced motion is collapsed
+   to ~0 by the global prefers-reduced-motion rule in main.css.
+
+   `out-in` is deliberately NOT used: interrupting an out-in transition (the
+   user flips modes again before it finishes) can leave both nodes detached and
+   blank the body permanently. Cross-fade with the leaving node removed from
+   flow keeps a visible node at all times and stays interruptible.
+
+   Deliberately no `scale`: it changes the element's rendered width, which
+   perturbs layout measurements (and the chrome-alignment assertions) while the
+   transition runs. translateY + opacity read as a lift without touching size. */
+.proxies-mode-enter-active,
+.proxies-mode-leave-active {
+  transition:
+    opacity var(--dur-base) var(--ease-soft),
+    transform var(--dur-base) var(--ease-spring-soft);
+}
+/* Take the leaving layout out of flow so it cannot stack above/below the
+   entering one and push the scroll container's height around. */
+.proxies-mode-leave-active {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  pointer-events: none;
+}
+.proxies-mode-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.proxies-mode-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
 }
 </style>

@@ -1,13 +1,11 @@
 <script setup lang="ts">
-const configStore = useConfigStore()
-const { width } = useWindowSize()
-
-const isBiggerScreen = computed(() => width.value > 480)
-const isTwoColumns = computed(
-  () => configStore.renderProxiesInTwoColumns && isBiggerScreen.value,
-)
-
-defineExpose({ isTwoColumns })
+// Column layout is decided by the parent, not by this component's own mount
+// state: the parent needs `isTwoColumns` to pick which slots to fill, and it
+// must stay correct while this component is unmounted mid-transition (see the
+// mode-switch <Transition mode="out-in"> in pages/proxies.vue). Deriving it
+// here and exposing it via a template ref made the parent read `null` during
+// the out-in gap, which rendered an empty wrapper.
+defineProps<{ isTwoColumns: boolean }>()
 </script>
 
 <template>
