@@ -873,7 +873,7 @@ const ProviderProxyNodes = defineComponent({
         :title="t('proxiesTools')"
         :aria-label="t('proxiesTools')"
         :aria-expanded="showMobileTools"
-        aria-controls="proxies-actions"
+        aria-controls="proxies-actions proxies-name-filter proxies-connectivity proxies-settings"
         @click="showMobileTools = !showMobileTools"
       >
         <IconTools :size="18" />
@@ -982,7 +982,10 @@ const ProviderProxyNodes = defineComponent({
 
       <!-- Node Name Filter -->
       <div
+        id="proxies-name-filter"
+        data-testid="proxies-name-filter"
         class="ml-auto flex h-9 min-w-40 flex-1 items-center gap-2 rounded-[0.625rem] border border-base-content/10 bg-base-200/80 px-3 transition-all duration-200 focus-within:border-primary/40 focus-within:shadow-[0_0_0_3px] focus-within:shadow-primary/10 sm:max-w-64"
+        :class="{ 'max-sm:hidden': !showMobileTools }"
       >
         <IconSearch :size="16" class="shrink-0 opacity-50" />
         <input
@@ -1002,7 +1005,11 @@ const ProviderProxyNodes = defineComponent({
       </div>
 
       <!-- Connectivity Board Button -->
-      <div>
+      <div
+        id="proxies-connectivity"
+        data-testid="proxies-connectivity"
+        :class="{ 'max-sm:hidden': !showMobileTools }"
+      >
         <Button
           class="flex h-9 w-9 items-center justify-center rounded-[0.625rem] border border-base-content/10 bg-base-200/80 text-base-content/70 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
           :title="t('connectivityBoard')"
@@ -1013,7 +1020,11 @@ const ProviderProxyNodes = defineComponent({
       </div>
 
       <!-- Settings Button -->
-      <div>
+      <div
+        id="proxies-settings"
+        data-testid="proxies-settings"
+        :class="{ 'max-sm:hidden': !showMobileTools }"
+      >
         <Button
           class="flex h-9 w-9 items-center justify-center rounded-[0.625rem] border border-base-content/10 bg-primary/10 text-primary transition-all duration-200 hover:border-primary/30 hover:bg-primary/15"
           @click="settingsModal?.open()"
