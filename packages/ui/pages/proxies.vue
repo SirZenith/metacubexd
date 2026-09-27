@@ -547,9 +547,12 @@ const isMasterMode = computed(
 
 // In master-detail the detail pane is width-capped (see ProxyMasterDetail:
 // sm:w-48 nav + gap-3 + sm:max-w-4xl 2xl:max-w-5xl). Cap the page chrome to the
-// same total width and left-align it so the toolbar and the floating
-// scroll-to-top button line up with the pane instead of the viewport. Keep
-// these constants in sync with ProxyMasterDetail.
+// same total width and center it horizontally so the toolbar and the floating
+// scroll-to-top button track the pane, and the cap does not leave all the slack
+// on one side of an ultra-wide viewport. `w-full` keeps the width at the cap
+// (an auto cross-axis margin suppresses flex stretch, so without it the box
+// would shrink-wrap its content). Keep these constants in sync with
+// ProxyMasterDetail.
 const masterPanelConstrained = computed(
   () => isMasterMode.value && activeTab.value === 'proxies',
 )
@@ -834,9 +837,12 @@ const ProviderProxyNodes = defineComponent({
 
 <template>
   <div
+    data-testid="proxies-layout"
     class="relative flex h-full min-h-0 min-w-0 flex-col gap-3"
     :class="
-      masterPanelConstrained ? 'sm:max-w-[68.75rem] 2xl:max-w-[76.75rem]' : ''
+      masterPanelConstrained
+        ? 'w-full sm:mx-auto sm:max-w-[68.75rem] 2xl:max-w-[76.75rem]'
+        : ''
     "
   >
     <!-- First-run nudge: shown only when the agent is present and no base

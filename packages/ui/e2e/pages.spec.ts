@@ -588,6 +588,67 @@ describe('e2E Page Tests', () => {
       }
     })
 
+    it('centers the master-detail layout on large screens', async () => {
+      const currentPage = getPage(page)
+      await currentPage.setViewportSize({ width: 1920, height: 900 })
+
+      try {
+        // Settle the initial empty-hash redirect to /overview before navigating,
+        // otherwise it can overwrite /proxies and the page stays on /overview.
+        await expect
+          .poll(() => new URL(currentPage.url()).hash, {
+            timeout: ELEMENT_TIMEOUT,
+          })
+          .toMatch(/^#\/[a-z]/)
+        await gotoAppPath(currentPage, '/proxies')
+
+        await expect
+          .poll(
+            () =>
+              currentPage.getByTestId('display-mode-masterDetailMode').count(),
+            { timeout: ELEMENT_TIMEOUT },
+          )
+          .toBeGreaterThan(0)
+        await currentPage.getByTestId('display-mode-masterDetailMode').click()
+
+        const layout = currentPage.getByTestId('proxies-layout')
+        await expect
+          .poll(() => layout.count(), { timeout: ELEMENT_TIMEOUT })
+          .toBeGreaterThan(0)
+
+        // The width-capped layout is horizontally centered inside its content
+        // area: left and right gaps are equal. Before the fix the pane sat
+        // flush left with all of the slack on the right.
+        await expect
+          .poll(
+            async () =>
+              layout.evaluate((el) => {
+                const parent = el.parentElement
+                if (!parent) return Number.POSITIVE_INFINITY
+                const p = parent.getBoundingClientRect()
+                const r = el.getBoundingClientRect()
+                return Math.abs(r.left - p.left - (p.right - r.right))
+              }),
+            { timeout: ELEMENT_TIMEOUT },
+          )
+          .toBeLessThanOrEqual(2)
+
+        const gaps = await layout.evaluate((el) => {
+          const parent = el.parentElement
+          if (!parent) return { left: 0, right: 0 }
+          const p = parent.getBoundingClientRect()
+          const r = el.getBoundingClientRect()
+          return { left: r.left - p.left, right: p.right - r.right }
+        })
+        // Both sides must actually have slack on an ultra-wide viewport.
+        expect(gaps.left).toBeGreaterThan(50)
+        expect(gaps.right).toBeGreaterThan(50)
+      } finally {
+        await currentPage.getByTestId('display-mode-cardMode').click()
+        await currentPage.setViewportSize({ width: 1920, height: 1080 })
+      }
+    })
+
     it('should scroll the active proxy tab to top on mobile', async () => {
       const currentPage = getPage(page)
       await currentPage.setViewportSize({ width: 390, height: 844 })
