@@ -408,10 +408,10 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 ---
 
 - [ ] 代理列表评价模式添加入场动画
-      status: pending
+      status: doing
       open-at: 2026.09.28 01:08:53
       closed-at: -
       hash: -
       tag: feature
-      doc: -
+      doc: planning/feature/animate-proxies-mode-switch.md
       desc: 代理列表从其它显示方案切换到主从列表模式的过程过于生硬，请为这个变化过程添加合理的动画，让过渡显得自然。
