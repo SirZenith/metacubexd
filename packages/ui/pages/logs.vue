@@ -333,7 +333,7 @@ function downloadLogs() {
     <!-- Logs Table -->
     <div
       data-testid="logs-table-container"
-      class="min-h-0 flex-1 overflow-auto rounded-xl border border-base-content/10 bg-base-200/50"
+      class="min-h-0 flex-1 overflow-auto rounded-2xl border border-base-content/10 bg-base-200/50"
     >
       <table
         class="table w-full border-collapse whitespace-nowrap max-md:whitespace-normal"

@@ -121,7 +121,7 @@ function onClick() {
   <div class="relative h-full p-0.5" :class="isSelected ? 'z-10' : 'z-0'">
     <div
       ref="reference"
-      class="proxy-card relative h-full w-full rounded-xl select-none"
+      class="proxy-card relative h-full w-full rounded-2xl select-none"
       :class="[
         isSelected
           ? 'proxy-card--selected bg-primary/15 text-base-content'

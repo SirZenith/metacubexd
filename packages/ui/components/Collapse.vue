@@ -52,7 +52,7 @@ const cardGridStyle = computed(() => ({
 
 <template>
   <div
-    class="min-w-0 overflow-x-clip rounded-xl transition-[background,border-color] duration-200 ease-out select-none hover:border-[color-mix(in_oklab,var(--color-primary)_40%,transparent)] hover:bg-[color-mix(in_oklab,var(--color-base-200)_95%,transparent)]"
+    class="min-w-0 overflow-x-clip rounded-2xl transition-[background,border-color] duration-200 ease-out select-none hover:border-[color-mix(in_oklab,var(--color-primary)_40%,transparent)] hover:bg-[color-mix(in_oklab,var(--color-base-200)_95%,transparent)]"
     style="
       background: color-mix(in oklab, var(--color-base-200) 80%, transparent);
       border: 1px solid

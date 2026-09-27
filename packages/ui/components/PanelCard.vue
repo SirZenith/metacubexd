@@ -8,7 +8,7 @@ withDefaults(defineProps<{ visible?: boolean }>(), { visible: true })
 <template>
   <div
     v-if="visible"
-    class="rounded-xl border border-base-content/10 bg-base-200 p-4"
+    class="rounded-2xl border border-base-content/10 bg-base-200 p-4"
   >
     <slot />
   </div>

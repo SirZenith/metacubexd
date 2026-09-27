@@ -363,7 +363,7 @@ const onCopyShareUrl = async () => {
         <div
           v-for="i in 4"
           :key="i"
-          class="h-28 animate-pulse rounded-xl bg-base-content/5"
+          class="h-28 animate-pulse rounded-2xl bg-base-content/5"
         />
       </div>
       <div
@@ -376,7 +376,7 @@ const onCopyShareUrl = async () => {
         <div
           v-for="p in baseProfiles"
           :key="p.id"
-          class="rounded-xl border bg-base-200 p-4"
+          class="rounded-2xl border bg-base-200 p-4"
           :class="
             p.id === activeBaseId
               ? 'border-success/40'
@@ -522,7 +522,7 @@ const onCopyShareUrl = async () => {
            Demoted into a collapsed disclosure so the import hero stays the
            primary action on a fresh install. -->
       <details
-        class="rounded-xl border border-base-content/10 bg-base-200/40 p-3"
+        class="rounded-2xl border border-base-content/10 bg-base-200/40 p-3"
       >
         <summary
           class="cursor-pointer text-sm font-semibold text-base-content/70"
@@ -804,7 +804,7 @@ const onCopyShareUrl = async () => {
         <!-- qrSvg is built locally from the url (uqr), not remote HTML. -->
         <!-- eslint-disable-next-line vue/no-v-html -->
         <div
-          class="w-56 max-w-full rounded-xl bg-white p-3 [&>svg]:h-full [&>svg]:w-full"
+          class="w-56 max-w-full rounded-2xl bg-white p-3 [&>svg]:h-full [&>svg]:w-full"
           v-html="shareSvg"
         />
 

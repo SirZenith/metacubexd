@@ -147,7 +147,7 @@ const onClipboard = async () => {
   <div
     :class="
       variant === 'page'
-        ? 'rounded-xl border border-primary/20 bg-primary/5 p-5'
+        ? 'rounded-2xl border border-primary/20 bg-primary/5 p-5'
         : ''
     "
   >

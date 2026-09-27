@@ -227,7 +227,7 @@ function aliveCount(group: ProxyType) {
     <div
       v-if="activeGroup"
       data-testid="master-detail-detail"
-      class="flex min-w-0 flex-col rounded-xl border border-base-content/8 bg-base-200/40 sm:min-h-0 sm:max-w-4xl sm:flex-1 sm:overflow-hidden 2xl:max-w-5xl"
+      class="flex min-w-0 flex-col rounded-2xl border border-base-content/8 bg-base-200/40 sm:min-h-0 sm:max-w-4xl sm:flex-1 sm:overflow-hidden 2xl:max-w-5xl"
     >
       <div
         data-testid="master-detail-header"

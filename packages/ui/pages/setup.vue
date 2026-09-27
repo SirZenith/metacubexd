@@ -108,7 +108,7 @@ onMounted(async () => {
           <div
             v-for="endpoint in endpointStore.endpointList"
             :key="endpoint.id"
-            class="group flex cursor-pointer items-center gap-2 rounded-xl border border-base-content/10 bg-base-200 p-3 transition-colors duration-200 hover:border-base-content/20 hover:bg-base-300"
+            class="group flex cursor-pointer items-center gap-2 rounded-2xl border border-base-content/10 bg-base-200 p-3 transition-colors duration-200 hover:border-base-content/20 hover:bg-base-300"
             @click="connectForm?.selectEndpoint(endpoint.id)"
           >
             <IconGripVertical

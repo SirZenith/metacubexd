@@ -482,7 +482,7 @@ const currentViewLabel = computed(
           class="grid h-auto shrink-0 grid-cols-1 gap-4 xl:h-[320px] xl:grid-cols-4"
         >
           <div
-            class="animate-fade-slide-in col-span-1 min-h-[300px] w-full overflow-hidden rounded-xl border border-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)] bg-base-200 p-4 shadow-sm transition-all duration-200 [animation-delay:250ms] hover:border-[color-mix(in_oklab,var(--color-base-content)_20%,transparent)] xl:h-full"
+            class="animate-fade-slide-in col-span-1 min-h-[300px] w-full overflow-hidden rounded-2xl border border-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)] bg-base-200 p-4 shadow-sm transition-all duration-200 [animation-delay:250ms] hover:border-[color-mix(in_oklab,var(--color-base-content)_20%,transparent)] xl:h-full"
           >
             <TrafficRankings
               :title="t('topProxies').slice(0, 2) + currentViewLabel"
@@ -496,7 +496,7 @@ const currentViewLabel = computed(
           </div>
 
           <div
-            class="animate-fade-slide-in col-span-1 min-h-[320px] min-w-0 overflow-hidden rounded-xl border border-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)] bg-base-200 p-2 shadow-sm transition-all duration-200 [animation-delay:300ms] hover:border-[color-mix(in_oklab,var(--color-base-content)_20%,transparent)] xl:col-span-3 xl:h-full"
+            class="animate-fade-slide-in col-span-1 min-h-[320px] min-w-0 overflow-hidden rounded-2xl border border-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)] bg-base-200 p-2 shadow-sm transition-all duration-200 [animation-delay:300ms] hover:border-[color-mix(in_oklab,var(--color-base-content)_20%,transparent)] xl:col-span-3 xl:h-full"
           >
             <TrafficTrendChart
               :data="trendData"

@@ -779,7 +779,7 @@ function exportConnectionsJSON() {
 
     <!-- Connections Table -->
     <div
-      class="min-h-0 flex-1 overflow-auto rounded-xl border border-base-content/10 bg-base-200/50"
+      class="min-h-0 flex-1 overflow-auto rounded-2xl border border-base-content/10 bg-base-200/50"
     >
       <ConnectionsTable
         :columns="visibleColumns"

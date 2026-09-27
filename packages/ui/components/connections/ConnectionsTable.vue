@@ -265,7 +265,7 @@ async function copyCell(
 </script>
 
 <template>
-  <div class="conn-table-container min-h-0 flex-1 rounded-xl">
+  <div class="conn-table-container min-h-0 flex-1 rounded-2xl">
     <table
       v-if="!isCardMode"
       class="table w-full border-collapse"

@@ -39,7 +39,7 @@ const reopenWizard = () => {
 <template>
   <div
     v-if="show"
-    class="ob-banner-in flex flex-wrap items-center gap-3 rounded-xl border border-primary/20 bg-primary/8 px-4 py-3"
+    class="ob-banner-in flex flex-wrap items-center gap-3 rounded-2xl border border-primary/20 bg-primary/8 px-4 py-3"
   >
     <div
       class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary"
@@ -55,7 +55,7 @@ const reopenWizard = () => {
       </p>
     </div>
     <div class="flex items-center gap-3">
-      <Button class="btn-sm btn-primary" @click="goImport">
+      <Button class="btn-primary btn-sm" @click="goImport">
         {{ t('onboardingEmptyImport') }}
       </Button>
       <button

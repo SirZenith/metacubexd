@@ -1050,7 +1050,7 @@ const ProviderProxyNodes = defineComponent({
         <div
           v-for="i in 4"
           :key="i"
-          class="h-20 animate-pulse rounded-xl bg-base-content/5"
+          class="h-20 animate-pulse rounded-2xl bg-base-content/5"
         />
       </div>
       <!-- Empty state: loaded but no proxy groups to show -->
@@ -1172,7 +1172,7 @@ const ProviderProxyNodes = defineComponent({
         <div
           v-for="i in 3"
           :key="i"
-          class="h-20 animate-pulse rounded-xl bg-base-content/5"
+          class="h-20 animate-pulse rounded-2xl bg-base-content/5"
         />
       </div>
       <!-- Empty state: loaded but no providers -->

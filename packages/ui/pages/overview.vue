@@ -388,7 +388,7 @@ watch(
     <!-- Stats Grid -->
     <div class="grid min-w-0 grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6">
       <div
-        class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:0ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
+        class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:0ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
       >
         <div
           class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-success/15 text-success"
@@ -408,7 +408,7 @@ watch(
       </div>
 
       <div
-        class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:50ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
+        class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:50ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
       >
         <div
           class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-info/15 text-info"
@@ -428,7 +428,7 @@ watch(
       </div>
 
       <div
-        class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:100ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
+        class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:100ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
       >
         <div
           class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary/15 text-secondary"
@@ -452,7 +452,7 @@ watch(
       </div>
 
       <div
-        class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:150ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
+        class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:150ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
       >
         <div
           class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary/15 text-secondary"
@@ -476,7 +476,7 @@ watch(
       </div>
 
       <div
-        class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:200ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
+        class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:200ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
       >
         <div
           class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-warning/15 text-warning"
@@ -496,7 +496,7 @@ watch(
       </div>
 
       <div
-        class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:250ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
+        class="overview-stat-card animate-fade-slide-in flex min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-base-content/10 bg-base-200 p-4 transition-all duration-200 [animation-delay:250ms] hover:z-10 hover:-translate-y-0.5 hover:border-base-content/20"
       >
         <div
           class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-error/15 text-error"
@@ -533,7 +533,7 @@ watch(
     <!-- Charts Grid -->
     <div class="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
       <div
-        class="animate-fade-slide-in h-72 min-w-0 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-2 [animation-delay:350ms] lg:h-80"
+        class="animate-fade-slide-in h-72 min-w-0 overflow-hidden rounded-2xl border border-base-content/10 bg-base-200 p-2 [animation-delay:350ms] lg:h-80"
       >
         <RealtimeLineChart
           ref="trafficChartRef"
@@ -546,7 +546,7 @@ watch(
       </div>
 
       <div
-        class="animate-fade-slide-in h-72 min-w-0 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-2 [animation-delay:400ms] lg:h-80"
+        class="animate-fade-slide-in h-72 min-w-0 overflow-hidden rounded-2xl border border-base-content/10 bg-base-200 p-2 [animation-delay:400ms] lg:h-80"
       >
         <HighchartsAutoSize
           :options="flowChartOptions"
@@ -555,7 +555,7 @@ watch(
       </div>
 
       <div
-        class="animate-fade-slide-in h-72 min-w-0 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-2 [animation-delay:450ms] lg:h-80"
+        class="animate-fade-slide-in h-72 min-w-0 overflow-hidden rounded-2xl border border-base-content/10 bg-base-200 p-2 [animation-delay:450ms] lg:h-80"
       >
         <RealtimeLineChart
           ref="memoryChartRef"
@@ -567,7 +567,7 @@ watch(
       </div>
 
       <div
-        class="animate-fade-slide-in h-72 min-w-0 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-2 [animation-delay:500ms] lg:h-80"
+        class="animate-fade-slide-in h-72 min-w-0 overflow-hidden rounded-2xl border border-base-content/10 bg-base-200 p-2 [animation-delay:500ms] lg:h-80"
       >
         <RealtimeLineChart
           ref="connectionsChartRef"
@@ -580,7 +580,7 @@ watch(
       </div>
 
       <div
-        class="animate-fade-slide-in h-72 min-w-0 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-2 [animation-delay:550ms] lg:h-80"
+        class="animate-fade-slide-in h-72 min-w-0 overflow-hidden rounded-2xl border border-base-content/10 bg-base-200 p-2 [animation-delay:550ms] lg:h-80"
       >
         <HighchartsAutoSize
           :options="networkTypesChartOptions"
@@ -589,7 +589,7 @@ watch(
       </div>
 
       <div
-        class="animate-fade-slide-in h-72 min-w-0 overflow-hidden rounded-xl border border-base-content/10 bg-base-200 p-2 [animation-delay:600ms] lg:h-80"
+        class="animate-fade-slide-in h-72 min-w-0 overflow-hidden rounded-2xl border border-base-content/10 bg-base-200 p-2 [animation-delay:600ms] lg:h-80"
       >
         <HighchartsAutoSize
           :options="topProxiesChartOptions"

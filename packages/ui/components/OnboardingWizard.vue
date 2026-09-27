@@ -281,7 +281,7 @@ onUnmounted(() => {
                 </p>
               </div>
               <label
-                class="flex cursor-pointer items-center justify-between rounded-xl border border-base-content/10 bg-base-200 p-4"
+                class="flex cursor-pointer items-center justify-between rounded-2xl border border-base-content/10 bg-base-200 p-4"
               >
                 <span class="font-medium text-base-content">
                   {{ t('onboardingSystemProxyTitle') }}
@@ -350,7 +350,7 @@ onUnmounted(() => {
                 </button>
               </template>
               <template v-else-if="currentStep === 'systemProxy'">
-                <Button class="btn-sm btn-primary" @click="next">
+                <Button class="btn-primary btn-sm" @click="next">
                   {{ t('onboardingNext') }}
                 </Button>
               </template>
@@ -358,7 +358,7 @@ onUnmounted(() => {
                 <button class="ob-skip" @click="finish">
                   {{ t('onboardingFinish') }}
                 </button>
-                <Button class="btn-sm btn-primary" @click="goToProxies">
+                <Button class="btn-primary btn-sm" @click="goToProxies">
                   {{ t('onboardingGoToProxies') }}
                 </Button>
               </template>
