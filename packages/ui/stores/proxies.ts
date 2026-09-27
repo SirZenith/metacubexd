@@ -16,6 +16,7 @@ import {
   unfixProxyInGroupAPI,
   updateProxyProviderAPI,
 } from '~/composables/useApi'
+import { useKeyedBusyMap } from '~/composables/useKeyedBusyMap'
 
 export interface ProxyNodeView {
   name: string
@@ -56,11 +57,13 @@ export const useProxiesStore = defineStore('proxies', () => {
   const latencyMap = ref<Record<string, Record<string, number> | undefined>>({})
   const proxyNodeMap = ref<Record<string, ProxyInfo>>({})
 
-  // Loading states
-  const proxyLatencyTestingMap = ref<Record<string, boolean>>({})
-  const proxyGroupLatencyTestingMap = ref<Record<string, boolean>>({})
-  const proxyProviderLatencyTestingMap = ref<Record<string, boolean>>({})
-  const updatingMap = ref<Record<string, boolean>>({})
+  // Loading states: keyed-busy maps, one shared abstraction per action class.
+  // Each exposes a writable `Record<string, boolean>` (`.map`) so components can
+  // read `store.someMap[key]` and specs can seed it directly.
+  const proxyLatencyTesting = useKeyedBusyMap()
+  const proxyGroupLatencyTesting = useKeyedBusyMap()
+  const proxyProviderLatencyTesting = useKeyedBusyMap()
+  const providerUpdating = useKeyedBusyMap()
   const isAllProviderUpdating = ref(false)
   // True once the first fetchProxies has settled (success or failure) — gates
   // the proxies page's skeleton / empty state so the toolbar no longer floats
@@ -515,14 +518,11 @@ export const useProxiesStore = defineStore('proxies', () => {
     name: string,
     opts: { providerName?: string; groupName?: string } = {},
   ): boolean =>
-    proxyLatencyTestingMap.value[name] ||
+    proxyLatencyTesting.isBusy(name) ||
     (opts.providerName
-      ? proxyProviderLatencyTestingMap.value[opts.providerName] || false
+      ? proxyProviderLatencyTesting.isBusy(opts.providerName)
       : false) ||
-    (opts.groupName
-      ? proxyGroupLatencyTestingMap.value[opts.groupName] || false
-      : false) ||
-    false
+    (opts.groupName ? proxyGroupLatencyTesting.isBusy(opts.groupName) : false)
 
   // Test-only seam: the maps are no longer exported, so specs seed through here
   // instead of assigning store.proxyNodeMap / store.latencyMap directly.
@@ -547,42 +547,41 @@ export const useProxiesStore = defineStore('proxies', () => {
     // The Latency pill renders a spinner while this flag is set, hiding the
     // underlying value entirely, so there's no reason to clear it pre-flight
     // — clearing it only leaks "---" out the other side when the test fails.
-    proxyLatencyTestingMap.value[nodeName] = true
+    // `run` clears the flag in its finally.
+    await proxyLatencyTesting.run(nodeName, async () => {
+      try {
+        const { delay } = await proxyLatencyTestAPI(
+          nodeName,
+          provider,
+          finalTestUrl,
+          timeout ?? configStore.latencyTestTimeoutDuration,
+        )
 
-    try {
-      const { delay } = await proxyLatencyTestAPI(
-        nodeName,
-        provider,
-        finalTestUrl,
-        timeout ?? configStore.latencyTestTimeoutDuration,
-      )
-
-      recordLatencyTestResult(nodeName, finalTestUrl, delay)
-      appendLatencyHistoryEntry(nodeName, finalTestUrl, delay)
-      nodeRecommendationStore.recordTestResult(
-        nodeName,
-        delay > 0 ? delay : null,
-        delay > 0,
-      )
-    } catch {
-      // Transport failure (timeout/network): leave latencyMap untouched so the
-      // pill keeps showing the last known value. Record a failure datapoint
-      // so the stability bar / sparkline still reflect the failed attempt.
-      appendLatencyHistoryEntry(
-        nodeName,
-        finalTestUrl,
-        configStore.latencyQualityMap.NOT_CONNECTED,
-      )
-      nodeRecommendationStore.recordTestResult(nodeName, null, false)
-    } finally {
-      proxyLatencyTestingMap.value[nodeName] = false
-    }
+        recordLatencyTestResult(nodeName, finalTestUrl, delay)
+        appendLatencyHistoryEntry(nodeName, finalTestUrl, delay)
+        nodeRecommendationStore.recordTestResult(
+          nodeName,
+          delay > 0 ? delay : null,
+          delay > 0,
+        )
+      } catch {
+        // Transport failure (timeout/network): leave latencyMap untouched so
+        // the pill keeps showing the last known value. Record a failure
+        // datapoint so the stability bar / sparkline still reflect the failed
+        // attempt.
+        appendLatencyHistoryEntry(
+          nodeName,
+          finalTestUrl,
+          configStore.latencyQualityMap.NOT_CONNECTED,
+        )
+        nodeRecommendationStore.recordTestResult(nodeName, null, false)
+      }
+    })
   }
 
   // Proxy group latency test
   const proxyGroupLatencyTest = async (proxyGroupName: string) => {
     const nodeRecommendationStore = useNodeRecommendationStore()
-    proxyGroupLatencyTestingMap.value[proxyGroupName] = true
 
     const currentProxyGroup = proxies.value.find(
       (item) => item.name === proxyGroupName,
@@ -592,48 +591,44 @@ export const useProxiesStore = defineStore('proxies', () => {
     )
     const memberNames = currentProxyGroup?.all ?? [proxyGroupName]
 
-    try {
-      const results = await proxyGroupLatencyTestAPI(
-        proxyGroupName,
-        finalTestUrl,
-        currentProxyGroup?.timeout ?? configStore.latencyTestTimeoutDuration,
-      )
-      await fetchProxies()
-      recordLatencyTestResults(results, finalTestUrl)
-      nodeRecommendationStore.recordBatchResults(results)
-    } catch {
-      // Transport failure: leave latencyMap untouched (pills keep their last
-      // known values) and only record failure datapoints in history /
-      // recommendation so the bar/sparkline reflect the failed attempt.
-      const failedDelay = configStore.latencyQualityMap.NOT_CONNECTED
-      const failedResults: Record<string, number> = {}
-      for (const memberName of memberNames) {
-        const resolved = getNowProxyNodeName(memberName)
-        if (!resolved) continue
-        failedResults[resolved] = failedDelay
-        appendLatencyHistoryEntry(resolved, finalTestUrl, failedDelay)
+    await proxyGroupLatencyTesting.run(proxyGroupName, async () => {
+      try {
+        const results = await proxyGroupLatencyTestAPI(
+          proxyGroupName,
+          finalTestUrl,
+          currentProxyGroup?.timeout ?? configStore.latencyTestTimeoutDuration,
+        )
+        await fetchProxies()
+        recordLatencyTestResults(results, finalTestUrl)
+        nodeRecommendationStore.recordBatchResults(results)
+      } catch {
+        // Transport failure: leave latencyMap untouched (pills keep their last
+        // known values) and only record failure datapoints in history /
+        // recommendation so the bar/sparkline reflect the failed attempt.
+        const failedDelay = configStore.latencyQualityMap.NOT_CONNECTED
+        const failedResults: Record<string, number> = {}
+        for (const memberName of memberNames) {
+          const resolved = getNowProxyNodeName(memberName)
+          if (!resolved) continue
+          failedResults[resolved] = failedDelay
+          appendLatencyHistoryEntry(resolved, finalTestUrl, failedDelay)
+        }
+        nodeRecommendationStore.recordBatchResults(failedResults)
       }
-      nodeRecommendationStore.recordBatchResults(failedResults)
-    } finally {
-      proxyGroupLatencyTestingMap.value[proxyGroupName] = false
-    }
+    })
   }
 
   // Update provider
   const updateProviderByProviderName = async (providerName: string) => {
-    updatingMap.value[providerName] = true
+    await providerUpdating.run(providerName, async () => {
+      try {
+        await updateProxyProviderAPI(providerName)
+      } catch {
+        /* empty */
+      }
 
-    try {
-      await updateProxyProviderAPI(providerName)
-    } catch {
-      /* empty */
-    }
-
-    try {
       await fetchProxies()
-    } finally {
-      updatingMap.value[providerName] = false
-    }
+    })
   }
 
   // Update all providers
@@ -657,7 +652,6 @@ export const useProxiesStore = defineStore('proxies', () => {
   // Proxy provider latency test
   const proxyProviderLatencyTest = async (providerName: string) => {
     const nodeRecommendationStore = useNodeRecommendationStore()
-    proxyProviderLatencyTestingMap.value[providerName] = true
 
     const provider = proxyProviders.value.find(
       (item) => item.name === providerName,
@@ -667,7 +661,7 @@ export const useProxiesStore = defineStore('proxies', () => {
     const memberNames = provider?.proxies.map((proxy) => proxy.name) ?? []
     const results: Record<string, number> = {}
 
-    try {
+    await proxyProviderLatencyTesting.run(providerName, async () => {
       for (
         let i = 0;
         i < memberNames.length;
@@ -708,19 +702,17 @@ export const useProxiesStore = defineStore('proxies', () => {
         /* best-effort refresh */
       }
       nodeRecommendationStore.recordBatchResults(results)
-    } finally {
-      proxyProviderLatencyTestingMap.value[providerName] = false
-    }
+    })
   }
 
   return {
     proxies,
     proxyProviders,
     proxiesLoaded,
-    proxyLatencyTestingMap,
-    proxyGroupLatencyTestingMap,
-    proxyProviderLatencyTestingMap,
-    updatingMap,
+    proxyLatencyTestingMap: proxyLatencyTesting.map,
+    proxyGroupLatencyTestingMap: proxyGroupLatencyTesting.map,
+    proxyProviderLatencyTestingMap: proxyProviderLatencyTesting.map,
+    updatingMap: providerUpdating.map,
     isAllProviderUpdating,
     collapsedMap,
     fetchProxies,
