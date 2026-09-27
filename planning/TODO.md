@@ -393,3 +393,14 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
       tag: visual
       doc: planning/feature/align-proxies-chrome-master-detail.md
       desc: 代理界面的主从列表显示模式已经给代理条目列表添加了最大宽度的限制。但是 Node Name Filter、Connectivity Board Button、返回列表顶部按钮都没有响应列表的这种变化，根据你调研的结果进行你认为合适的配套调整
+
+---
+
+- [ ] 代理评价列表显示位置优化
+      status: doing
+      open-at: 2026.09.28 01:03:30
+      closed-at: -
+      hash: -
+      tag: visual
+      doc: planning/feature/center-master-detail-wide-layout.md
+      desc: 当前评价列表在大屏上整体完全显示在左侧，这让画面非常的不平衡。调查应该如何使列表与界面中的其它 UI 元素在整个界面上能够让显示内容更平衡，并将调查到的方案应用于代理界面的主从显示模式。
