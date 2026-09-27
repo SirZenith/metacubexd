@@ -209,11 +209,11 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] 统一项目圆角体系
-      status: doing
+- [x] 统一项目圆角体系
+      status: done
       open-at: 2026.09.26 16:10:00
-      closed-at: -
-      hash: -
+      closed-at: 2026.09.28 00:23:45
+      hash: 8c96b146
       tag: visual
       doc: planning/feature/unify-card-panel-radius.md
       desc: 卡片面板 rounded-xl→rounded-2xl 并逐屏视觉验收。优先级：P1。
