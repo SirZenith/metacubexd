@@ -220,11 +220,11 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] 统一项目圆角体系
-      status: doing
+- [x] 统一项目圆角体系
+      status: done
       open-at: 2026.09.26 16:10:00
-      closed-at: -
-      hash: -
+      closed-at: 2026.09.28 00:32:47
+      hash: c4cbdeac
       tag: visual
       doc: planning/feature/rounded-token-audit.md
       desc: 检查项目的圆角体系是否已经统一
