@@ -550,6 +550,44 @@ describe('e2E Page Tests', () => {
       }
     })
 
+    it('aligns the page chrome with the capped master-detail pane', async () => {
+      const currentPage = await gotoAppPath(page, '/proxies')
+      await expect
+        .poll(
+          () =>
+            currentPage.getByTestId('display-mode-masterDetailMode').count(),
+          { timeout: ELEMENT_TIMEOUT },
+        )
+        .toBeGreaterThan(0)
+      await currentPage.getByTestId('display-mode-masterDetailMode').click()
+
+      try {
+        await currentPage.setViewportSize({ width: 1920, height: 900 })
+
+        const header = currentPage.getByTestId('proxies-header')
+        const detail = currentPage.getByTestId('master-detail-detail')
+        await expect
+          .poll(() => detail.count(), { timeout: ELEMENT_TIMEOUT })
+          .toBeGreaterThan(0)
+
+        const headerBox = await header.boundingBox()
+        const detailBox = await detail.boundingBox()
+        expect(headerBox).not.toBeNull()
+        expect(detailBox).not.toBeNull()
+
+        // The toolbar's right edge lines up with the detail pane's right edge.
+        const headerRight = headerBox!.x + headerBox!.width
+        const detailRight = detailBox!.x + detailBox!.width
+        expect(Math.abs(headerRight - detailRight)).toBeLessThanOrEqual(2)
+
+        // The page chrome is capped well below the viewport on 2xl.
+        expect(headerBox!.width).toBeLessThanOrEqual(76.75 * 16 + 2)
+      } finally {
+        await currentPage.getByTestId('display-mode-cardMode').click()
+        await currentPage.setViewportSize({ width: 1920, height: 1080 })
+      }
+    })
+
     it('should scroll the active proxy tab to top on mobile', async () => {
       const currentPage = getPage(page)
       await currentPage.setViewportSize({ width: 390, height: 844 })

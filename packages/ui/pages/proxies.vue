@@ -545,6 +545,15 @@ const isMasterMode = computed(
   () => configStore.proxiesDisplayMode === PROXIES_DISPLAY_MODE.MASTER,
 )
 
+// In master-detail the detail pane is width-capped (see ProxyMasterDetail:
+// sm:w-48 nav + gap-3 + sm:max-w-4xl 2xl:max-w-5xl). Cap the page chrome to the
+// same total width and left-align it so the toolbar and the floating
+// scroll-to-top button line up with the pane instead of the viewport. Keep
+// these constants in sync with ProxyMasterDetail.
+const masterPanelConstrained = computed(
+  () => isMasterMode.value && activeTab.value === 'proxies',
+)
+
 // ProxyNodes component
 const ProxyNodes = defineComponent({
   props: {
@@ -824,13 +833,19 @@ const ProviderProxyNodes = defineComponent({
 </script>
 
 <template>
-  <div class="relative flex h-full min-h-0 min-w-0 flex-col gap-3">
+  <div
+    class="relative flex h-full min-h-0 min-w-0 flex-col gap-3"
+    :class="
+      masterPanelConstrained ? 'sm:max-w-[68.75rem] 2xl:max-w-[76.75rem]' : ''
+    "
+  >
     <!-- First-run nudge: shown only when the agent is present and no base
          profile exists yet (self-gating; nothing in web mode). -->
     <OnboardingEmptyState context="proxies" />
 
     <!-- Header with Tabs and Actions -->
     <div
+      data-testid="proxies-header"
       class="animate-fade-slide-in flex shrink-0 flex-wrap items-center gap-3"
     >
       <!-- Tabs -->
