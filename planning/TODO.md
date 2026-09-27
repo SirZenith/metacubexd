@@ -375,10 +375,10 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 ---
 
 - [ ] 优化代理主从列表显示
-      status: pending
+      status: doing
       open-at: 2026.09.27 23:47:47
       closed-at: -
       hash: -
       tag: visual
-      doc: -
+      doc: planning/feature/optimize-master-detail-large-screen.md
       desc: 当前主从列表在大屏上代理条目列表区域会扩展到占据屏幕靠右侧的大量区域，这让单个条目的信息被拉长放置在了屏幕左侧和右侧，视觉效果很不好。调研一下别的软件中是如何实现该功能还保持该功能在大屏上好看的，将调研得到的最优结果应用到主从模式的大屏显示样式上。
