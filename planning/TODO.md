@@ -382,3 +382,14 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
       tag: visual
       doc: planning/feature/optimize-master-detail-large-screen.md
       desc: 当前主从列表在大屏上代理条目列表区域会扩展到占据屏幕靠右侧的大量区域，这让单个条目的信息被拉长放置在了屏幕左侧和右侧，视觉效果很不好。调研一下别的软件中是如何实现该功能还保持该功能在大屏上好看的，将调研得到的最优结果应用到主从模式的大屏显示样式上。
+
+---
+
+- [ ] 让其它 UI 元素响应代理主从列表的调整
+      status: pending
+      open-at: 2026.09.28 00:06:12
+      closed-at: -
+      hash: -
+      tag: visual
+      doc: -
+      desc: 代理界面的主从列表显示模式已经给代理条目列表添加了最大宽度的限制。但是 Node Name Filter、Connectivity Board Button、返回列表顶部按钮都没有响应列表的这种变化，根据你调研的结果进行你认为合适的配套调整

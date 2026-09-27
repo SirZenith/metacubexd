@@ -996,7 +996,7 @@ const ProviderProxyNodes = defineComponent({
         />
         <Button
           v-if="configStore.proxiesGroupNameFilter"
-          class="flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-base-content/45 transition-colors duration-200 hover:bg-base-content/10 hover:text-base-content"
+          class="flex h-5 w-5 shrink-0 items-center justify-center rounded-lg text-base-content/45 transition-colors duration-200 hover:bg-base-content/10 hover:text-base-content"
           :title="t('clear')"
           @click="configStore.proxiesGroupNameFilter = ''"
         >

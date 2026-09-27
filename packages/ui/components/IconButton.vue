@@ -35,7 +35,7 @@ const VARIANT_CLASS: Record<IconButtonVariant, string> = {
   outline:
     'rounded-lg border border-base-content/12 bg-base-200/60 text-base-content hover:border-base-content/20 hover:bg-base-300',
   ghost:
-    'rounded-md border border-base-content/10 bg-transparent text-base-content/60 hover:bg-base-300 hover:text-base-content',
+    'rounded-lg border border-base-content/10 bg-transparent text-base-content/60 hover:bg-base-300 hover:text-base-content',
   danger:
     'rounded-lg border border-base-content/12 bg-base-200/60 text-base-content hover:border-error/30 hover:bg-error/15 hover:text-error',
 }

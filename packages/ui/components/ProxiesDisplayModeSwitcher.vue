@@ -43,7 +43,7 @@ const items = computed(() =>
       :key="item.mode"
       type="button"
       :data-testid="`display-mode-${item.mode}`"
-      class="flex h-7 w-7 items-center justify-center rounded-md transition-all duration-200"
+      class="flex h-7 w-7 items-center justify-center rounded-lg transition-all duration-200"
       :class="
         configStore.proxiesDisplayMode === item.mode
           ? 'bg-primary text-primary-content shadow-sm'

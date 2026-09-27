@@ -196,7 +196,7 @@ function setTunnelNetwork(index: number, optionValue: string) {
           "
         />
         <Button
-          class="flex h-7 w-7 items-center justify-center justify-self-end rounded-md text-base-content/50 transition-colors hover:bg-error/15 hover:text-error sm:justify-self-auto"
+          class="flex h-7 w-7 items-center justify-center justify-self-end rounded-lg text-base-content/50 transition-colors hover:bg-error/15 hover:text-error sm:justify-self-auto"
           :title="t('delete')"
           @click="removeTunnel(index)"
         >

@@ -774,7 +774,7 @@ async function openFullEditor() {
             "
           />
           <Button
-            class="flex h-7 w-7 items-center justify-center rounded-md text-base-content/50 transition-colors hover:bg-primary/15 hover:text-primary disabled:opacity-30"
+            class="flex h-7 w-7 items-center justify-center rounded-lg text-base-content/50 transition-colors hover:bg-primary/15 hover:text-primary disabled:opacity-30"
             :title="t('moveUp')"
             :disabled="index === 0"
             @click="ruleEditor.move(index, index - 1)"
@@ -782,7 +782,7 @@ async function openFullEditor() {
             <IconChevronUp :size="16" />
           </Button>
           <Button
-            class="flex h-7 w-7 items-center justify-center rounded-md text-base-content/50 transition-colors hover:bg-primary/15 hover:text-primary disabled:opacity-30"
+            class="flex h-7 w-7 items-center justify-center rounded-lg text-base-content/50 transition-colors hover:bg-primary/15 hover:text-primary disabled:opacity-30"
             :title="t('moveDown')"
             :disabled="index === ruleEditor.rules.value.length - 1"
             @click="ruleEditor.move(index, index + 1)"
@@ -790,7 +790,7 @@ async function openFullEditor() {
             <IconChevronDown :size="16" />
           </Button>
           <Button
-            class="flex h-7 w-7 items-center justify-center rounded-md text-base-content/50 transition-colors hover:bg-error/15 hover:text-error"
+            class="flex h-7 w-7 items-center justify-center rounded-lg text-base-content/50 transition-colors hover:bg-error/15 hover:text-error"
             :title="t('delete')"
             @click="ruleEditor.remove(index)"
           >
