@@ -486,6 +486,15 @@ describe('e2E Page Tests', () => {
       await currentPage.setViewportSize({ width: 390, height: 844 })
 
       try {
+        // On a freshly loaded page the app resolves its empty initial hash to
+        // /overview. Wait for that redirect to settle before navigating,
+        // otherwise it overwrites the new hash and the page stays on
+        // /overview.
+        await expect
+          .poll(() => new URL(currentPage.url()).hash, {
+            timeout: ELEMENT_TIMEOUT,
+          })
+          .toMatch(/^#\/[a-z]/)
         await gotoAppPath(currentPage, '/proxies')
 
         const proxyScrollContainer = currentPage.getByTestId(
@@ -493,7 +502,11 @@ describe('e2E Page Tests', () => {
         )
         // The mobile toolbar is collapsed by default, so reveal it before
         // using the Expand All action.
-        await currentPage.getByTestId('proxies-tools-toggle').click()
+        const toolsToggle = currentPage.getByTestId('proxies-tools-toggle')
+        await expect
+          .poll(() => toolsToggle.isVisible(), { timeout: ELEMENT_TIMEOUT })
+          .toBe(true)
+        await toolsToggle.click()
         await currentPage.getByTitle('Expand All').click()
         await expect
           .poll(
@@ -591,6 +604,9 @@ describe('e2E Page Tests', () => {
 
         // Inactive bottom-nav items preserve their normal navigation behavior.
         await currentPage.setViewportSize({ width: 390, height: 844 })
+        // Restore the collapsed toolbar before leaving /proxies so later tests
+        // start from the default (the page may be kept alive).
+        await currentPage.getByTestId('proxies-tools-toggle').click()
         await mobileNav.locator('a[href="#/overview"]').click()
         await expectHashPath(currentPage, '/overview')
       } finally {
@@ -647,6 +663,61 @@ describe('e2E Page Tests', () => {
         await currentPage.setViewportSize({ width: 1280, height: 800 })
         await expect(toolsToggle.isVisible()).resolves.toBe(false)
         await expect(actions.isVisible()).resolves.toBe(true)
+      } finally {
+        await currentPage.setViewportSize({ width: 1920, height: 1080 })
+      }
+    })
+
+    it('should collapse every region of the mobile proxies toolbar', async () => {
+      const currentPage = getPage(page)
+      await currentPage.setViewportSize({ width: 390, height: 844 })
+
+      try {
+        await gotoAppPath(currentPage, '/proxies')
+
+        const toolsToggle = currentPage.getByTestId('proxies-tools-toggle')
+        const toolbarParts = [
+          currentPage.getByTestId('proxies-actions'),
+          currentPage.getByTestId('proxies-name-filter'),
+          currentPage.getByTestId('proxies-connectivity'),
+          currentPage.getByTestId('proxies-settings'),
+        ]
+
+        await expect
+          .poll(() => toolsToggle.isVisible(), { timeout: ELEMENT_TIMEOUT })
+          .toBe(true)
+
+        // Every toolbar region is hidden while collapsed on small screens.
+        await Promise.all(
+          toolbarParts.map((part) =>
+            expect(part.isVisible()).resolves.toBe(false),
+          ),
+        )
+
+        // Expanding reveals every region.
+        await toolsToggle.click()
+        await Promise.all(
+          toolbarParts.map((part) =>
+            expect(part.isVisible()).resolves.toBe(true),
+          ),
+        )
+
+        // Collapsing hides them all again.
+        await toolsToggle.click()
+        await Promise.all(
+          toolbarParts.map((part) =>
+            expect(part.isVisible()).resolves.toBe(false),
+          ),
+        )
+
+        // Desktop shows every region and hides the toggle.
+        await currentPage.setViewportSize({ width: 1280, height: 800 })
+        await expect(toolsToggle.isVisible()).resolves.toBe(false)
+        await Promise.all(
+          toolbarParts.map((part) =>
+            expect(part.isVisible()).resolves.toBe(true),
+          ),
+        )
       } finally {
         await currentPage.setViewportSize({ width: 1920, height: 1080 })
       }
