@@ -491,6 +491,9 @@ describe('e2E Page Tests', () => {
         const proxyScrollContainer = currentPage.getByTestId(
           'proxies-scroll-container',
         )
+        // The mobile toolbar is collapsed by default, so reveal it before
+        // using the Expand All action.
+        await currentPage.getByTestId('proxies-tools-toggle').click()
         await currentPage.getByTitle('Expand All').click()
         await expect
           .poll(
