@@ -72,7 +72,7 @@ watch(
             <div
               v-for="action in category.shortcuts"
               :key="action"
-              class="flex items-center justify-between rounded px-2 py-1.5 hover:bg-base-200"
+              class="flex items-center justify-between rounded-md px-2 py-1.5 hover:bg-base-200"
             >
               <span class="text-sm">
                 {{ t(SHORTCUT_LABELS[action as ShortcutAction], action) }}

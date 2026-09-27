@@ -19,6 +19,22 @@ function collectVueFiles(dir: string): string[] {
   })
 }
 
+// Drop comment lines so prose like "the rounded, bordered card" can't trip the
+// bare-utility check.
+function stripComments(source: string): string {
+  return source
+    .split('\n')
+    .filter((line) => {
+      const trimmed = line.trim()
+      return (
+        !trimmed.startsWith('//') &&
+        !trimmed.startsWith('*') &&
+        !trimmed.startsWith('<!--')
+      )
+    })
+    .join('\n')
+}
+
 const vueFiles = [
   ...SCAN_DIRS.flatMap((dir) => collectVueFiles(resolve(root, dir))),
   ...SCAN_FILES.map((file) => resolve(root, file)).filter((file) =>
@@ -34,6 +50,13 @@ describe('rounded corner tokens', () => {
   it('has no arbitrary rounded-[…] values', () => {
     const offenders = vueFiles.filter((file) =>
       readFileSync(file, 'utf8').includes('rounded-['),
+    )
+    expect(offenders).toEqual([])
+  })
+
+  it('has no bare rounded utility', () => {
+    const offenders = vueFiles.filter((file) =>
+      /rounded(?![-\w])/.test(stripComments(readFileSync(file, 'utf8'))),
     )
     expect(offenders).toEqual([])
   })

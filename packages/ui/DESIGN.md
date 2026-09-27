@@ -43,7 +43,9 @@ typography:
     fontWeight: 600
     lineHeight: 1.3
 rounded:
+  chip: '0.375rem'
   field: '0.5rem'
+  compact: '0.75rem'
   box: '1rem'
   pill: '9999px'
 spacing:
@@ -197,6 +199,20 @@ works under light and dark themes.
 **The Flat-By-Default Rule.** Surfaces carry no shadow at rest. A shadow that isn't reporting hover, drag, or float-layer state is decoration — remove it. Tonal layering (base-100 → 200 → 300) does the resting separation.
 
 ## 6. Components
+
+### Border Radius Tokens
+
+Every corner radius comes from one scale. A raw utility outside this list — bare
+`rounded`, `rounded-sm`, `rounded-3xl`, or an arbitrary `rounded-[…]` value — is
+a bug the moment it ships.
+
+- **Chip** (`rounded-md`, 0.375rem): badges, chips, the latency pill, small inline blocks.
+- **Field** (`rounded-lg`, 0.5rem): inputs and buttons — the workhorse.
+- **Compact panel** (`rounded-xl`, 0.75rem): deliberately compact panels — menus, tooltips, nested form sections.
+- **Box** (`rounded-2xl`, 1rem): cards and page panels.
+- **Pill** (`rounded-full`): pills, avatars, circular icon buttons.
+
+`rounded-none` is reserved for table rows and square tab edges.
 
 ### Buttons
 

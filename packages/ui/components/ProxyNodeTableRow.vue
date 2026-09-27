@@ -54,7 +54,7 @@ const { proxyType, isUDP, runLatencyTest } = useProxyNode(
     <span class="flex w-8 shrink-0 justify-center">
       <span
         v-if="isUDP"
-        class="rounded bg-info px-1 py-0.5 text-[0.625rem] font-semibold text-info-content"
+        class="rounded-md bg-info px-1 py-0.5 text-[0.625rem] font-semibold text-info-content"
         >U</span
       >
     </span>

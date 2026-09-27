@@ -963,7 +963,7 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
                   <input
                     type="color"
                     :value="configStore.customThemeColors[token] || '#888888'"
-                    class="h-7 w-9 cursor-pointer rounded border border-base-content/10 bg-base-100"
+                    class="h-7 w-9 cursor-pointer rounded-md border border-base-content/10 bg-base-100"
                     @input="onThemeColorInput(token, $event)"
                   />
                   <span class="truncate opacity-70">{{ token }}</span>

@@ -141,7 +141,7 @@ const sensitive = computed(() =>
         />
         <button
           type="button"
-          class="absolute end-2 top-2 rounded px-1.5 text-xs text-error hover:bg-error/10"
+          class="absolute end-2 top-2 rounded-md px-1.5 text-xs text-error hover:bg-error/10"
           :aria-label="`Remove ${key}`"
           @click="removeObjectKey(key)"
         >

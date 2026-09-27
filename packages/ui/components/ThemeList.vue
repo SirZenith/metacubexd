@@ -93,15 +93,15 @@ function selectTheme(theme: (typeof themes)[number]) {
           :data-tip="t('themeColorTooltip')"
         >
           <span
-            class="size-3.5 rounded"
+            class="size-3.5 rounded-md"
             :style="{ backgroundColor: getThemeColors(theme).base }"
           />
           <span
-            class="size-3.5 rounded"
+            class="size-3.5 rounded-md"
             :style="{ backgroundColor: getThemeColors(theme).primary }"
           />
           <span
-            class="size-3.5 rounded"
+            class="size-3.5 rounded-md"
             :style="{ backgroundColor: getThemeColors(theme).content }"
           />
         </span>

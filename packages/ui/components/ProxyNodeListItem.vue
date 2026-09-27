@@ -93,7 +93,7 @@ function onClick() {
         <!-- UDP indicator -->
         <span
           v-if="isUDP"
-          class="shrink-0 rounded bg-info px-1.5 py-0.5 text-[0.625rem] font-semibold text-info-content"
+          class="shrink-0 rounded-md bg-info px-1.5 py-0.5 text-[0.625rem] font-semibold text-info-content"
           >U</span
         >
 
@@ -164,7 +164,7 @@ function onClick() {
                     {{ dayjs(result.time).format('YYYY-MM-DD HH:mm:ss') }}
                   </time>
                   <div
-                    class="inline-block rounded px-2 py-0.5 text-xs"
+                    class="inline-block rounded-md px-2 py-0.5 text-xs"
                     :class="
                       getLatencyClassName(
                         result.delay,

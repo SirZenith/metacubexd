@@ -306,7 +306,7 @@ async function copyCell(
               <!-- Grouping button -->
               <button
                 v-if="col.groupable"
-                class="conn-group-btn flex cursor-pointer items-center justify-center rounded border-none bg-transparent p-1 transition-all duration-200"
+                class="conn-group-btn flex cursor-pointer items-center justify-center rounded-md border-none bg-transparent p-1 transition-all duration-200"
                 @click.stop="emit('toggleGrouping', col.id)"
               >
                 <IconZoomOutFilled
