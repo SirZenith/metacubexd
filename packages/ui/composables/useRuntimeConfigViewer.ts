@@ -3,10 +3,6 @@ import { useAsyncAction } from './useAsyncAction'
 import { useControlApi } from './useControlApi'
 import { useControlInfo } from './useControlInfo'
 
-// `useI18n` is auto-imported by @nuxtjs/i18n (no explicit import). In unit
-// tests it is provided as a global stub via test/setup.ts.
-declare function useI18n(): { t: (key: string, named?: object) => string }
-
 // Runtime config viewer (capability-gated 'runtime-config'). A read-only view of
 // the ACTUAL config file the kernel runs with -f (GET config/runtime). It differs
 // from the active profile source: it carries the supervisor-injected

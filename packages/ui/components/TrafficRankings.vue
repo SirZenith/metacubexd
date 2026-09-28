@@ -15,8 +15,6 @@ defineProps<{
 const emit = defineEmits<{
   (e: 'select', label: string): void
 }>()
-
-const { t } = useI18n()
 </script>
 
 <template>

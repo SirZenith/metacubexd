@@ -15,6 +15,7 @@
     "generate:desktop": "NUXT_APP_BASE_URL=./ MCXD_DISABLE_PWA=true nuxt generate",
     "postinstall": "nuxt prepare",
     "lint": "eslint --fix .",
+    "lint:check": "eslint .",
     "preview": "nuxt preview --host",
     "screenshot": "tsx scripts/screenshot.ts",
     "test:e2e": "vitest run e2e/",

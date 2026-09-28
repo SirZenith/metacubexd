@@ -134,8 +134,8 @@ export function randomUUID(): string {
   }
 
   const bytes = crypto.getRandomValues(new Uint8Array(16))
-  bytes[6] = (bytes[6]! & 0x0f) | 0x40 // version 4
-  bytes[8] = (bytes[8]! & 0x3f) | 0x80 // variant 10
+  bytes[6] = (bytes[6]! & 0x0F) | 0x40 // version 4
+  bytes[8] = (bytes[8]! & 0x3F) | 0x80 // variant 10
   const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('')
 
   return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
@@ -420,7 +420,7 @@ export function filterProxiesByName(proxyNames: string[], keyword: string) {
 // use non-standard region tokens.
 export const REGION_OTHER = '__other__'
 
-const FLAG_OFFSET = 0x1f1e6 // regional indicator 'A'
+const FLAG_OFFSET = 0x1F1E6 // regional indicator 'A'
 const A_CHARCODE = 0x41 // 'A'
 
 // Common proxy-region ISO codes accepted as a *leading text token* (e.g.

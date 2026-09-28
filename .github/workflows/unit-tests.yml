@@ -63,6 +63,9 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      - name: Lint
+        run: pnpm --filter @metacubexd/ui lint:check
+
       - name: Run unit tests
         run: |
           pnpm --filter @metacubexd/agent test
