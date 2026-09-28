@@ -463,10 +463,10 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 ---
 
 - [ ] 提取代理节点增量渲染逻辑
-      status: pending
+      status: doing
       open-at: 2026.09.28 01:30:00
       closed-at: -
       hash: -
       tag: refactor
-      doc: -
+      doc: planning/feature/extract-incremental-render.md
       desc: packages/ui/pages/proxies.vue 内联的 ProxyNodes（第 561 行）与 ProviderProxyNodes（第 772 行）两个 defineComponent 各自实现了同一套「renderCount + loadMoreSentinel + useIntersectionObserver 增量渲染」逻辑，仅 root 元素与节点 props 不同。应提取为共享 composable（如 useIncrementalRender）或共享组件，减少重复并便于后续维护；同时该文件已达 1542 行，可一并评估拆分。
