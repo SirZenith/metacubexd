@@ -484,11 +484,11 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] 拆分 config.vue 超大页面
-      status: doing
+- [x] 拆分 config.vue 超大页面
+      status: done
       open-at: 2026.09.28 14:28:52
-      closed-at: -
-      hash: -
+      closed-at: 2026.09.28 14:42:35
+      hash: 604991cf
       tag: refactor
       doc: planning/feature/split-config-vue-sections.md
       desc: packages/ui/pages/config.vue 已达 1570 行，单文件内包含 Core Config、XD Config、Appearance、Recommendation、Actions、DNS、Network 等相互独立的设置区块，修改与复用成本高。应参照已提取的 PanelCard / PanelHeader / ConfigSettingRow，把各区块拆成独立子组件（如 ConfigAppearanceSection、ConfigRecommendationSection 等），保持现有布局与行为不变。
