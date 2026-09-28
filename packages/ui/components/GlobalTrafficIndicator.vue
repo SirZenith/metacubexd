@@ -6,9 +6,8 @@ import {
   IconGripVertical,
   IconX,
 } from '@tabler/icons-vue'
-import byteSize from 'byte-size'
 import { loadHighcharts } from '~/composables/useHighcharts'
-import { getChartThemeColors } from '~/utils'
+import { formatBytes, getChartThemeColors } from '~/utils'
 
 const globalStore = useGlobalStore()
 const connectionsStore = useConnectionsStore()
@@ -47,9 +46,6 @@ const memoryUsage = computed(() => globalStore.latestMemory?.inuse ?? 0)
 const activeConnections = computed(
   () => connectionsStore.latestConnectionMsg?.connections?.length ?? 0,
 )
-
-// Format bytes helper
-const formatBytes = (bytes: number) => byteSize(bytes).toString()
 
 const route = useRoute()
 const isCompactViewport = useMediaQuery('(max-width: 1023px)')

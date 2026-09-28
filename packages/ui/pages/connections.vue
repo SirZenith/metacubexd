@@ -8,7 +8,6 @@ import {
   IconJson,
   IconX,
 } from '@tabler/icons-vue'
-import byteSize from 'byte-size'
 import {
   connectionsToCSV,
   connectionsToJSON,
@@ -23,7 +22,12 @@ import {
   closeSingleConnectionAPI,
 } from '~/composables/useApi'
 import { CONNECTIONS_TABLE_ACCESSOR_KEY } from '~/constants'
-import { formatIPv6, formatTimeFromNow, gapLeadingFlag } from '~/utils'
+import {
+  formatBytes,
+  formatIPv6,
+  formatTimeFromNow,
+  gapLeadingFlag,
+} from '~/utils'
 import { renderTwoLineCell } from '~/utils/connectionCells'
 
 const { t, locale } = useI18n()
@@ -63,9 +67,6 @@ const pageSize = useLocalStorage('connectionsTablePageSize', 50)
 
 // Close connections
 const isClosingConnections = ref(false)
-
-// Helpers
-const formatBytes = (bytes: number) => byteSize(bytes).toString()
 
 // Cell value helpers
 function getProcess(conn: Connection) {

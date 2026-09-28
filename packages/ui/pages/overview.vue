@@ -11,8 +11,7 @@ import {
   IconPlugConnected,
   IconServer,
 } from '@tabler/icons-vue'
-import byteSize from 'byte-size'
-import { getChartThemeColors } from '~/utils'
+import { formatBytes, getChartThemeColors } from '~/utils'
 
 const { t } = useI18n()
 
@@ -22,8 +21,6 @@ const connectionsStore = useConnectionsStore()
 const endpointStore = useEndpointStore()
 const configStore = useConfigStore()
 const proxiesStore = useProxiesStore()
-
-const formatBytes = (bytes: number) => byteSize(bytes).toString()
 
 // Ensure proxy data is available for isProxyGroup filtering in top proxies chart
 onMounted(() => {
@@ -96,7 +93,7 @@ const flowChartOptions = computed<Highcharts.Options>(() => ({
       const percent =
         (this as Highcharts.Point & { percentage?: number }).percentage || 0
 
-      return `${this.name}<br/>${byteSize(value).toString()} (${percent.toFixed(1)}%)`
+      return `${this.name}<br/>${formatBytes(value)} (${percent.toFixed(1)}%)`
     },
   },
   plotOptions: {
@@ -283,7 +280,7 @@ const topProxiesChartOptions = computed<Highcharts.Options>(() => {
           color: themeColors.value.textColor,
         },
         formatter() {
-          return `${byteSize(this.value as number).toString()}/s`
+          return `${formatBytes(this.value as number)}/s`
         },
       },
       gridLineColor: themeColors.value.gridLineColor,
@@ -292,7 +289,7 @@ const topProxiesChartOptions = computed<Highcharts.Options>(() => {
     tooltip: {
       formatter() {
         const categoryName = categories[this.x as number] || this.x
-        return `<b>${categoryName}</b><br/>${byteSize(this.y as number).toString()}/s`
+        return `<b>${categoryName}</b><br/>${formatBytes(this.y as number)}/s`
       },
     },
     legend: {

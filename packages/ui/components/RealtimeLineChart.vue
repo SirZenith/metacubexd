@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type Highcharts from 'highcharts'
-import byteSize from 'byte-size'
 import { loadHighcharts } from '~/composables/useHighcharts'
 import { CHART_MAX_XAXIS } from '~/constants'
-import { getChartThemeColors } from '~/utils'
+import { formatBytes, getChartThemeColors } from '~/utils'
 
 interface SeriesConfig {
   name: string
@@ -38,8 +37,8 @@ const formatValue = (value: number, withSuffix = false) => {
     return String(value)
   }
   return withSuffix && props.isRate
-    ? `${byteSize(value).toString()}/s`
-    : byteSize(value).toString()
+    ? `${formatBytes(value)}/s`
+    : formatBytes(value)
 }
 
 export interface ChartRef {

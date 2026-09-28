@@ -9,9 +9,8 @@ import {
   IconRefresh,
   IconServer,
 } from '@tabler/icons-vue'
-import byteSize from 'byte-size'
 import * as d3 from 'd3'
-import { getThemeColors } from '~/utils'
+import { formatBytes, getThemeColors } from '~/utils'
 
 const { t } = useI18n()
 
@@ -681,7 +680,7 @@ function renderTree() {
       d.data.subtitle && d.data.subtitle !== d.data.name
         ? `${d.data.name} (${d.data.subtitle})`
         : d.data.name
-    return `${head}\n${d.data.connections} connections\n${byteSize(d.data.traffic).toString()}`
+    return `${head}\n${d.data.connections} connections\n${formatBytes(d.data.traffic)}`
   })
 }
 
@@ -747,7 +746,7 @@ onMounted(() => {
         <span>·</span>
         <span>{{ stats.proxyCount }} {{ t('nodes') }}</span>
         <span>·</span>
-        <span>{{ byteSize(stats.totalTraffic).toString() }}</span>
+        <span>{{ formatBytes(stats.totalTraffic) }}</span>
       </div>
     </div>
 

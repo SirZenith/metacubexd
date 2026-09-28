@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { Connection } from '~/types'
 import { IconNetwork } from '@tabler/icons-vue'
-import byteSize from 'byte-size'
 import dayjs from 'dayjs'
+
+import { formatBytes } from '~/utils'
 
 const props = defineProps<{
   connection: Connection | null
@@ -86,19 +87,19 @@ defineExpose({
         <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
           <div class="text-base-content/60">{{ t('download') }}</div>
           <div class="min-w-0 break-all text-base-content">
-            {{ byteSize(connection.download) }}
+            {{ formatBytes(connection.download) }}
           </div>
           <div class="text-base-content/60">{{ t('upload') }}</div>
           <div class="min-w-0 break-all text-base-content">
-            {{ byteSize(connection.upload) }}
+            {{ formatBytes(connection.upload) }}
           </div>
           <div class="text-base-content/60">{{ t('dlSpeed') }}</div>
           <div class="min-w-0 break-all text-base-content">
-            {{ byteSize(connection.downloadSpeed) }}/s
+            {{ formatBytes(connection.downloadSpeed) }}/s
           </div>
           <div class="text-base-content/60">{{ t('ulSpeed') }}</div>
           <div class="min-w-0 break-all text-base-content">
-            {{ byteSize(connection.uploadSpeed) }}/s
+            {{ formatBytes(connection.uploadSpeed) }}/s
           </div>
         </div>
       </div>

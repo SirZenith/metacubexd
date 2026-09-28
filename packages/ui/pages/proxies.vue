@@ -23,7 +23,6 @@ import {
   IconWand,
   IconX,
 } from '@tabler/icons-vue'
-import byteSize from 'byte-size'
 import Button from '~/components/Button.vue'
 import ConnectivityBoard from '~/components/ConnectivityBoard.vue'
 import ProxyNodeCard from '~/components/ProxyNodeCard.vue'
@@ -43,6 +42,7 @@ import {
   encodeSvg,
   filterProxiesByAvailability,
   filterProxiesByName,
+  formatBytes,
   formatProxyType,
   formatTimeFromNow,
   sortProxiesByOrderingType,
@@ -173,8 +173,6 @@ async function onProxyConfigSaved() {
 watch([activeTab, () => configStore.proxiesDisplayMode], () => {
   showScrollToTop.value = false
 })
-
-const formatBytes = (bytes: number) => byteSize(bytes).toString()
 
 // Get recommended node for a proxy group
 const getRecommendedNode = (proxyGroup: ProxyType) => {
