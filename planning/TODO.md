@@ -441,12 +441,12 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 ---
 
 - [ ] 为显示模式切换器补可访问性语义
-      status: pending
+      status: doing
       open-at: 2026.09.28 01:30:00
       closed-at: -
       hash: -
       tag: ux
-      doc: -
+      doc: planning/feature/a11y-display-mode-switcher.md
       desc: packages/ui/components/ProxiesDisplayModeSwitcher.vue 的四个图标按钮只有 :title，没有 aria-label，也没有表达当前选中态的 aria-pressed（或 role=radiogroup + aria-checked），违反 PRODUCT.md「every icon-only control an accessible name」与 DESIGN.md §7。对比 ProxiesSortSelect/ProxiesCardSizeSelect 经 IconMenuSelect 已有 aria-label。需补 aria-label 与选中态语义，并加单测或 e2e 断言。
 
 ---
