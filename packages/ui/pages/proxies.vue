@@ -91,6 +91,21 @@ const isTwoColumns = computed(
 const PROXIES_INITIAL_RENDER_COUNT = 50
 const PROXIES_RENDER_STEP = 50
 const SCROLL_TO_TOP_THRESHOLD = 300
+
+// Square icon buttons shared by the group/provider headers and the page
+// toolbar. Kept as constants so these long utility strings live in one place;
+// the rendered classes are unchanged. `display` (`flex` / `hidden sm:flex`) is
+// added per button so `hidden` can override `flex`.
+const GROUP_ICON_BUTTON_BASE =
+  'items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 transition-all duration-200 hover:-translate-y-px hover:shadow-lg active:translate-y-0'
+const GROUP_ICON_BUTTON_NEUTRAL =
+  'bg-base-content/6 border border-base-content/8 text-base-content/60 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:shadow-primary/15'
+const GROUP_ICON_BUTTON_WARNING =
+  'bg-warning/10 border border-warning/20 text-warning hover:bg-warning/20 hover:border-warning/40 hover:shadow-warning/15'
+const GROUP_ICON_BUTTON_SUCCESS_DISABLED =
+  'disabled:bg-success/15 disabled:border-success/30 disabled:cursor-not-allowed disabled:opacity-100'
+const TOOLBAR_ICON_BUTTON =
+  'flex h-9 w-9 items-center justify-center rounded-lg border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary'
 const proxiesScrollEl = ref<HTMLElement | null>(null)
 const providersScrollEl = ref<HTMLElement | null>(null)
 const showScrollToTop = ref(false)
@@ -402,8 +417,7 @@ const ProxyGroupTitle = defineComponent({
               h(
                 Button,
                 {
-                  class:
-                    'hidden sm:flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-base-content/6 border border-base-content/8 text-base-content/60 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:-translate-y-px hover:shadow-lg hover:shadow-primary/15 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40',
+                  class: `hidden sm:flex ${GROUP_ICON_BUTTON_BASE} ${GROUP_ICON_BUTTON_NEUTRAL} disabled:cursor-not-allowed disabled:opacity-40`,
                   disabled: !hasVisibleCurrentProxy.value,
                   title: t('jumpToCurrent'),
                   'aria-label': `${t('jumpToCurrent')}: ${props.proxyGroup.name}`,
@@ -423,8 +437,7 @@ const ProxyGroupTitle = defineComponent({
                 h(
                   Button,
                   {
-                    class:
-                      'flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-warning/10 border border-warning/20 text-warning transition-all duration-200 hover:bg-warning/20 hover:border-warning/40 hover:-translate-y-px hover:shadow-lg hover:shadow-warning/15 active:translate-y-0',
+                    class: `flex ${GROUP_ICON_BUTTON_BASE} ${GROUP_ICON_BUTTON_WARNING}`,
                     title:
                       t(
                         'recommendation.switchToRecommended',
@@ -445,8 +458,7 @@ const ProxyGroupTitle = defineComponent({
                 h(
                   Button,
                   {
-                    class:
-                      'flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-warning/10 border border-warning/20 text-warning transition-all duration-200 hover:bg-warning/20 hover:border-warning/40 hover:-translate-y-px hover:shadow-lg hover:shadow-warning/15 active:translate-y-0',
+                    class: `flex ${GROUP_ICON_BUTTON_BASE} ${GROUP_ICON_BUTTON_WARNING}`,
                     title: t('unfixProxy'),
                     onClick: (e: MouseEvent) => {
                       e.stopPropagation()
@@ -460,8 +472,7 @@ const ProxyGroupTitle = defineComponent({
               h(
                 Button,
                 {
-                  class:
-                    'flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-base-content/6 border border-base-content/8 text-base-content/60 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:-translate-y-px hover:shadow-lg hover:shadow-primary/15 active:translate-y-0 disabled:bg-success/15 disabled:border-success/30 disabled:cursor-not-allowed disabled:opacity-100',
+                  class: `flex ${GROUP_ICON_BUTTON_BASE} ${GROUP_ICON_BUTTON_NEUTRAL} ${GROUP_ICON_BUTTON_SUCCESS_DISABLED}`,
                   disabled:
                     proxiesStore.proxyGroupLatencyTestingMap[
                       props.proxyGroup.name
@@ -703,8 +714,7 @@ const ProxyProviderTitle = defineComponent({
               h(
                 Button,
                 {
-                  class:
-                    'flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-base-content/6 border border-base-content/8 text-base-content/60 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:-translate-y-px hover:shadow-lg hover:shadow-primary/15 active:translate-y-0 disabled:bg-success/15 disabled:border-success/30 disabled:cursor-not-allowed disabled:opacity-100',
+                  class: `flex ${GROUP_ICON_BUTTON_BASE} ${GROUP_ICON_BUTTON_NEUTRAL} ${GROUP_ICON_BUTTON_SUCCESS_DISABLED}`,
                   disabled: proxiesStore.updatingMap[props.provider.name],
                   onClick: (e: MouseEvent) => {
                     e.stopPropagation()
@@ -727,8 +737,7 @@ const ProxyProviderTitle = defineComponent({
               h(
                 Button,
                 {
-                  class:
-                    'flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-base-content/6 border border-base-content/8 text-base-content/60 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:text-primary hover:-translate-y-px hover:shadow-lg hover:shadow-primary/15 active:translate-y-0 disabled:bg-success/15 disabled:border-success/30 disabled:cursor-not-allowed disabled:opacity-100',
+                  class: `flex ${GROUP_ICON_BUTTON_BASE} ${GROUP_ICON_BUTTON_NEUTRAL} ${GROUP_ICON_BUTTON_SUCCESS_DISABLED}`,
                   disabled:
                     proxiesStore.proxyProviderLatencyTestingMap[
                       props.provider.name
@@ -925,7 +934,7 @@ const ProviderProxyNodes = defineComponent({
              collapsible group panels, so the toggle is meaningless there. -->
         <Button
           v-if="activeTab === 'proxies' && !isMasterMode"
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
+          :class="TOOLBAR_ICON_BUTTON"
           :title="
             anyGroupExpanded
               ? t('collapseAll', 'Collapse All')
@@ -950,7 +959,7 @@ const ProviderProxyNodes = defineComponent({
         <!-- Test All Groups Button -->
         <Button
           v-if="activeTab === 'proxies'"
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
+          :class="TOOLBAR_ICON_BUTTON"
           :disabled="isBatchTesting"
           :title="t('recommendation.testAllGroups', 'Test All Groups')"
           @click="testAllGroups"
@@ -983,7 +992,7 @@ const ProviderProxyNodes = defineComponent({
         <!-- Health-check All Providers Button -->
         <Button
           v-if="activeTab === 'proxyProviders'"
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
+          :class="TOOLBAR_ICON_BUTTON"
           :disabled="isBatchTesting"
           :title="t('healthCheckAllProviders')"
           @click="healthCheckAllProviders"
@@ -996,7 +1005,7 @@ const ProviderProxyNodes = defineComponent({
 
         <Button
           v-if="activeTab === 'proxyProviders'"
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-base-content/10 bg-base-200/80 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
+          :class="TOOLBAR_ICON_BUTTON"
           :disabled="proxiesStore.isAllProviderUpdating"
           @click="proxiesStore.updateAllProvider"
         >
@@ -1040,7 +1049,8 @@ const ProviderProxyNodes = defineComponent({
         :class="{ 'max-sm:hidden': !showMobileTools }"
       >
         <Button
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-base-content/10 bg-base-200/80 text-base-content/70 transition-all duration-200 hover:border-primary/30 hover:bg-primary/15 hover:text-primary"
+          class="text-base-content/70"
+          :class="TOOLBAR_ICON_BUTTON"
           :title="t('connectivityBoard')"
           @click="connectivityModal?.open()"
         >
