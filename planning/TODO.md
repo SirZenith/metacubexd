@@ -496,10 +496,10 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 ---
 
 - [ ] CI 增加非修正式 lint / 格式检查
-      status: pending
+      status: doing
       open-at: 2026.09.28 14:28:52
       closed-at: -
       hash: -
       tag: chore
-      doc: -
+      doc: planning/feature/ci-lint-check-step.md
       desc: .github/workflows/unit-tests.yml 已有 Typecheck 与单元测试步骤，但没有非修正式的 ESLint / Prettier 检查；本地 `pnpm lint` 是 `eslint --fix`，会修改文件，不能直接用于 CI。应新增只检查不修改的脚本（如 `lint:check`）并在 unit-test job 中运行，防止格式与规则漂移。
