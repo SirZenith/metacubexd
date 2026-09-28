@@ -429,11 +429,11 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] 修正主从面板 header 的圆角不一致
-      status: doing
+- [x] 修正主从面板 header 的圆角不一致
+      status: done
       open-at: 2026.09.28 01:30:00
-      closed-at: -
-      hash: -
+      closed-at: 2026.09.28 14:08:30
+      hash: 625a230c
       tag: visual
       doc: planning/feature/fix-master-detail-header-radius.md
       desc: packages/ui/components/ProxyMasterDetail.vue 第 234 行的 header 使用 rounded-t-xl（0.75rem），而其父容器（第 230 行）是 rounded-2xl（1rem），DESIGN.md §6 规定卡片/面板用 rounded-2xl、rounded-xl 仅用于刻意紧凑的面板，二者不匹配。应改为 rounded-t-2xl；同时 `packages/ui/__tests__/card-panel-radius.spec.ts` 仅用字符串匹配 rounded-xl，无法捕获 rounded-t-xl 这类方向变体，需强化断言（如正则匹配 rounded(-[trbl])?-xl）以免同类漂移再次漏检。
