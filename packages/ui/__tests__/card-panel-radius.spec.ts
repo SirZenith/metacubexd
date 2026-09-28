@@ -16,10 +16,16 @@ const PANEL_COMPONENTS = [
 const readComponent = (file: string) =>
   readFileSync(resolve(process.cwd(), file), 'utf8')
 
+// Matches bare `rounded-xl` plus every directional/logical variant
+// (`rounded-t-xl`, `rounded-tl-xl`, `rounded-s-xl`, `rounded-ss-xl`, …) while
+// leaving `rounded-2xl` / `rounded-3xl` alone, so a component cannot drift back
+// to the compact-panel radius on one edge only.
+const ROUNDED_XL = /rounded(?:-[a-z]{1,2})?-xl\b/
+
 describe('card panel corner radius', () => {
   it.each(PANEL_COMPONENTS)('%s uses rounded-2xl', (file) => {
     const source = readComponent(file)
     expect(source).toContain('rounded-2xl')
-    expect(source).not.toContain('rounded-xl')
+    expect(source).not.toMatch(ROUNDED_XL)
   })
 })

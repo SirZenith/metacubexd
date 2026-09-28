@@ -231,7 +231,7 @@ function aliveCount(group: ProxyType) {
     >
       <div
         data-testid="master-detail-header"
-        class="flex shrink-0 flex-col gap-1.5 rounded-t-xl border-b border-base-content/8 bg-base-200/95 px-3 pt-2 pb-2 sm:gap-2 sm:pt-3"
+        class="flex shrink-0 flex-col gap-1.5 rounded-t-2xl border-b border-base-content/8 bg-base-200/95 px-3 pt-2 pb-2 sm:gap-2 sm:pt-3"
       >
         <div class="flex min-w-0 items-center gap-2">
           <div class="flex min-w-0 flex-1 items-center gap-2">
