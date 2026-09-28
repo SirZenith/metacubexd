@@ -418,11 +418,11 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] 补齐 ru 语言缺失的 i18n key
-      status: doing
+- [x] 补齐 ru 语言缺失的 i18n key
+      status: done
       open-at: 2026.09.28 01:30:00
-      closed-at: -
-      hash: -
+      closed-at: 2026.09.28 14:04:57
+      hash: 4603f593
       tag: bugfix
       doc: planning/feature/backfill-ru-i18n-keys.md
       desc: packages/ui/i18n/locales/ru.json 比 en.json 少 18 个 key（shortcuts、connectionError、connectionErrorDesc、retry、recommendation、kernelRollback、kernelRecover、kernelRollbackConfirm、kernelRecoverConfirm、kernelRollbackApplied、kernelRecoverApplied、kernelRollbackFailed、kernelRecoverFailed、profilesRefreshAndApply、profilesAutoUpdate、profilesAutoUpdateOff、profilesAutoUpdateMinutes、profilesAutoUpdateHours），运行时只能回退到英文，违反 copilot-instructions.md「Add the same key to every locale」与 PRODUCT.md 的七语言要求。`packages/ui/__tests__/locales.spec.ts` 目前有意把 ru 排除在严格 parity 之外（注释说明为已知技术债），本次补齐后应把 ru 纳入 PARITY_LOCALES，使守卫覆盖全部七种语言。
