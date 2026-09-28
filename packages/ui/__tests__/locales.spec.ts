@@ -4,24 +4,17 @@ import { describe, expect, it } from 'vitest'
 
 const localesDir = resolve(process.cwd(), 'i18n/locales')
 
-// Locales that must have full key parity with the canonical en.json source.
-// en is the source of truth; these locales translate the exact same key set
-// (missing keys fall back at runtime, but parity is required here).
-//
-// ru.json is intentionally excluded from the strict-parity set: it predates
-// several feature keys (recommendation.*, shortcuts.*, connectionError, retry…)
-// and back-filling its Russian translations is out of this task's scope. It is
-// still covered by the valid-JSON check below so it can't silently break.
-const PARITY_LOCALES = ['zh', 'ja', 'ko', 'fr', 'fa'] as const
 const ALL_LOCALES = ['zh', 'ru', 'ja', 'ko', 'fr', 'fa'] as const
 
+// Locales that must have full key parity with the canonical en.json source.
+// en is the source of truth; every shipped locale translates the exact same
+// key set (missing keys fall back at runtime, but parity is required here).
+// ru used to be excluded while it caught up on newer feature keys; it is now
+// covered by the strict-parity guard like the rest.
+const PARITY_LOCALES = ALL_LOCALES
+
 type JsonValue =
-  | string
-  | number
-  | boolean
-  | null
-  | JsonValue[]
-  | { [key: string]: JsonValue }
+  string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue }
 
 const readLocale = (code: string): Record<string, JsonValue> => {
   const raw = readFileSync(resolve(localesDir, `${code}.json`), 'utf8')
@@ -32,7 +25,7 @@ const flattenKeys = (obj: Record<string, JsonValue>, prefix = ''): string[] =>
   Object.entries(obj).flatMap(([key, value]) => {
     const path = prefix + key
     return value !== null && typeof value === 'object' && !Array.isArray(value)
-      ? flattenKeys(value as Record<string, JsonValue>, `${path  }.`)
+      ? flattenKeys(value as Record<string, JsonValue>, `${path}.`)
       : [path]
   })
 
