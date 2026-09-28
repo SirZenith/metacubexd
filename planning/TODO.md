@@ -452,12 +452,12 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 ---
 
 - [ ] 提取代理页重复的图标按钮样式
-      status: pending
+      status: doing
       open-at: 2026.09.28 01:30:00
       closed-at: -
       hash: -
       tag: refactor
-      doc: -
+      doc: planning/feature/extract-proxies-icon-button-styles.md
       desc: packages/ui/pages/proxies.vue 中方形图标按钮的长 class 串重复 4 处（第 398、456、699、723 行，flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 bg-base-content/6 ...），另有 6 处 h-9 w-9 ... bg-base-200/80 的工具栏按钮 class 重复。项目已有 IconButton.vue 组件但此处未复用。应评估复用 IconButton 或提取共享 class 常量，消除逐字复制。
 
 ---
