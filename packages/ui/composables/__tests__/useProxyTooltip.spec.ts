@@ -6,6 +6,9 @@ vi.stubGlobal('onBeforeUnmount', vi.fn())
 let touchPrimary = false
 vi.stubGlobal('useMediaQuery', () => ref(touchPrimary))
 
+// Imported after the stubs on purpose: the composable reads the stubbed
+// auto-imports at module load time.
+// eslint-disable-next-line import/first
 import { useProxyTooltip } from '../useProxyTooltip'
 
 function touchEvent(x: number, y: number): TouchEvent {
