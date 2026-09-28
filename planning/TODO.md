@@ -473,11 +473,11 @@ TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---`
 
 ---
 
-- [ ] 统一 formatBytes 实现
-      status: doing
+- [x] 统一 formatBytes 实现
+      status: done
       open-at: 2026.09.28 14:28:52
-      closed-at: -
-      hash: -
+      closed-at: 2026.09.28 14:35:57
+      hash: b8a6137f
       tag: refactor
       doc: planning/feature/unify-format-bytes.md
       desc: packages/ui/pages 下 proxies.vue（第 177 行）、connections.vue（第 68 行）、overview.vue（第 26 行）各自重定义了 `const formatBytes = (bytes) => byteSize(bytes).toString()`，而 packages/ui/utils/index.ts（第 117 行）已导出同名函数，三处还各自 `import byteSize from 'byte-size'`。应删除局部实现与 byte-size 直连 import，统一使用 `~/utils` 的 formatBytes，消除重复。
