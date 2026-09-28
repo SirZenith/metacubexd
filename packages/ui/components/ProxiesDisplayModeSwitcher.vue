@@ -36,6 +36,8 @@ const items = computed(() =>
 
 <template>
   <div
+    role="group"
+    :aria-label="t('displayMode')"
     class="flex items-center gap-1 rounded-lg border border-base-content/10 bg-base-200/80 p-1"
   >
     <button
@@ -50,6 +52,8 @@ const items = computed(() =>
           : 'text-base-content/60 hover:bg-primary/15 hover:text-primary'
       "
       :title="item.label"
+      :aria-label="item.label"
+      :aria-pressed="configStore.proxiesDisplayMode === item.mode"
       @click="configStore.proxiesDisplayMode = item.mode"
     >
       <component :is="item.icon" :size="16" />
