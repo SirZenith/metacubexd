@@ -32,6 +32,7 @@ import ProxyNodePreview from '~/components/ProxyNodePreview.vue'
 import ProxyNodeTableRow from '~/components/ProxyNodeTableRow.vue'
 import SubscriptionInfo from '~/components/SubscriptionInfo.vue'
 import { useBatchLatencyTest } from '~/composables/useBatchLatencyTest'
+import { useIncrementalRender } from '~/composables/useIncrementalRender'
 import {
   MOBILE_NAV_RESELECT_EVENT,
   PROXIES_DISPLAY_MODE,
@@ -584,8 +585,14 @@ const ProxyNodes = defineComponent({
   },
   setup(props) {
     const recommendedNode = computed(() => getRecommendedNode(props.proxyGroup))
-    const renderCount = ref(PROXIES_INITIAL_RENDER_COUNT)
-    const loadMoreSentinel = ref<HTMLElement | null>(null)
+    const { renderCount, hasMore, loadMoreSentinelNode } = useIncrementalRender(
+      {
+        root: proxiesScrollEl,
+        total: () => props.sortedProxyNames.length,
+        initial: PROXIES_INITIAL_RENDER_COUNT,
+        step: PROXIES_RENDER_STEP,
+      },
+    )
 
     // Keep the currently selected node within the rendered window, otherwise
     // it could be hidden below the fold after expanding the group.
@@ -598,22 +605,6 @@ const ProxyNodes = defineComponent({
         }
       },
       { immediate: true },
-    )
-
-    useIntersectionObserver(
-      loadMoreSentinel,
-      (entries) => {
-        if (
-          entries[0]?.isIntersecting &&
-          renderCount.value < props.sortedProxyNames.length
-        ) {
-          renderCount.value = Math.min(
-            renderCount.value + PROXIES_RENDER_STEP,
-            props.sortedProxyNames.length,
-          )
-        }
-      },
-      { root: proxiesScrollEl, rootMargin: '600px' },
     )
 
     return () => {
@@ -643,16 +634,8 @@ const ProxyNodes = defineComponent({
         }),
       )
 
-      if (renderCount.value < names.length) {
-        children.push(
-          h('div', {
-            ref: loadMoreSentinel,
-            key: '__load_more__',
-            'aria-hidden': 'true',
-            class: 'h-px w-full',
-            style: { gridColumn: '1 / -1' },
-          }),
-        )
+      if (hasMore.value) {
+        children.push(loadMoreSentinelNode())
       }
 
       return children
@@ -797,23 +780,13 @@ const ProviderProxyNodes = defineComponent({
     sortedProxyNames: { type: Array as () => string[], required: true },
   },
   setup(props) {
-    const renderCount = ref(PROXIES_INITIAL_RENDER_COUNT)
-    const loadMoreSentinel = ref<HTMLElement | null>(null)
-
-    useIntersectionObserver(
-      loadMoreSentinel,
-      (entries) => {
-        if (
-          entries[0]?.isIntersecting &&
-          renderCount.value < props.sortedProxyNames.length
-        ) {
-          renderCount.value = Math.min(
-            renderCount.value + PROXIES_RENDER_STEP,
-            props.sortedProxyNames.length,
-          )
-        }
+    const { renderCount, hasMore, loadMoreSentinelNode } = useIncrementalRender(
+      {
+        root: providersScrollEl,
+        total: () => props.sortedProxyNames.length,
+        initial: PROXIES_INITIAL_RENDER_COUNT,
+        step: PROXIES_RENDER_STEP,
       },
-      { root: providersScrollEl, rootMargin: '600px' },
     )
 
     return () => {
@@ -834,16 +807,8 @@ const ProviderProxyNodes = defineComponent({
         }),
       )
 
-      if (renderCount.value < names.length) {
-        children.push(
-          h('div', {
-            ref: loadMoreSentinel,
-            key: '__load_more__',
-            'aria-hidden': 'true',
-            class: 'h-px w-full',
-            style: { gridColumn: '1 / -1' },
-          }),
-        )
+      if (hasMore.value) {
+        children.push(loadMoreSentinelNode())
       }
 
       return children
