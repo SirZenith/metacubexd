@@ -1,25 +1,8 @@
 <!--
-TODO 条目使用字段结构（字段缩进两空格），条目之间用 `---` 分隔（`---` 前后各留一个空行）：
+TODO 条目格式以 planning/workflow/todo-format.md 为准（唯一来源）：字段结构、复选框与
+status 的一致性、时间格式、doc 语义与解析约定。本文件是循环读写的需求入口。
 
-```markdown
-- [ ] <标题：简短说明>
-  status: pending|doing|done|blocked
-  open-at: Y.M.D HH:MM:SS
-  closed-at: Y.M.D HH:MM:SS | -
-  hash: <短hash> | -
-  tag: feature|bugfix|refactor|ux|visual|docs|chore
-  doc: <相对项目根的文档路径> | -
-  desc: <较详细的任务描述>
-```
-
-- 循环只处理**未被注释的** `status: pending` 条目；完成后写入 `closed-at` 与 `hash` 并置 `done`
-- 标题行复选框与 `status` 一致：`done` 用 `- [x]`，其余（含 `blocked`）用 `- [ ]`
-- 受阻时置 `blocked`，并在 `desc` 末尾写明原因
-- `doc` 为 `-` 表示尚无实现文档，处理时先生成 `planning/feature/<slug>.md` 并回写该字段
-- 需求准则与 tag 分类见 planning/TARGETS.md；术语标准见项目根 CONTEXT.md
-- 循环读写的文件：本文件（planning/TODO.md）
-
-注：以下历史条目由旧格式迁移，`open-at` 为对应提交的父提交时间，属估算值。
+请在下方追加真实条目；不要修改本注释。
 -->
 
 - [x] 初始化项目 AGENTS.md
