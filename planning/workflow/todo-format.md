@@ -21,9 +21,13 @@
 
 # 规则
 
-- 只处理**未被注释的** `status: pending` 条目；完成后置 `done`。
+- 处理**未被注释的**未完成条目（`status: pending` 或 `status: doing`；`doing` 表示上一轮未做完，
+  会被续做）；`done`/`blocked` 不再处理；完成后置 `done`。
 - 标题行复选框与 `status` 一致：`status: done` 用 `- [x]`，其余（含 `doing`、`blocked`）用 `- [ ]`。
 - 受阻时置 `blocked`，并在 `desc` 末尾写明原因。
+- **需要人工 / 真机核对的条目**：置 `status: blocked`，标题行用 `- [!]` 作人工标记，并在 `desc`
+  末尾写明「需人工：_哪一项、为什么_」。**是否被循环处理只取决于 `status:` 字段**——`- [!]`
+  只是给人看的标记，若 `status` 仍为 `pending`/`doing`，该条目照样会被循环抓取。
 - `doc` 为 `-` 表示尚无实现文档：处理时先生成 `planning/feature/<slug>.md` 并回写该字段；
   为路径时表示已有文档，直接使用，跳过生成。
 - 时间字段（`open-at` / `closed-at`）格式为 `Y.M.D HH:MM:SS`，月、日、时、分、秒**均两位补零**，
