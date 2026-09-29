@@ -1,7 +1,8 @@
 本文描述自动提出新需求时的规则。
 
-新条目格式见 `workflow/todo-format.md`（唯一来源）；新增时 `status: pending`、`closed-at: -`、
-`hash: -`、`doc: -`，标题行用 `- [ ]`，`open-at` 取当前时间（`Y.M.D HH:MM:SS`，各位补零）。
+新增条目时：`status: pending`、`closed-at: -`、`hash: -`、`doc: -`，标题行用 `- [ ]`，
+`open-at` 取当前时间（`Y.M.D HH:MM:SS`，各位补零）。字段结构沿用 TODO 条目格式（默认见命令
+`/todo-refill`；项目若提供 `workflow/todo-format.md` 则以其为准）。
 
 - 提出需求之前必须了解项目的 TARGETS.md 文档中的内容。
 - 检查功能完整性，判断 TARGETS.md 中指明的功能集目标是否已经全部在项目中实现。

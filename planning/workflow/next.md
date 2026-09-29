@@ -2,7 +2,8 @@
 
 若 /todo-next 的调用参数包含 `loop`，则认为当前处于循环状态；否则为非循环状态。
 
-TODO 条目格式见 `workflow/todo-format.md`。
+TODO 条目格式：见 `/todo-next` 命令自带的默认约定（字段 `status / open-at / closed-at / hash /
+tag / doc / desc`，条目之间用 `---` 分隔）；项目若提供 `workflow/todo-format.md` 则以其为准。
 循环只处理未被注释的 `status: pending` 条目。
 
 1. 在 TODO.md 中取实现目标：若 /todo-next 指定了目标关键词，则取标题包含该关键词的第一条未被注释的
@@ -29,7 +30,8 @@ TODO 条目格式见 `workflow/todo-format.md`。
 
 4. 如果目标是对项目较大范围的重构，需要在开始前将对应功能的实现方式与架构精简地
    写成 `planning/report/<title>.md`（实现细节调查报告），方便后续查询。
-5. 测试：按 skill `todo-test` 先为新功能添加测试（测试标准见 `planning/workflow/test.md`）。
+5. 测试：按 skill `todo-test` 先为新功能添加测试（项目若提供 `planning/workflow/test.md`
+   则从其标准，否则用 skill 内置默认）。
 
    skill 内含测试维护规则：除测试本身有 bug、或新功能使旧测试失去意义外，不得修改或删除
    既有测试，只能新增；在测试步骤之外修改测试的，单独提交并在提交信息中注明原因。
@@ -37,7 +39,7 @@ TODO 条目格式见 `workflow/todo-format.md`。
 6. 根据已经写好的测试，正式开始由测试驱动的功能开发。完成此步骤后，先不要提交修改。
 7. 验收：用 **subagent** 派发 `todo-verifier`（只读；加载 skill `todo-verify`）。
 
-   验收标准见该 skill 与项目内 `planning/workflow/verify.md`。
+   验收标准由该 skill 确定（项目若提供 `planning/workflow/verify.md` 则从其标准）。
 
    - 非循环状态：先由验收子会话产出报告，再**停下等待人工验收**；收到通过信号后继续执行第 8、9 步，
      收到需修改信号则修改后重新验收。切勿只提交而遗漏第 9 步的回写。
@@ -48,9 +50,9 @@ TODO 条目格式见 `workflow/todo-format.md`。
 8. 验收通过后：
    - 运行 `git add -A`
    - 运行 `git commit`，提交信息用英文 Conventional Commits（如 `feat: ...`），简明描述本次需求
-     （提交规约见 `workflow/commit.md`）
+     （项目若提供 `workflow/commit.md` 则从其规约）
    - 应用 `git log -1 --format=%h` 取得短 hash
-9. 处于循环状态时，该步骤什么都不做。反之则回写需求文件。
+9. 回写需求文件（验收通过后执行；**循环与非循环皆然**，区别仅在第 7 步是否需等人工验收）。
 
    更新该条目：标题行 `- [ ]` → `- [x]`；`status:` → `done`；`closed-at:` → 当前时间
    （`Y.M.D HH:MM:SS`，月、日、时、分、秒均两位补零，例如 `2026.09.27 02:56:45`）；
@@ -58,4 +60,5 @@ TODO 条目格式见 `workflow/todo-format.md`。
 
 ---
 
-附：任务受阻（无法完成或需人工决策）时，按 `workflow/blocked.md` 处理。
+附：任务受阻（无法完成或需人工决策）时，项目若提供 `workflow/blocked.md` 则从其规定；否则按
+默认处理：把条目置为 `blocked`、在 `desc` 末尾写明原因、不留半成品。

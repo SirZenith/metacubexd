@@ -1,6 +1,6 @@
 <!--
-TODO 条目格式以 planning/workflow/todo-format.md 为准（唯一来源）：字段结构、复选框与
-status 的一致性、时间格式、doc 语义与解析约定。本文件是循环读写的需求入口。
+本文件是循环读写的需求入口。条目格式的默认约定见 /todo-next 命令与各 skill 自带说明；
+若本目录下提供 planning/workflow/todo-format.md，则以其为准。
 
 请在下方追加真实条目；不要修改本注释。
 -->

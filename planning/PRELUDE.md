@@ -10,16 +10,17 @@
 - `PRELUDE.md`：即本文件，用于说明 `planning` 目录下各文件的信息
 - `workflow/`：提供不同的开发流程惯例说明，此目录中的内容相对重要，在开始进行开发前
   都应该了解其中的内容。其中 `next.md` 描述单轮实现流程、`refill.md` 描述补货规则、
-  `todo-format.md` 是 TODO 条目格式的唯一来源；`research.md`、`spec.md`、`test.md`、
-  `verify.md` 分别是调研、实现文档、测试、验收的标准（由同名 skill 读取）；
-  `commit.md` 描述提交规约、`blocked.md` 描述受阻处理。
+  `todo-format.md` 描述 TODO 条目格式；`research.md`、`spec.md`、`test.md`、`verify.md`
+  分别是调研、实现文档、测试、验收的标准；`commit.md` 描述提交规约、`blocked.md` 描述受阻
+  处理。**这些文件均为可选、内容可自定义**：缺失时各命令与 skill 使用自身内置默认，不影响
+  工作；项目可自由增删改。
 - `TARGETS.md`：用于记录推导本项目需求的基本准则，确定了当前项目中最重要的用户体验、
   和功能目标。在发现新问题、提出新需求时应该参考本文件。
   当本文件的准则与 `packages/ui/PRODUCT.md`、`packages/ui/DESIGN.md` 冲突时，以本
   文件为准。
 - `DEV.md`：指向开发者信息的权威来源
-- `TODO.md`：计划入口，每个开发目标写成一条带字段的条目。**条目格式以
-  `workflow/todo-format.md` 为准**（唯一来源）。
+- `TODO.md`：计划入口，每个开发目标写成一条带字段的条目。条目格式见
+  `workflow/todo-format.md`（若存在），否则见 `/todo-next` 命令自带的默认约定。
 - `feature/*.md`：按需创建，特性实施文档
 - `report/*.md`：按需创建，功能或重构的设计与实现报告。重构前收录架构与实现方式的
   设计，实现并验收后收录结果与结论。
